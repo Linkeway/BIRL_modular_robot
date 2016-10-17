@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="ModuleManipulator">
+
+  <xacro:property name="pi" value="3.1415926535897931" />
+  <xacro:property name="material_density" value="2700" />
+  
+  <xacro:macro name="Connect_Link" params=" name parent radius length *origin">
+  
+   <link name="${name}_link">
+    <inertial>
+      <origin  xyz="-0.000330111921985683 0.0532067396112178 -0.00203994238779312"
+        rpy="0 0 0" />
+      <mass value="1.0043961075726" />
+      <inertia
+        ixx="0.00113334295507504"
+        ixy="8.90230328283654E-06"
+        ixz="-1.34473831837329E-06"
+        iyy="0.000914211060471031"
+        iyz="-6.54903141389812E-05"
+        izz="0.00129135037593152" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <cylinder  radius="${radius}" length="${length}"/>
+      </geometry>
+      <material  name="">
+        <color rgba="1 0 0 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <cylinder  radius="${radius}" length="${length}"/>
+      </geometry>
+    </collision>
+  </link>
+  
+  
+  
+  
+    </xacro:macro>
+</robot>
+	

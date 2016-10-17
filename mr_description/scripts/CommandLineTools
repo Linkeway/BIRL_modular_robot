@@ -1,0 +1,9 @@
+
+
+#joint control through command line
+
+rostopic pub /joint_states sensor_msgs/JointState '{header:  auto, name: ['G0_finger_joint_l', 'G0_finger_joint_r', 'I1_Joint_2', 'T2_Joint_2', 'T3_Joint_2', 'T4_Joint_2', 'I5_Joint_2', 'G6_finger_joint_l', 'G6_finger_joint_r', '_G6_finger_joint_l', '_G6_finger_joint_r', '_I5_Joint_2', '_T4_Joint_2', '_T3_Joint_2', '_T2_Joint_2', '_I1_Joint_2', '_G0_finger_joint_l', '_G0_finger_joint_r'], position: [0.0, 0.0, 0.9, 0.9, 0.0, 0.0, 0.0, 0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], velocity: [], effort: []}'
+
+
+#joint control through a node 
+rosrun mr_description joint_state_pub.py

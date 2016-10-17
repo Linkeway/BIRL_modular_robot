@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+<!--definition of default_inertial -->
+<xacro:macro name="lockring" params="name *origin">
+
+
+<!--the Lockring_Link !!!inertial value to be changed!! -->
+  <link name="${name}">
+    
+    <inertial>
+      <origin xyz="2.9038E-18 -2.1866E-18 0.0015" rpy="0 0 0" />
+      <mass   value="8.4823E-05" />
+      <inertia ixx="2.5447E-10" ixy="-1.2925E-27" ixz="4.3983E-28"
+               iyy="2.5447E-10" iyz="3.5597E-27"  izz="3.817E-10" />
+    </inertial>
+    
+    <visual>
+      <insert_block name="origin" />
+      <geometry>
+        <mesh filename="package://mr_description/meshes/lockring.STL" />
+      </geometry>
+      <material name="White"/>
+    </visual>
+    
+    <collision>
+      <insert_block name="origin" />
+      <geometry>
+        <mesh filename="package://mr_description/meshes/lockring.STL" />
+      </geometry>
+    </collision>
+    
+  </link>
+
+</xacro:macro>
+</robot>

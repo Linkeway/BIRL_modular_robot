@@ -1,0 +1,113 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+<!--definition of default_inertial -->
+<xacro:macro name="T_module" params="parent child name *origin">
+
+<!-- joint between base_link and Lockring_Link -->
+  <joint name="${name}_joint_0" type="fixed" >
+    <insert_block name="origin" />
+    <parent link="${parent}" />
+    <child link="${name}_Lr_Link_0" />
+  </joint>
+
+<!--the Lockring_Link in T module-->
+  <link name="${name}_Lr_Link_0">
+    <inertial>
+      <origin xyz="2.9038E-18 -2.1866E-18 0.0015" rpy="0 0 0" />
+      <mass   value="8.4823E-05" />
+      <inertia ixx="2.5447E-10" ixy="-1.2925E-27" ixz="4.3983E-28"
+               iyy="2.5447E-10" iyz="3.5597E-27"  izz="3.817E-10" />
+      </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://mr_description/meshes/VT_InLink.STL" />
+      </geometry>
+      <material name="White"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://mr_description/meshes/VT_InLink.STL" />
+      </geometry>
+    </collision>
+  </link>
+
+<!-- joint between Lockring_Link and TModule_InLink -->
+    <joint name="${name}_Lr_Joint_1" type="fixed">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <parent link="${name}_Lr_Link_0" />
+      <child  link="${name}_InLink_1" />
+      <axis   xyz="0 0 0" />
+      <limit  lower="0" upper="0"  effort="0"   velocity="0" />
+    </joint>
+
+<!--the TModule_InLink in T module-->
+  <link name="${name}_InLink_1">
+    <inertial>
+      <origin xyz="4.5327E-06 0.014724 0.10236" rpy="0 0 0" />
+      <mass   value="0.8287" />
+      <inertia   ixx="0.0027398"  ixy="-8.0424E-07"  ixz="-2.3991E-06"
+       		iyy="0.0028894"  iyz="0.00016467"   izz="0.00086451" />
+    </inertial>
+    <visual>
+      <origin   xyz="0 0 0"  rpy="0 0 0" />
+      <geometry>
+        <mesh   filename="package://mr_description/meshes/T_InLink.STL" />
+      </geometry>
+      <material name="Red"/>
+    </visual>
+    <collision>
+      <origin   xyz="0 0 0"  rpy="0 0 0" />
+      <geometry>
+        <mesh   filename="package://mr_description/meshes/T_InLink.STL" />
+      </geometry>
+    </collision>
+  </link>
+
+<!-- joint between TModule_InLink and TModule_OutLink -->
+  <joint  name="${name}_Joint_2"  type="revolute">
+    <origin  xyz="0 0 0.1466"  rpy="-1.5708 1.2251E-16 -3.1416" />
+    <parent  link="${name}_InLink_1" />
+    <child   link="${name}_OutLink_2" />
+    <axis   xyz="0 0 1" />
+    <limit  lower="-2.07" upper="2.07"  effort="0"  velocity="0" />
+  </joint>
+
+
+<!--the TModule_OutLink in T module-->
+  <link  name="${name}_OutLink_2">
+    <inertial>
+      <origin xyz="2.0762E-05 -0.0094284 0.014486" rpy="0 0 0" />
+      <mass  value="1.4322" />
+      <inertia   ixx="0.0018144"  ixy="-1.0634E-06"  ixz="9.3521E-08"
+      					 iyy="0.0011673"  iyz="8.3209E-05"  izz="0.0023046" />
+    </inertial>
+    <visual>
+      <origin  xyz="0 0 0"  rpy="0 0 0" />
+      <geometry>
+        <mesh  filename="package://mr_description/meshes/T_OutLink.STL" />
+      </geometry>
+      <material  name="Red"/>
+    </visual>
+    <collision>
+      <origin  xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh  filename="package://mr_description/meshes/T_OutLink.STL" />
+      </geometry>
+    </collision>
+  </link>
+
+<!-- joint between TModule_OutLink and Lockring_Link -->
+    <joint name="${name}_Lr_Joint_3" type="fixed">
+      <origin  xyz="0 -0.0934 0"  rpy="-1.5708 -0.33352 3.1416" />
+      <parent link="${name}_OutLink_2" />
+      <child  link="${child}" />
+      <axis   xyz="0 0 0" />
+      <limit  lower="0" upper="0"  effort="0"   velocity="0" />
+    </joint>
+
+
+</xacro:macro>
+</robot>

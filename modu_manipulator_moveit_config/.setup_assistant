@@ -1,0 +1,8 @@
+moveit_setup_assistant_config:
+  URDF:
+    package: mr_description
+    relative_path: robots/moduleManipulator.urdf
+  SRDF:
+    relative_path: config/ModuleManipulator.srdf
+  CONFIG:
+    generated_timestamp: 1473389737

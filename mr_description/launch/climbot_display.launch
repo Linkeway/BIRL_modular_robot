@@ -1,0 +1,35 @@
+
+
+<launch>
+  <arg name="module_robot" />
+  <arg name="gui" default="true" />
+  <arg name="invert" default="false" />
+
+
+  <param name="use_gui" value="$(arg gui)" />
+  
+  <group unless="$(arg invert)">  <!-- stuff that will only be evaluated if invert is false -->
+    <param name="robot_description" command="$(find xacro)/xacro '$(find mr_description)/robots/climbot.urdf.xacro'" />
+<!--  <param name="robot_description" textfile="$(find mr_description)/robots/I_module.URDF" />-->
+    <rosparam>
+      dependent_joints:
+        G0_finger_joint_l: {parent: G0_finger_joint_r, factor: 1 }
+        G6_finger_joint_l: {parent: G6_finger_joint_r, factor: 1 }
+    </rosparam>
+    <node name="rviz"  pkg="rviz"  type="rviz" args="-d $(find mr_description)/urdf.rviz -f base_gripper1" />
+  </group>
+
+  <group if="$(arg invert)">  <!-- stuff that will only be evaluated if invert is true -->
+    <param name="robot_description" command="$(find xacro)/xacro '$(find mr_description)/robots/climbot_invert.urdf.xacro'" />
+    <rosparam>
+      dependent_joints:
+        _G0_finger_joint_l: {parent: _G0_finger_joint_r, factor: 1 }
+        _G6_finger_joint_l: {parent: _G6_finger_joint_r, factor: 1 }
+    </rosparam>
+    <node name="rviz"  pkg="rviz"  type="rviz" args="-d $(find mr_description)/urdf.rviz -f base_gripper2" />
+  </group>
+
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" />
+
+</launch>
