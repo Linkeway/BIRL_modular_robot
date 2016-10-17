@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<launch>
+  <!--group ns="rmp440le"-->
+    <!--param name="tf_prefix" value="rmp440le" /-->
+  <param name="robot_description" command="$(find xacro)/xacro.py $(find mr_description)/urdf/I_module/I_module_only.urdf.xacro" />
+<!--  <param  name="robot_description"  textfile="$(find mr_description)/urdf/I_module/I_module.urdf" />-->
+
+
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" />
+
+    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" >
+        <param name="use_gui" value="true"/>
+	<param name="publish_frequency" type="double" value="20.0" />
+<!--         <remap from="joint_states" to="/joint_pos_commands"/>-->
+    </node>
+
+
+<!--    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find rmp_description)/launch/rmp440le_ur5.rviz" />-->
+  <!--/group-->
+
+
+  <node name="canopen_motor_chain" pkg="canopen_motor_node" type="canopen_motor_node" output="screen" clear_params="true">
+					<!--   launch-prefix="gdb -ex run -/-args">-->
+     <rosparam command="load" file="$(find birl_module_canopen)/config/can.yaml" />
+     <rosparam command="load" file="$(find birl_module_canopen)/config/canopen_motors_in_chain.yaml" />
+         <remap from="joint_states" to="/feedback_joint_states"/> 
+  </node>
+  
+  
+<!-- controllers -->
+  <rosparam command="load" file="$(find modular_robot_control)/config/I_module_controller.yaml" />
+<!--  <rosparam ns="arm" command="load" file="$(find schunk_lwa4p)/config/joint_limits.yaml"/>-->
+<!--  <rosparam ns="arm" command="load" file="$(find schunk_lwa4p)/config/arm_cartesian_controller.yaml"/>-->
+
+   <!-- start_controllers -->
+  <node  name="controller_spawner" pkg="controller_manager" type="controller_manager" args="spawn I_Joint_position_controller joint_state_controller" respawn="false" output="screen"/>
+
+    
+<!--  transform the topic from joint_state_publisher to that of canopen_motor_node-->
+  <node name="topic_transf_joint_state_pub_to_canopen_motor" pkg="topic_tools" type="transform" args="/joint_pos_commands /I_Joint_position_controller/command std_msgs/Float64 'm.position[0]'" output="screen" />
+  
+  <!-- control_mode_adapter -->
+<!--  <node  name="control_mode_adapter" pkg="modular_robot_control" type="I_controller_node" cwd="node" respawn="false" output="screen"/>-->
+<!--  <node ns="arm" name="joint_states_relay" pkg="topic_tools" type="relay" args="joint_states /joint_states" cwd="node" respawn="true" output="screen"/>-->
+
+  <!--GRIPPER DEFINITION FINISH-->
+  
+  <!-- ToDo: Cartesian controller -->
+
+  <!-- default robot config -->
+<!--  <rosparam ns="/script_server/arm" command="load" file="$(find schunk_lwa4p)/config/joint_configurations.yaml" />-->
+
+	<!-- Start the Powerball API Node -->
+<!--  <node pkg="sensor_listener" type="schunk_api_node.py" name="schunk_api_node" output="screen"/>	-->
+
+  
+</launch>
