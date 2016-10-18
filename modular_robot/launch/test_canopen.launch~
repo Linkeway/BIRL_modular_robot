@@ -37,7 +37,7 @@
 
     
 <!--  transform the topic from joint_state_publisher to that of canopen_motor_node-->
-  <node name="topic_transf_joint_state_pub_to_canopen_motor" pkg="topic_tools" type="transform" args="/joint_pos_commands /I_Joint_position_controller/command std_msgs/Float64 'm.position[0]'" output="screen" />
+  <node name="topic_transf_joint_state_pub_to_canopen_motor" pkg="topic_tools" type="transform" args="/joint_states /I_Joint_position_controller/command std_msgs/Float64 'm.position[0]'" output="screen" />
   
   <!-- control_mode_adapter -->
 <!--  <node  name="control_mode_adapter" pkg="modular_robot_control" type="I_controller_node" cwd="node" respawn="false" output="screen"/>-->

@@ -5,10 +5,10 @@ bus:
   master_allocator: canopen::SimpleMaster::Allocator # defaults to canopen::LocalMaster::Allocator
    
 sync:
-  interval_ms: 1000
+  interval_ms: 10
   #update_ms: <interval_ms> #update interval of control loop, must be set explecitly if sync is disabled
   overflow: 0
   
-heartbeat: # simple heartbeat producer, optional!
-  rate: 1
-  msg: "77f#05" # message to send, cansend format: heartbeat of node 127 with status 5=Started
+#heartbeat: # simple heartbeat producer, optional!
+#  rate: 1
+#  msg: "77f#05" # message to send, cansend format: heartbeat of node 127 with status 5=Started

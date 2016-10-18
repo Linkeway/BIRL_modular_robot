@@ -735,6 +735,7 @@ HighLimit=255
 ParameterName=Receive PDO 0 mapping parameter
 ObjectType=9
 SubNumber=5
+ParameterValue=0x60400010
 
 [1600sub0]
 ParameterName=Number of mapped objects RPDO 1
