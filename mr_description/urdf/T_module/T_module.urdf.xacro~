@@ -94,10 +94,10 @@
       <material  name="Red"/>
     </visual>
     <collision>
-          <origin  xyz="0 -0.02 0" rpy="${pi*0.5} 0 0" />
+          <origin  xyz="0 -0.025 0" rpy="${pi*0.5} 0 0" />
 <!--      <origin  xyz="0 0 0" rpy="0 0 0" />-->
       <geometry>
-      	<cylinder radius="0.05" length="0.11" />        
+      	<cylinder radius="0.05" length="0.12" />        
 <!--        <mesh  filename="package://mr_description/meshes/T_OutLink.STL" />-->
       </geometry>
     </collision>

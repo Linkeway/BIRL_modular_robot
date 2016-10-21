@@ -1525,7 +1525,7 @@ ParameterName=TPDO 4 mapping information 1
 ObjectType=0x7
 DataType=0x0007
 AccessType=rw
-DefaultValue=1614872592
+DefaultValue=0x60410010
 PDOMapping=0
 
 [1A03sub2]
@@ -1533,7 +1533,7 @@ ParameterName=TPDO 4 mapping information 2
 ObjectType=0x7
 DataType=0x0007
 AccessType=rw
-DefaultValue=1617690656
+DefaultValue=0x606C0020
 PDOMapping=0
 
 [1A03sub3]
@@ -1785,7 +1785,7 @@ PDOMapping=1
 [6060]
 ParameterName=Modes of operation
 ObjectType=0x7
-DataType=0x0005
+DataType=0x0002
 AccessType=rw
 PDOMapping=1
 
