@@ -9,10 +9,10 @@ defaults: #all defaults can be overwritten per node
   motor_allocator: canopen::Motor402::Allocator # select allocator for motor layer
   motor_layer: #settings passed to motor layer (plugin-specific)
     switching_state: 5 # (Operation_Enable), state for mode switching
-  pos_to_device: "rint(rad2deg(pos)*4000)" # rad -> mdeg
-  pos_from_device: "deg2rad(obj6064)/4000" # actual position [mdeg] -> rad
-  vel_to_device: "rint(rad2deg(vel)*4000)" # rad/s -> mdeg/s
-  vel_from_device: "deg2rad(obj606C)/4000" # actual velocity [mdeg/s] -> rad/s
+  pos_to_device: "rint(rad2deg(pos)*4352)" # rad -> mdeg
+  pos_from_device: "deg2rad(obj6064)/4352" # actual position [mdeg] -> rad
+  vel_to_device: "rint(rad2deg(vel)*4352)" # rad/s -> mdeg/s
+  vel_from_device: "deg2rad(obj606C)/4352" # actual velocity [mdeg/s] -> rad/s
   eff_to_device: "rint(eff)" # just round to integer
   eff_from_device: "0" # unset
   

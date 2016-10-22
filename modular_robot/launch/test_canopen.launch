@@ -15,7 +15,7 @@
     </node>
 
 
-<!--    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find rmp_description)/launch/rmp440le_ur5.rviz" />-->
+<!--    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find mr_description)/urdf.rviz" />-->
   <!--/group-->
 
 
