@@ -2,7 +2,7 @@
 <launch>
   <!--group ns="rmp440le"-->
     <!--param name="tf_prefix" value="rmp440le" /-->
-  <param name="robot_description" command="$(find xacro)/xacro.py $(find mr_description)/urdf/I_module/I_module_only.urdf.xacro" />
+  <param name="robot_description" command="$(find xacro)/xacro.py $(find mr_description)/urdf/T_module/T_module_only.urdf.xacro" />
 <!--  <param  name="robot_description"  textfile="$(find mr_description)/urdf/I_module/I_module.urdf" />-->
 
 
@@ -23,21 +23,21 @@
 					<!--   launch-prefix="gdb -ex run -/-args">-->
      <rosparam command="load" file="$(find birl_module_canopen)/config/can.yaml" />
      <rosparam command="load" file="$(find birl_module_canopen)/config/canopen_motors_in_chain.yaml" />
-         <remap from="joint_states" to="/feedback_joint_states"/> 
+     <remap from="joint_states" to="/feedback_joint_states"/> 
   </node>
   
   
 <!-- controllers -->
-  <rosparam command="load" file="$(find modular_robot_control)/config/I_module_controller.yaml" />
+  <rosparam command="load" file="$(find modular_robot_control)/config/robot_controller.yaml" />
 <!--  <rosparam ns="arm" command="load" file="$(find schunk_lwa4p)/config/joint_limits.yaml"/>-->
 <!--  <rosparam ns="arm" command="load" file="$(find schunk_lwa4p)/config/arm_cartesian_controller.yaml"/>-->
 
    <!-- start_controllers -->
-  <node  name="controller_spawner" pkg="controller_manager" type="controller_manager" args="spawn I_Joint_position_controller joint_state_controller" respawn="false" output="screen"/>
+  <node  name="controller_spawner" pkg="controller_manager" type="controller_manager" args="spawn T_Joint_position_controller joint_state_controller" respawn="false" output="screen"/>
 
     
 <!--  transform the topic from joint_state_publisher to that of canopen_motor_node-->
-  <node name="topic_transf_joint_state_pub_to_canopen_motor" pkg="topic_tools" type="transform" args="/joint_states /I_Joint_position_controller/command std_msgs/Float64 'm.position[0]'" output="screen" />
+  <node name="topic_transf_joint_state_pub_to_canopen_motor" pkg="topic_tools" type="transform" args="/joint_states /T_Joint_position_controller/command std_msgs/Float64 'm.position[0]'" output="screen" />
   
   <!-- control_mode_adapter -->
 <!--  <node  name="control_mode_adapter" pkg="modular_robot_control" type="I_controller_node" cwd="node" respawn="false" output="screen"/>-->

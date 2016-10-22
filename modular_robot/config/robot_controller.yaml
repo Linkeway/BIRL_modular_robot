@@ -1,7 +1,7 @@
 
 
 ## joint_names
-joint_names: [I_Joint]
+joint_names: [T_Joint]
 
 ## control_mode_adapter
 max_command_silence: 0.5
@@ -15,12 +15,12 @@ joint_state_controller:
 joint_trajectory_controller:
   type: position_controllers/JointTrajectoryController
   joints:
-     - I_Joint
+     - T_Joint
     
   constraints:
       goal_time: 0.25
       stopped_velocity_tolerance: 0.05
-      I_Joint: {trajectory: 0.1, goal: 0.1}
+      T_Joint: {trajectory: 0.1, goal: 0.1}
 
   stop_trajectory_duration: 0.25
   state_publish_rate:  25
@@ -32,15 +32,15 @@ joint_trajectory_controller:
 joint_group_position_controller:
   type: position_controllers/JointGroupPositionController
   joints:
-     - I_Joint
+     - T_Joint
   required_drive_mode: 1
 #  pid:
 #    p: 100.0
 #    d: 10.0  
     
-I_Joint_position_controller:
+T_Joint_position_controller:
   type: position_controllers/JointPositionController
-  joint: I_Joint
+  joint: T_Joint
   required_drive_mode: 1
 
   
@@ -48,12 +48,12 @@ I_Joint_position_controller:
 joint_group_velocity_controller:
   type: velocity_controllers/JointGroupVelocityController
   joints:
-     - I_Joint
+     - T_Joint
   required_drive_mode: 2
 
-I_Joint_velocity_controller:
+T_Joint_velocity_controller:
   type: velocity_controllers/JointVelocityController
-  joint: I_Joint
+  joint: T_Joint
   required_drive_mode: 2
 
 

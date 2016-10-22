@@ -10,7 +10,7 @@ defaults:
 #pos_unit_factor: 1000000.0
 #vel_unit_factor: 1000000.0
 nodes:
-  - name: I_Joint
+  - name: T_Joint
     id: 3
     #publish: ["1003sub0!"] # For debugging or for simple CANopen interfaces. it blocks the control loop
     #publish: ["6064!"]  #actual position_actual_value
