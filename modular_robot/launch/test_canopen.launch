@@ -23,7 +23,7 @@
 					<!--   launch-prefix="gdb -ex run -/-args">-->
 <!--<group ns="canopen_motor_chain_node" >-->
      <rosparam command="load" file="$(find birl_module_canopen)/config/can.yaml" />
-     <rosparam command="load" file="$(find birl_module_canopen)/config/canopen_motors_in_chain.yaml" />
+     <rosparam command="load" file="$(find birl_module_canopen)/config/robot_motors.yaml" />
      <remap from="joint_states" to="/feedback_joint_states"/> 
 <!--</group>-->
   </node>

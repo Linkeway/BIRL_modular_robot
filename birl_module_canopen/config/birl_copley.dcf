@@ -625,6 +625,7 @@ DefaultValue=2
 PDOMapping=0
 LowLimit=0
 HighLimit=4
+ParameterValue=2
 
 [1602sub1]
 ParameterName=RPDO 3 mapping information 1
@@ -672,6 +673,7 @@ DefaultValue=2
 PDOMapping=0
 LowLimit=0
 HighLimit=4
+ParameterValue=2
 
 [1603sub1]
 ParameterName=RPDO 4 mapping information 1
@@ -719,6 +721,7 @@ DefaultValue=2
 PDOMapping=0
 LowLimit=0
 HighLimit=4
+ParameterValue=2
 
 [1604sub1]
 ParameterName=RPDO 5 mapping information 1
@@ -1170,6 +1173,7 @@ PDOMapping=0
 LowLimit=0
 HighLimit=8
 ObjFlags=0
+ParameterValue=2
 
 [1A01sub1]
 ParameterName=1. mapped Object
@@ -1385,6 +1389,203 @@ ObjectType=0x7
 DataType=0x0007
 AccessType=rw
 PDOMapping=0
+
+
+
+
+[1A04]
+ParameterName=Transmit PDO 4 mapping parameter copied from CopleyAmp2.eds
+ObjectType=0x9
+SubNumber=5
+
+[1A04sub0]
+ParameterName=Number of mapped objects TPDO 5
+ObjectType=0x7
+DataType=0x0005
+AccessType=rw
+DefaultValue=2
+PDOMapping=0
+LowLimit=0
+HighLimit=4
+
+[1A04sub1]
+ParameterName=TPDO 5 mapping information 1
+ObjectType=0x7
+DataType=0x0007
+AccessType=rw
+DefaultValue=1614872592
+PDOMapping=0
+
+[1A04sub2]
+ParameterName=TPDO 5 mapping information 2
+ObjectType=0x7
+DataType=0x0007
+AccessType=rw
+DefaultValue=1618411536
+PDOMapping=0
+
+[1A04sub3]
+ParameterName=TPDO 5 mapping information 3
+ObjectType=0x7
+DataType=0x0007
+AccessType=rw
+DefaultValue=0
+PDOMapping=0
+
+[1A04sub4]
+ParameterName=TPDO 5 mapping information 4
+ObjectType=0x7
+DataType=0x0007
+AccessType=rw
+DefaultValue=0
+PDOMapping=0
+
+[1A05]
+ParameterName=Transmit PDO 5 mapping parameter
+ObjectType=0x9
+SubNumber=5
+
+[1A05sub0]
+ParameterName=Number of mapped objects TPDO 6
+ObjectType=0x7
+DataType=0x0005
+AccessType=rw
+DefaultValue=1
+PDOMapping=0
+LowLimit=0
+HighLimit=4
+
+[1A05sub1]
+ParameterName=TPDO 6 mapping information 1
+ObjectType=0x7
+DataType=0x0007
+AccessType=rw
+DefaultValue=1614872592
+PDOMapping=0
+
+[1A05sub2]
+ParameterName=TPDO 6 mapping information 2
+ObjectType=0x7
+DataType=0x0007
+AccessType=rw
+DefaultValue=0
+PDOMapping=0
+
+[1A05sub3]
+ParameterName=TPDO 6 mapping information 3
+ObjectType=0x7
+DataType=0x0007
+AccessType=rw
+DefaultValue=0
+PDOMapping=0
+
+[1A05sub4]
+ParameterName=TPDO 6 mapping information 4
+ObjectType=0x7
+DataType=0x0007
+AccessType=rw
+DefaultValue=0
+PDOMapping=0
+
+[1A06]
+ParameterName=Transmit PDO 6 mapping parameter
+ObjectType=0x9
+SubNumber=5
+
+[1A06sub0]
+ParameterName=Number of mapped objects TPDO 7
+ObjectType=0x7
+DataType=0x0005
+AccessType=rw
+DefaultValue=2
+PDOMapping=0
+LowLimit=0
+HighLimit=4
+
+[1A06sub1]
+ParameterName=TPDO 7 mapping information 1
+ObjectType=0x7
+DataType=0x0007
+AccessType=rw
+DefaultValue=1614872592
+PDOMapping=0
+
+[1A06sub2]
+ParameterName=TPDO 7 mapping information 2
+ObjectType=0x7
+DataType=0x0007
+AccessType=rw
+DefaultValue=1627193376
+PDOMapping=0
+
+[1A06sub3]
+ParameterName=TPDO 7 mapping information 3
+ObjectType=0x7
+DataType=0x0007
+AccessType=rw
+DefaultValue=0
+PDOMapping=0
+
+[1A06sub4]
+ParameterName=TPDO 7 mapping information 4
+ObjectType=0x7
+DataType=0x0007
+AccessType=rw
+DefaultValue=0
+PDOMapping=0
+
+[1A07]
+ParameterName=Transmit PDO 7 mapping parameter
+ObjectType=0x9
+SubNumber=5
+
+[1A07sub0]
+ParameterName=Number of mapped objects TPDO 8
+ObjectType=0x7
+DataType=0x0005
+AccessType=rw
+DefaultValue=0
+PDOMapping=0
+LowLimit=0
+HighLimit=4
+
+[1A07sub1]
+ParameterName=TPDO 8 mapping information 1
+ObjectType=0x7
+DataType=0x0007
+AccessType=rw
+DefaultValue=0
+PDOMapping=0
+
+[1A07sub2]
+ParameterName=TPDO 8 mapping information 2
+ObjectType=0x7
+DataType=0x0007
+AccessType=rw
+DefaultValue=0
+PDOMapping=0
+
+[1A07sub3]
+ParameterName=TPDO 8 mapping information 3
+ObjectType=0x7
+DataType=0x0007
+AccessType=rw
+DefaultValue=0
+PDOMapping=0
+
+[1A07sub4]
+ParameterName=TPDO 8 mapping information 4
+ObjectType=0x7
+DataType=0x0007
+AccessType=rw
+DefaultValue=0
+PDOMapping=0
+
+
+
+
+
+
 
 [6040]
 ParameterName=controlword
