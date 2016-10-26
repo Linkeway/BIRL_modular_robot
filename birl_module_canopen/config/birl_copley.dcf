@@ -1884,66 +1884,91 @@ DataType=0x0003
 AccessType=rww
 PDOMapping=1
 
+
+
+
+
+
+
 [60C0]
-ParameterName=interpolation_sub_mode_select
+ParameterName=Interpolation submode select
 ObjectType=0x7
 DataType=0x0003
 AccessType=rw
-DefaultValue=0
-PDOMapping=0
-LowLimit=-1
-HighLimit=0
-ParameterValue=0
+PDOMapping=1
 
 [60C1]
-ParameterName=interpolation_data_record
-ObjectType=0x8
-SubNumber=2
+ParameterName=Interpolation data record
+ObjectType=0x9
+SubNumber=4
 
 [60C1sub0]
-ParameterName=interpolation_data_record_highest_subindex
+ParameterName=Number of Entries
 ObjectType=0x7
 DataType=0x0005
-AccessType=const
-DefaultValue=1
+AccessType=ro
+DefaultValue=3
 PDOMapping=0
+LowLimit=3
+HighLimit=3
 
 [60C1sub1]
-ParameterName=interpolation_data_record_setpoint_1
+ParameterName=Interpolated position value
 ObjectType=0x7
 DataType=0x0004
-AccessType=rww
+AccessType=rw
+PDOMapping=1
+
+[60C1sub2]
+ParameterName=Interpolated time value
+ObjectType=0x7
+DataType=0x0005
+AccessType=rw
+PDOMapping=1
+
+[60C1sub3]
+ParameterName=Interpolated velocity value
+ObjectType=0x7
+DataType=0x0004
+AccessType=rw
 PDOMapping=1
 
 [60C2]
-ParameterName=interpolation_time_period
-ObjectType=0x9
+ParameterName=Interpolation time period
+ObjectType=0x8
 SubNumber=3
 
 [60C2sub0]
-ParameterName=interpolation_time_period_highest_subindex
+ParameterName=Number of Entries
 ObjectType=0x7
 DataType=0x0005
-AccessType=const
+AccessType=ro
 DefaultValue=2
 PDOMapping=0
+LowLimit=2
+HighLimit=2
 
 [60C2sub1]
-ParameterName=interpolation_time_period_value
+ParameterName=Interpolation time value
 ObjectType=0x7
 DataType=0x0005
 AccessType=rw
-DefaultValue=8
 PDOMapping=0
-ParameterValue=50
 
 [60C2sub2]
-ParameterName=interpolation_time_period_index
+ParameterName=Interpolation time units
 ObjectType=0x7
-DataType=0x0002
-AccessType=rw
-DefaultValue=-3
+DataType=0x0005
+AccessType=ro
 PDOMapping=0
+
+
+
+
+
+
+
+
 
 [60C3]
 ParameterName=interpolation_sync_definition

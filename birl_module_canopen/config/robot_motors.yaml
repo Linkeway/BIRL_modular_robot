@@ -9,10 +9,10 @@ defaults: #all defaults can be overwritten per node
   motor_allocator: canopen::Motor402::Allocator # select allocator for motor layer
   motor_layer: #settings passed to motor layer (plugin-specific)
     switching_state: 5 # (Operation_Enable), state for mode switching
-  pos_to_device: "rint(rad2deg(pos)*5433)" # rad -> mdeg
-  pos_from_device: "deg2rad(obj6064)/5433" # actual position [mdeg] -> rad
-  vel_to_device: "rint(rad2deg(vel)*5433)" # rad/s -> mdeg/s
-  vel_from_device: "deg2rad(obj606C)/5433" # actual velocity [mdeg/s] -> rad/s
+  pos_to_device: "rint(rad2deg(pos)*4096*480/360)" # rad -> mdeg * resolution of encoder * reduction ratio / 360 degree
+  pos_from_device: "deg2rad(obj6064)*360/480/4096" # actual position [count] -> rad
+  vel_to_device: "rint(rad2deg(vel)*4096*480/360)" # rad/s -> mdeg/s
+  vel_from_device: "deg2rad(obj606C)*360/480/4096" # actual velocity [count/s] -> rad/s
   eff_to_device: "rint(eff)" # just round to integer
   eff_from_device: "0" # unset
   
@@ -23,9 +23,22 @@ defaults: #all defaults can be overwritten per node
 #pos_unit_factor: 1000000.0
 #vel_unit_factor: 1000000.0
 
+#nodes:
+#  - name: T_Joint
+#    id: 3
+#    #publish: ["1003sub0!"] # For debugging or for simple CANopen interfaces. it blocks the control loop
+#    #publish: ["6064!"]  #actual position_actual_value
+    
+    
 nodes:
-  - name: T_Joint
-    id: 3
+  - name: I_Joint
+    id: 1
+    pos_to_device: "rint(rad2deg(pos)*4096*457/360)" # rad -> mdeg * resolution of encoder * reduction ratio / 360 degree
+    pos_from_device: "deg2rad(obj6064)*360/457/4096" # actual position [count] -> rad
+    vel_to_device: "rint(rad2deg(vel)*4096*457/360)" # rad/s -> mdeg/s
+    vel_from_device: "deg2rad(obj606C)*360/457/4096" # actual velocity [count/s] -> rad/s
+    eff_to_device: "rint(eff)" # just round to integer
+    eff_from_device: "0" # unset
     #publish: ["1003sub0!"] # For debugging or for simple CANopen interfaces. it blocks the control loop
     #publish: ["6064!"]  #actual position_actual_value
     
