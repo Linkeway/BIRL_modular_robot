@@ -35,8 +35,8 @@
 <!--  <rosparam ns="arm" command="load" file="$(find schunk_lwa4p)/config/arm_cartesian_controller.yaml"/>-->
 
    <!-- start_controllers -->
-  <node name="controller_spawner" pkg="controller_manager" type="controller_manager" args="spawn  joint_state_controller " respawn="false" output="screen"/>
-  <node name="controller_loader" pkg="controller_manager" type="controller_manager" args="load I_Joint_velocity_controller I_Joint_position_controller" respawn="false" output="screen"/>
+  <node name="controller_spawner" pkg="controller_manager" type="controller_manager" args="spawn  joint_state_controller I_Joint_velocity_controller" respawn="false" output="screen"/>
+  <node name="controller_loader" pkg="controller_manager" type="controller_manager" args="load I_Joint_position_controller joint_trajectory_controller" respawn="false" output="screen"/>
     
 <!--  transform the topic from joint_state_publisher to that of canopen_motor_node-->
   <node name="topic_transf_joint_state_pub_to_canopen_motor" pkg="topic_tools" type="transform" args="/joint_states /I_Joint_position_controller/command std_msgs/Float64 'm.position[0]'" output="screen" />

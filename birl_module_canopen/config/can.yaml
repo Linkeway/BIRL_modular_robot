@@ -5,9 +5,9 @@ bus:
 #  master_allocator: canopen::SimpleMaster::Allocator # defaults to canopen::LocalMaster::Allocator
    
 sync:
-  interval_ms: 10
+  interval_ms: 10 # set to 0 to disable sync
   #update_ms: <interval_ms> #update interval of control loop, must be set explecitly if sync is disabled
-  overflow: 0
+  overflow: 0 # overflow sync counter at value or do not set it (0, default)
   
 #heartbeat: # simple heartbeat producer, optional!
 #  rate: 1

@@ -14,11 +14,11 @@ defaults: #all defaults can be overwritten per node
   vel_to_device: "rint(rad2deg(vel)*4096*480/360)" # rad/s -> mdeg/s
   vel_from_device: "deg2rad(obj606C)*360/480/4096" # actual velocity [count/s] -> rad/s
   eff_to_device: "rint(eff)" # just round to integer
-  eff_from_device: "0" # unset
+  eff_from_device: "0" # unset!! effort on motor!
   
-#  dcf_overlay: # "ObjectID": "ParameterValue" (both as strings)
+  dcf_overlay: # "ObjectID": "ParameterValue" (both as strings)
 #    "1016sub1" : "0x7F0064" # heartbeat timeout of 100 ms for master at 127
-#    "1017": "100" # heartbeat producer
+    "1017": "1000" # heartbeat producer, set the node to repoduce heart beat signal every second
     
 #pos_unit_factor: 1000000.0
 #vel_unit_factor: 1000000.0
@@ -38,7 +38,7 @@ nodes:
     vel_to_device: "rint(rad2deg(vel)*4096*457/360)" # rad/s -> mdeg/s
     vel_from_device: "deg2rad(obj606C)*360/457/4096" # actual velocity [count/s] -> rad/s
     eff_to_device: "rint(eff)" # just round to integer
-    eff_from_device: "0" # unset
+    eff_from_device: "0" # unset!! effort on motor!
     #publish: ["1003sub0!"] # For debugging or for simple CANopen interfaces. it blocks the control loop
     #publish: ["6064!"]  #actual position_actual_value
     
