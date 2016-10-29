@@ -49,12 +49,12 @@ joint_group_velocity_controller:
   type: velocity_controllers/JointGroupVelocityController
   joints:
      - I_Joint
-  required_drive_mode: 2
+  required_drive_mode: 3
 
 I_Joint_velocity_controller:
   type: velocity_controllers/JointVelocityController
   joint: I_Joint
-  required_drive_mode: 2
+  required_drive_mode: 3
 
 
 

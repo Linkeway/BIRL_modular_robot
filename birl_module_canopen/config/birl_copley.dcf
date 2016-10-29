@@ -1919,6 +1919,7 @@ DataType=0x0004
 AccessType=rw
 PDOMapping=1
 
+
 [60C1sub2]
 ParameterName=Interpolated time value
 ObjectType=0x7
