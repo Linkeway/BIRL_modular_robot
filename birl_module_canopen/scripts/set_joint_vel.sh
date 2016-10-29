@@ -15,10 +15,11 @@ elif [ $1 == I ];then
 	transmission_ratio=457
 else
 	echo "No such Joint type! T or I or t or i supported!"
+	exit 0
 fi
-vel=$2
+vel=$3
 #calculate the COB-id of the SDO for the given node-id
-SDO=$(( `echo "ibase=16;600"|bc` + $1 ))
+SDO=$(( `echo "ibase=16;600"|bc` + $2 ))
 COBid=`echo "obase=16;$SDO"|bc`
 
 vel_in_cnts=`echo  "$vel*$transmission_ratio*4096/2/3.14159"|bc`
