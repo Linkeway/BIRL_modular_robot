@@ -15,6 +15,12 @@
     </node>
 
 
+    <node name="vel_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" >
+        <param name="use_gui" value="true"/>
+	<param name="publish_frequency" type="double" value="20.0" />
+        <remap from="joint_states" to="/joint_vel_commands"/>
+    </node>
+    
 <!--    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find mr_description)/urdf.rviz" />-->
   <!--/group-->
 

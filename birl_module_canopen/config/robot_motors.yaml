@@ -16,10 +16,12 @@ defaults: #all defaults can be overwritten per node
   eff_to_device: "rint(eff)" # just round to integer
   eff_from_device: "0" # unset!! effort on motor!
   
-#  dcf_overlay: # "ObjectID": "ParameterValue" (both as strings)
+  dcf_overlay: # "ObjectID": "ParameterValue" (both as strings)
+    "6081": "0x90000"
 #    "1016sub1" : "0x7F0064" # heartbeat timeout of 100 ms for master at 127
 #    "1017": "1000" # heartbeat producer, set the node to repoduce heart beat signal every second
-#    "1601sub2": "0x60c10120" # map RPDO2 to 60c1sub1(for PVT mode)
+    "1601sub2": "0x60c10120" # map RPDO2 to 60c1sub1(for PVT mode)
+    
     
 #pos_unit_factor: 1000000.0
 #vel_unit_factor: 1000000.0
