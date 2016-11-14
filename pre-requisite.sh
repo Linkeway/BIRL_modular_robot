@@ -1,9 +1,23 @@
-sudo apt-get install ros-indigo-realtime-tools ros-indigo-control-toolbox libmuparser2;
+
+
+sudo apt-get install ros-indigo-ros-control ros-indigo-ros-canopen
+sudo pip install python-can
+cat "[default]
+interface = socketcan
+channel = can0" >> /etc/can.conf
+# sudo apt-get install ros-indigo-realtime-tools ros-indigo-control-toolbox libmuparser2;
+# git clone https://github.com/ros-industrial/ros_canopen.git;
+# cd ros_canopen/;git checkout indigo-devel;
+# cd ..;git clone https://github.com/ros-controls/ros_control.git;
+# cd ros_control/;git checkout indigo-devel;
+
 cd src/;
-git clone https://github.com/ros-industrial/ros_canopen.git;
-cd ros_canopen/;git checkout indigo-devel;
-cd ..;git clone https://github.com/ros-controls/ros_control.git;
-cd ros_control/;git checkout indigo-devel;
+git clone https://github.com/Linkeway/BIRL_modular_robot.git
+git clone https://github.com/Linkeway/robot_model.git
+cd robot_model;
+git checkout indigo-devel
+
+
 cd;mkdir 3rd_party_lib;cd 3rd_party_lib;git clone https://github.com/beltoforion/muparser.git;cd muparser/;./configure;make;sudo make install;
 
 #32 bit ECI:

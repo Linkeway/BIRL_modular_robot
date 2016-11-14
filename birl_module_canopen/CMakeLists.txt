@@ -100,7 +100,9 @@ catkin_package(
 #  LIBRARIES birl_module_canopen
 #  CATKIN_DEPENDS other_catkin_pkg
 #  DEPENDS system_lib
+   
 )
+
 
 ###########
 ## Build ##
@@ -141,10 +143,11 @@ catkin_package(
 
 ## Mark executable scripts (Python etc.) for installation
 ## in contrast to setup.py, you can choose the destination
-# install(PROGRAMS
-#   scripts/my_python_script
-#   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-# )
+ install(PROGRAMS
+   scripts/module_state_adaptor
+   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+ )
+
 
 ## Mark executables and/or libraries for installation
 # install(TARGETS birl_module_canopen birl_module_canopen_node

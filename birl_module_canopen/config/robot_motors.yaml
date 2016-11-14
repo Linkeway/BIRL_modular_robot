@@ -3,7 +3,8 @@ name: robot
 defaults: #all defaults can be overwritten per node
   eds_pkg: birl_module_canopen
   eds_file: "config/birl_copley.dcf"   #Schunk_0_63.dcf"  #CopleyAmp2.eds"
-  
+  encoder_resolution: 4096
+    
   # the below part of the defaults section is optional
     # canopen_chain_node settings ..
   motor_allocator: canopen::Motor402::Allocator # select allocator for motor layer
@@ -38,7 +39,8 @@ nodes:
     eff_from_device: "0" # unset!! effort on motor!
     #publish: ["1003sub0!"] # For debugging or for simple CANopen interfaces. it blocks the control loop
     #publish: ["6064!"]  #actual position_actual_value
-  
+    encoder_resolution: 4096
+    
 #  - name: T_Joint
 #    id: 3
 #    #publish: ["1003sub0!"] # For debugging or for simple CANopen interfaces. it blocks the control loop
