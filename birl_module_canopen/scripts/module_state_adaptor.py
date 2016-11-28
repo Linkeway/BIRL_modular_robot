@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+
 #brief:
 #      adaptor node between joint_state_publisher and
 #      joint_group_position_controller of canopen_motor node
@@ -11,6 +12,7 @@
 # 1) publish positions to /joint_group_position_controller/command
 # 2) send updated velocity to CAN bus using python-can
 
+
 from __future__ import print_function
 import sys
 import rospy
@@ -19,6 +21,8 @@ import xml.dom.minidom
 from sensor_msgs.msg import JointState
 from std_msgs.msg import Float64MultiArray
 from math import pi
+#import pdb
+
 
 # global
 joint_states=JointState()
@@ -57,7 +61,7 @@ def main(arg):
                 trans_joint_name = trans_joint.getAttribute('name')
             except KeyError:
                 rospy.logwarn("No mechanical reduction specified in URDF")
-            ratio=reduction_ratio*default_resolution*0.5/pi
+            ratio=reduction_ratio*default_resolution*0.5/pi*10 
             
             for node in CAN_nodes:                
                 if  node['name'] == trans_joint_name:
@@ -117,6 +121,7 @@ def callback(msg):
 
     
 if __name__ == "__main__":
+    #pdb.set_trace()
     if len(sys.argv) < 2:
         rospy.logwarn("usage: module_state_adaptor.py <canopen_motor node name>")
     else:

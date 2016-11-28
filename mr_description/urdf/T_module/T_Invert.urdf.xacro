@@ -70,14 +70,30 @@
   </link>
   
 <!-- joint between TModule_InLink and TModule_OutLink -->
-  <joint  name="${name}_Joint_2"  type="revolute">
+  <joint  name="${name}_Joint"  type="revolute">
    <origin  xyz=" 0 0 0"  rpy="4.7124 -1.2251E-16 3.1416" />
 <!--    <origin  xyz=" 0 0 -0.1466"  rpy="4.7124 -1.2251E-16 3.1416" />-->
     <child  link="${name}_InLink_1" />
     <parent link="${name}_OutLink_2" />
     <axis   xyz="0 1 0" />
-    <limit  lower="-2.07" upper="2.07"  effort="0"  velocity="0" />
+    <limit  lower="-2.07" upper="2.07"  effort="75"  velocity="1.047" />
   </joint>
+  
+  <!--    test reduction ratio-->
+  <transmission name="${name}_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="${name}_Joint" >
+      <hardwareInterface>PositionJointInterface</hardwareInterface>
+      <hardwareInterface>VelocityJointInterface</hardwareInterface>
+<!--      <hardwareInterface>EffortJointInterface</hardwareInterface>-->
+    </joint>
+    <actuator name="${name}_motor">
+      <mechanicalReduction>480</mechanicalReduction> 
+      <hardwareInterface>PositionJointInterface</hardwareInterface>
+      <hardwareInterface>VelocityJointInterface</hardwareInterface>
+<!--      <hardwareInterface>EffortJointInterface</hardwareInterface>-->
+    </actuator>
+  </transmission>
 
 <!--the TModule_InLink in T module-->
   <link name="${name}_InLink_1">

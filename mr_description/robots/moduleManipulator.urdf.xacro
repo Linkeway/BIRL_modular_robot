@@ -40,7 +40,6 @@
 <!--    </inertial>-->
   </link>
   
-  
 <!--  <xacro:G_invert name="G0" parent="base_link">-->
 <!--    <origin xyz="0 0 0.17836" rpy="${-pi*0.5} 0 0" />-->
 <!--  </xacro:G_invert>-->
@@ -49,24 +48,26 @@
     <origin xyz="0 0 0" rpy="0 0 0" />
   </xacro:I_module>
 
-  <xacro:T_module name="T2" parent="I1_Lr_Link_3">
+
+  <xacro:T_invert name="T2" parent="I1_Lr_Link_3" >
     <origin xyz="0 0 0" rpy="0 0 0" />
-  </xacro:T_module>
-  
-  <xacro:T_invert name="T3" parent="T2_Lr_Link_3" >
-    <origin xyz="0 0 0.005" rpy="0 0 0" />
   </xacro:T_invert>
 
-  <xacro:T_module name="T4" parent="T3_Lr_Link_0">
-    <origin xyz="0 0 0" rpy="0 0 0" />
+  <xacro:T_module name="T3" parent="T2_Lr_Link_0">
+    <origin xyz="0 0 0.005" rpy="0 0 ${pi}" />
   </xacro:T_module>
 
-  <xacro:I_module name="I5" parent="T4_Lr_Link_3">
+  <xacro:I_module name="I4" parent="T3_Lr_Link_3">
     <origin xyz="0 0 0" rpy="0 0 0" />
   </xacro:I_module>
   
-  <xacro:G_module name="G6" parent="I5_Lr_Link_3">
-    <origin xyz="0 0 0" rpy="${pi*0.5} 0 0" />
+  <xacro:T_module name="T5" parent="I4_Lr_Link_3">
+    <origin xyz="0 0 0" rpy="0 0 0" />
+  </xacro:T_module>
+
+
+  <xacro:G_module name="G6" parent="T5_Lr_Link_3">
+    <origin xyz="0 0 0" rpy="${pi*0.5} 0 ${pi*0.5}" />
   </xacro:G_module>
   
 

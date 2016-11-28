@@ -116,7 +116,7 @@
   </link>
 
 <!-- joint between IModule_OutLink and Lockring_Link -->
-		<joint name="${name}_Lr_Joint_3" type="fixed">
+    <joint name="${name}_Lr_Joint_3" type="fixed">
       <origin xyz="0 0 0.0432" rpy="0 0 0" />
       <parent link="${name}_OutLink_2" />
       <child  link="${name}_Lr_Link_3" />

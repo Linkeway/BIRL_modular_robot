@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="ModuleManipulator">
+
+  <xacro:property name="pi" value="3.1415926535897931" />
+  
+<!-- materials for visualization -->
+  <xacro:include filename="$(find mr_description)/urdf/materials.urdf.xacro" />
+
+  <!-- I Module -->
+  <xacro:include filename="$(find mr_description)/urdf/I_module/I_module.urdf.xacro" />
+
+  <!-- T Module -->
+  <xacro:include filename="$(find mr_description)/urdf/T_module/T_module.urdf.xacro" />
+
+  
+<!-- Now we can start using the macros included above to define the actual youbot -->
+
+  <!-- The first use of a macro.  This one was defined in base.urdf.xacro above.
+       A macro like this will expand to a set of link and joint definitions, and to additional
+       Gazebo-related extensions (sensor plugins, etc).  The macro takes an argument, name, 
+       that equals "base", and uses it to generate names for its component links and joints 
+       (e.g., base_link).  The included origin block is also an argument to the macro.  By convention, 
+       the origin block defines where the component is w.r.t its parent (in this case the parent 
+       is the world frame). For more, see http://www.ros.org/wiki/xacro -->
+
+  <!-- foot for module arm-->
+  <link name="base_link"/>
+  
+  
+<!--  <xacro:G_invert name="G0" parent="base_link">-->
+<!--    <origin xyz="0 0 0.17836" rpy="${-pi*0.5} 0 0" />-->
+<!--  </xacro:G_invert>-->
+  
+  <xacro:I_module name="I" parent="base_link">
+    <origin xyz="0 0 0" rpy="0 0 0" />
+  </xacro:I_module>
+
+  <xacro:T_module name="T" parent="I_Lr_Link_3">
+    <origin xyz="0 0 0" rpy="0 0 0" />
+  </xacro:T_module>
+  
+
+</robot>

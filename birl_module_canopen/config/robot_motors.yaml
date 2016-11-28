@@ -12,8 +12,8 @@ defaults: #all defaults can be overwritten per node
     switching_state: 5 # (Operation_Enable), state for mode switching
   pos_to_device: "rint(rad2deg(pos)*4096*480/360)" # rad -> mdeg * resolution of encoder * reduction ratio / 360 degree
   pos_from_device: "deg2rad(obj6064)*360/480/4096" # actual position [count] -> rad
-  vel_to_device: "rint(rad2deg(vel)*4096*480/360)" # rad/s -> mdeg/s
-  vel_from_device: "deg2rad(obj606C)*360/480/4096" # actual velocity [count/s] -> rad/s
+  vel_to_device: "rint(rad2deg(vel)*4096*480/360*10)" # rad/s -> mdeg/s
+  vel_from_device: "deg2rad(obj606C)*360/10/480/4096" # actual velocity [0.1count/s] -> rad/s
   eff_to_device: "rint(eff)" # just round to integer
   eff_from_device: "0" # unset!! effort on motor!
   
@@ -29,7 +29,7 @@ defaults: #all defaults can be overwritten per node
 
     
 nodes:
-  - name: I_Joint
+  - name: I1_Joint
     id: 1
     pos_to_device: "rint(rad2deg(pos)*4096*457/360)" # rad -> mdeg * resolution of encoder * reduction ratio / 360 degree
     pos_from_device: "deg2rad(obj6064)*360/457/4096" # actual position [count] -> rad
@@ -41,10 +41,30 @@ nodes:
     #publish: ["6064!"]  #actual position_actual_value
     encoder_resolution: 4096
     
-#  - name: T_Joint
-#    id: 3
-#    #publish: ["1003sub0!"] # For debugging or for simple CANopen interfaces. it blocks the control loop
-#    #publish: ["6064!"]  #actual position_actual_value
+  - name: T2_Joint
+    id: 2
+    #publish: ["1003sub0!"] # For debugging or for simple CANopen interfaces. it blocks the control loop
+    #publish: ["6064!"]  #actual position_actual_value
     
+  - name: T3_Joint
+    id: 3
+    #publish: ["1003sub0!"] # For debugging or for simple CANopen interfaces. it blocks the control loop
+    #publish: ["6064!"]  #actual position_actual_value
 
 
+  - name: I4_Joint
+    id: 4
+    pos_to_device: "rint(rad2deg(pos)*4096*457/360)" # rad -> mdeg * resolution of encoder * reduction ratio / 360 degree
+    pos_from_device: "deg2rad(obj6064)*360/457/4096" # actual position [count] -> rad
+    vel_to_device: "rint(rad2deg(vel)*4096*457/360)" # rad/s -> mdeg/s
+    vel_from_device: "deg2rad(obj606C)*360/457/4096" # actual velocity [count/s] -> rad/s
+    eff_to_device: "rint(eff)" # just round to integer
+    eff_from_device: "0" # unset!! effort on motor!
+    #publish: ["1003sub0!"] # For debugging or for simple CANopen interfaces. it blocks the control loop
+    #publish: ["6064!"]  #actual position_actual_value
+    encoder_resolution: 4096
+
+  - name: T5_Joint
+    id: 5
+    #publish: ["1003sub0!"] # For debugging or for simple CANopen interfaces. it blocks the control loop
+    #publish: ["6064!"]  #actual position_actual_value
