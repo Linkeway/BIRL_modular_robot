@@ -21,6 +21,18 @@
   <!-- Gripper100 invert Module -->
   <xacro:include filename="$(find mr_description)/urdf/G_invert.urdf.xacro" />
   
+  <!-- 100_85_connect_link Module -->
+  <xacro:include filename="$(find mr_description)/urdf/100_85connect_link.urdf.xacro" />
+  
+  <!-- t85 Module -->
+  <xacro:include filename="$(find mr_description)/urdf/t_module.urdf.xacro" />
+  
+  <!-- i85  Module -->
+  <xacro:include filename="$(find mr_description)/urdf/i_module.urdf.xacro" />
+  
+   <!-- g85  Module -->
+  <xacro:include filename="$(find mr_description)/urdf/g_module.urdf.xacro" />
+  
 <!-- Now we can start using the macros included above to define the actual youbot -->
 
   <!-- The first use of a macro.  This one was defined in base.urdf.xacro above.
@@ -32,13 +44,7 @@
        is the world frame). For more, see http://www.ros.org/wiki/xacro -->
 
   <!-- foot for module arm-->
-  <link name="base_link">
-<!--    <inertial>    -->
-<!--	<origin xyz="0 0 0" rpy="0 0 0"/>-->
-<!--	<mass value="1.0"/>-->
-<!--	<inertia ixx="0.1"  ixy="0"  ixz="0" iyy="0.1" iyz="0" izz="0.1" />-->
-<!--    </inertial>-->
-  </link>
+  <link name="base_link"/>
   
 <!--  <xacro:G_invert name="G0" parent="base_link">-->
 <!--    <origin xyz="0 0 0.17836" rpy="${-pi*0.5} 0 0" />-->
@@ -48,7 +54,6 @@
     <origin xyz="0 0 0" rpy="0 0 0" />
   </xacro:I_module>
 
-
   <xacro:T_invert name="T2" parent="I1_Lr_Link_3" >
     <origin xyz="0 0 0" rpy="0 0 0" />
   </xacro:T_invert>
@@ -57,18 +62,33 @@
     <origin xyz="0 0 0.005" rpy="0 0 ${pi}" />
   </xacro:T_module>
 
-  <xacro:I_module name="I4" parent="T3_Lr_Link_3">
+  <xacro:connect_link_100_85  name="cl" parent="T3_Lr_Link_3">
     <origin xyz="0 0 0" rpy="0 0 0" />
-  </xacro:I_module>
+  </xacro:connect_link_100_85>
   
-  <xacro:T_module name="T5" parent="I4_Lr_Link_3">
+  <xacro:i_module name="i4" parent="cl_100_85_connect_link2">
     <origin xyz="0 0 0" rpy="0 0 0" />
-  </xacro:T_module>
+  </xacro:i_module>  
 
+  <xacro:t_module name="t5" parent="i4_link2">
+    <origin xyz="0 0 0" rpy="0 0 ${-pi*0.5}" />
+  </xacro:t_module>
 
-  <xacro:G_module name="G6" parent="T5_Lr_Link_3">
-    <origin xyz="0 0 0" rpy="${pi*0.5} 0 ${pi*0.5}" />
-  </xacro:G_module>
+  <xacro:g_module name="g6" parent="t5_link2">
+    <origin xyz="0 0 0.0825" rpy="0 0 0" />
+  </xacro:g_module>
+
+  <joint name="tcp_fixed_joint" type="fixed" >
+    <origin xyz="0 0 0.16" rpy="0 0 0" />
+    <parent link="g6_palm_link" />
+    <child link="tcp" />
+  </joint>
+  
+  <link name="tcp"/>
+
+<!--  <xacro:G_module name="G6" parent="T5_Lr_Link_3">-->
+<!--    <origin xyz="0 0 0" rpy="${pi*0.5} 0 ${pi*0.5}" />-->
+<!--  </xacro:G_module>-->
   
 
   

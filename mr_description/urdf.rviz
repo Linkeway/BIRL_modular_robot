@@ -8,6 +8,7 @@ Panels:
         - /Status1
         - /Grid1
         - /module_robot1/Links1
+        - /TF1
         - /TF1/Frames1
         - /TF1/Tree1
       Splitter Ratio: 0.694767
@@ -61,25 +62,6 @@ Visualization Manager:
         Expand Joint Details: false
         Expand Link Details: false
         Expand Tree: false
-        G6_finger_link_l:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        G6_finger_link_r:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        G6_palm_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        G6_tcp:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
         I1_InLink_1:
           Alpha: 1
           Show Axes: false
@@ -96,26 +78,6 @@ Visualization Manager:
           Show Trail: false
           Value: true
         I1_OutLink_2:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        I4_InLink_1:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        I4_Lr_Link_0:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        I4_Lr_Link_3:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        I4_OutLink_2:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -161,27 +123,55 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
-        T5_InLink_1:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        T5_Lr_Link_0:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        T5_Lr_Link_3:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        T5_OutLink_2:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
         base_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        cl_100_85_connect_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        cl_100_85_connect_link2:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        g6_finger_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        g6_finger_link1:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        g6_palm_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        i4_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        i4_link2:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        t5_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        t5_link2:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        tcp:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -196,14 +186,6 @@ Visualization Manager:
       Frame Timeout: 15
       Frames:
         All Enabled: false
-        G6_finger_link_l:
-          Value: false
-        G6_finger_link_r:
-          Value: false
-        G6_palm_link:
-          Value: true
-        G6_tcp:
-          Value: false
         I1_InLink_1:
           Value: false
         I1_Lr_Link_0:
@@ -211,14 +193,6 @@ Visualization Manager:
         I1_Lr_Link_3:
           Value: false
         I1_OutLink_2:
-          Value: false
-        I4_InLink_1:
-          Value: false
-        I4_Lr_Link_0:
-          Value: false
-        I4_Lr_Link_3:
-          Value: false
-        I4_OutLink_2:
           Value: false
         T2_InLink_1:
           Value: false
@@ -236,15 +210,27 @@ Visualization Manager:
           Value: false
         T3_OutLink_2:
           Value: false
-        T5_InLink_1:
-          Value: false
-        T5_Lr_Link_0:
-          Value: false
-        T5_Lr_Link_3:
-          Value: false
-        T5_OutLink_2:
-          Value: false
         base_link:
+          Value: true
+        cl_100_85_connect_link:
+          Value: false
+        cl_100_85_connect_link2:
+          Value: false
+        g6_finger_link:
+          Value: false
+        g6_finger_link1:
+          Value: false
+        g6_palm_link:
+          Value: false
+        i4_link:
+          Value: false
+        i4_link2:
+          Value: false
+        t5_link:
+          Value: false
+        t5_link2:
+          Value: false
+        tcp:
           Value: true
       Marker Scale: 0.5
       Name: TF
@@ -265,21 +251,19 @@ Visualization Manager:
                             T3_InLink_1:
                               T3_OutLink_2:
                                 T3_Lr_Link_3:
-                                  I4_Lr_Link_0:
-                                    I4_InLink_1:
-                                      I4_OutLink_2:
-                                        I4_Lr_Link_3:
-                                          T5_Lr_Link_0:
-                                            T5_InLink_1:
-                                              T5_OutLink_2:
-                                                T5_Lr_Link_3:
-                                                  G6_palm_link:
-                                                    G6_finger_link_l:
-                                                      {}
-                                                    G6_finger_link_r:
-                                                      {}
-                                                    G6_tcp:
-                                                      {}
+                                  cl_100_85_connect_link:
+                                    cl_100_85_connect_link2:
+                                      i4_link:
+                                        i4_link2:
+                                          t5_link:
+                                            t5_link2:
+                                              g6_palm_link:
+                                                g6_finger_link:
+                                                  {}
+                                                g6_finger_link1:
+                                                  {}
+                                                tcp:
+                                                  {}
       Update Interval: 0
       Value: true
   Enabled: true
@@ -306,7 +290,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 1.75399
+      Distance: 1.70384
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.06
         Stereo Focal Distance: 1

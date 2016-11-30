@@ -1,0 +1,121 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+<!--definition of default_inertial -->
+<xacro:macro name="g_module" params="parent name *origin">
+
+<!-- joint between base_link and Lockring_Link -->
+  <joint name="${name}_joint_0" type="fixed" >
+    <insert_block name="origin" />
+    <parent link="${parent}" />
+    <child link="${name}_palm_link" />
+  </joint>
+  
+  <link name="${name}_palm_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh   filename="package://mr_description/meshes/g_palm_link.STL" />
+      </geometry>
+      <material  name="">
+        <color   rgba="0.1 0.1 0.1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin     xyz="0 0 0"    rpy="0 0 0" />
+      <geometry>
+        <mesh  filename="package://mr_description/meshes/g_palm_link.STL" />
+      </geometry>
+    </collision>
+    <inertial>
+      <origin xyz="0.00425087794620391 -0.000341076549934847 0.0434713557042779" rpy="0 0 0" />
+      <mass value="0.566653469628951" />
+      <inertia
+        ixx="0.000498497223548746"
+        ixy="5.36329649188159E-07"
+        ixz="-4.07818737202901E-05"
+        iyy="0.000730511793998383"
+        iyz="-6.03266058697901E-06"
+        izz="0.000502182372067087" />
+    </inertial>
+  </link>
+  
+  <link  name="${name}_finger_link">
+    <visual>
+      <origin    xyz="0 0 0"     rpy="0 0 0" />
+      <geometry>
+        <mesh    filename="package://mr_description/meshes/g_finger_link.STL" />
+      </geometry>
+      <material    name="">
+        <color rgba="0.1 0.1 0.1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin   xyz="0 0 0"   rpy="0 0 0" />
+      <geometry>
+        <mesh   filename="package://mr_description/meshes/g_finger_link.STL" />
+      </geometry>
+    </collision>
+    <inertial>
+      <origin xyz="-0.0142537929479308 0.000230061402547915 0.123240994639791" rpy="0 0 0" />
+      <mass   value="0.0587979869361216" />
+      <inertia
+        ixx="4.06347072846223E-05" ixy="2.52194515964668E-08" ixz="9.16297919180235E-06"
+        iyy="4.29642140065611E-05" iyz="3.2622913893542E-08"  izz="9.72727638920999E-06" />
+    </inertial>
+  </link>
+  
+  <joint  name="${name}_Joint"  type="prismatic">
+    <origin   xyz="0 0 0"    rpy="0 0 0" />
+    <parent   link="${name}_palm_link" />
+    <child   link="${name}_finger_link" />
+    <axis   xyz="-1 0 0" />
+    <limit    lower="0"  upper="0.06" effort="1" velocity="0.06" />
+    <calibration   rising="1"   falling="1" />
+    <dynamics    damping="1"    friction="1" />
+    <safety_controller soft_upper="0.06" soft_lower="0" k_position="1" k_velocity="1" />
+  </joint>
+  
+  <link  name="${name}_finger_link1">
+    <inertial>
+      <origin xyz="0.0142537929479934 3.43816122645394E-05 0.123240994639808" rpy="0 0 0" />
+      <mass  value="0.0587979869361215" />
+      <inertia
+        ixx="4.06348713317454E-05"
+        ixy="4.84294028883443E-09"
+        ixz="-9.16297919179846E-06"
+        iyy="4.29642140065595E-05"
+        iyz="-7.56625401696782E-08"
+        izz="9.72744043633773E-06" />
+    </inertial>
+    <visual>
+      <origin  xyz="0 0 0"  rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://mr_description/meshes/g_finger_link1.STL" />
+      </geometry>
+      <material    name="">
+        <color  rgba="0.1 0.1 0.1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin    xyz="0 0 0"     rpy="0 0 0" />
+      <geometry>
+        <mesh   filename="package://mr_description/meshes/g_finger_link1.STL" />
+      </geometry>
+    </collision>
+  </link>
+  
+  <joint  name="${name}_Joint1"  type="prismatic">
+    <origin   xyz="0 0 0"    rpy="0 0 0" />
+    <parent    link="${name}_palm_link" />
+    <child    link="${name}_finger_link1" />
+    <axis   xyz="1 0 0" />
+    <limit  lower="0"  upper="0.06" effort="1" velocity="0.06" />
+    <calibration  rising="1" />
+    <dynamics  damping="1"  friction="1" />
+    <safety_controller soft_upper="0.06" soft_lower="0" k_position="1" k_velocity="1" />
+  </joint>
+
+
+  </xacro:macro>
+</robot>

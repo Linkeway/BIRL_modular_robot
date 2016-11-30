@@ -4,11 +4,15 @@
 <!--  <param name="robot_description" textfile="$(find mr_description)/robots/I_module.URDF" />-->
   <param name="robot_description" command="$(find xacro)/xacro '$(find mr_description)/robots/moduleManipulator.urdf.xacro'" />
   
+<!--  <rosparam>-->
+<!--    dependent_joints:-->
+<!--      G6_finger_joint_r: {parent: G6_Joint, factor: 1 }-->
+<!--  </rosparam>-->
   <rosparam>
     dependent_joints:
-      G6_finger_joint_r: {parent: G6_Joint, factor: 1 }
+      g6_Joint1: {parent: g6_Joint, factor: 1 }
   </rosparam>
-
+  
   <param name="use_gui" value="$(arg gui)" />
 
     <node name="module_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" >

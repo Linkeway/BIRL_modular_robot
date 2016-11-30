@@ -1,0 +1,95 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+<!--definition of default_inertial -->
+<xacro:macro name="i_module" params="parent name *origin">
+
+<!-- joint between base_link and Lockring_Link -->
+  <joint name="${name}_joint_0" type="fixed" >
+    <insert_block name="origin" />
+    <parent link="${parent}" />
+    <child link="${name}_link" />
+  </joint>
+	
+  <link name="${name}_link">
+    <inertial>
+      <origin xyz="-0.00109121633873397 -0.000198050872652557 0.0542417178246159" rpy="0 0 0" />
+      <mass value="0.389080654611604" />
+      <inertia
+        ixx="0.000528345508911097"  ixy="1.18007724874168E-06"  ixz="3.55201744524765E-06"
+        iyy="0.000587990280546246"  iyz="1.46979659751903E-06"  izz="0.000472243050258981" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://mr_description/meshes/i_link.STL" />
+      </geometry>
+      <material name="">
+        <color  rgba="0.866666666666667 0 0 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.072" rpy="0 0 0" />
+      <geometry>
+<!--        <mesh  filename="package://mr_description/meshes/i_link.STL" />-->
+	<cylinder radius="0.0425" length="0.144"  />
+      </geometry>
+    </collision>
+  </link>
+  
+  <link  name="${name}_link2">
+    <inertial>
+      <origin xyz="-2.4633E-14 3.7186E-08 -0.022781" rpy="0 0 0" />
+      <mass   value="0.80864" />
+      <inertia
+        ixx="0.00042548"
+        ixy="8.2396E-17"
+        ixz="-4.0773E-17"
+        iyy="0.00042548"
+        iyz="-6.6735E-11"
+        izz="0.00069524" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh  filename="package://mr_description/meshes/i_link2.STL" />
+      </geometry>
+      <material name="">
+        <color  rgba="0.86667 0 0 1" />
+      </material>
+    </visual>
+<!--    <collision>-->
+<!--      <origin  xyz="0 0 0" rpy="0 0 0" />-->
+<!--      <geometry>-->
+<!--        <mesh  filename="package://mr_description/meshes/i_link2.STL" />-->
+<!--      </geometry>-->
+<!--    </collision>-->
+  </link>
+  
+  <joint   name="${name}_Joint"  type="continuous">
+    <origin xyz="0 0 0.137" rpy="-8.5591E-29 0 0" />
+    <parent  link="${name}_link" />
+    <child   link="${name}_link2" />
+    <axis    xyz="0 0 1" />
+    <limit lower="-3.1416" upper="3.1416" effort="30" velocity="1.29" />
+    <calibration  rising="1" falling="1" />
+    <dynamics damping="1" friction="1" />
+    <safety_controller  soft_upper="3.1416" soft_lower="-3.1416" k_position="1" k_velocity="1" />
+  </joint>
+  
+    <!--    test reduction ratio-->
+  <transmission name="simple_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="${name}_Joint">
+      <hardwareInterface>PositionJointInterface</hardwareInterface>
+      <hardwareInterface>VelocityJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="${name}_motor">
+      <mechanicalReduction>226</mechanicalReduction> 
+      <hardwareInterface>PositionJointInterface</hardwareInterface>
+      <hardwareInterface>VelocityJointInterface</hardwareInterface>
+    </actuator>
+  </transmission>
+  
+  </xacro:macro>
+</robot>
