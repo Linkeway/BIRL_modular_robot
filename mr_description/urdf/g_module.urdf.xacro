@@ -22,9 +22,10 @@
       </material>
     </visual>
     <collision>
-      <origin     xyz="0 0 0"    rpy="0 0 0" />
+      <origin     xyz="0 0 0.028"    rpy="0 0 0" />
       <geometry>
-        <mesh  filename="package://mr_description/meshes/g_palm_link.STL" />
+<!--        <mesh  filename="package://mr_description/meshes/g_palm_link.STL" />-->
+	<cylinder radius="0.0425" length="0.056"/>
       </geometry>
     </collision>
     <inertial>

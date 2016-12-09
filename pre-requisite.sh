@@ -33,8 +33,8 @@ cd;mkdir 3rd_party_lib;cd 3rd_party_lib;git clone https://github.com/beltoforion
 
 #socketCAN Driver for Linuxe
 cd;cd  3rd_party_lib/
-mkdir socketcan_driver
-cd socketcan_driver
+mkdir ixxat_socketcan
+cd ixxat_socketcan_driver
 wget http://www.ixxat.com/docs/librariesprovider8/default-document-library/downloads/other-drivers/socketcan_1-1-92-0_20150508.zip?sfvrsn=10
 unzip socketcan_1-1-92-0_20150508.zip?sfvrsn=10
 gedit README &
