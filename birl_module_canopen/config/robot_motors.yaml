@@ -52,19 +52,26 @@ nodes:
     #publish: ["6064!"]  #actual position_actual_value
 
 
-  - name: I4_Joint
+  - name: i4_Joint
     id: 4
-    pos_to_device: "rint(rad2deg(pos)*4096*457/360)" # rad -> mdeg * resolution of encoder * reduction ratio / 360 degree
-    pos_from_device: "deg2rad(obj6064)*360/457/4096" # actual position [count] -> rad
-    vel_to_device: "rint(rad2deg(vel)*4096*457/360)" # rad/s -> mdeg/s
-    vel_from_device: "deg2rad(obj606C)*360/457/4096" # actual velocity [count/s] -> rad/s
+    pos_to_device: "rint(rad2deg(pos)*4096*226/360)" # rad -> mdeg * resolution of encoder * reduction ratio / 360 degree
+    pos_from_device: "deg2rad(obj6064)*360/226/4096" # actual position [count] -> rad
+    vel_to_device: "rint(rad2deg(vel)*4096*226/360)" # rad/s -> mdeg/s
+    vel_from_device: "deg2rad(obj606C)*360/226/4096" # actual velocity [count/s] -> rad/s
     eff_to_device: "rint(eff)" # just round to integer
     eff_from_device: "0" # unset!! effort on motor!
     #publish: ["1003sub0!"] # For debugging or for simple CANopen interfaces. it blocks the control loop
     #publish: ["6064!"]  #actual position_actual_value
     encoder_resolution: 4096
 
-  - name: T5_Joint
+  - name: t5_Joint
     id: 5
+    pos_to_device: "rint(rad2deg(pos)*4096*200/360)" # rad -> mdeg * resolution of encoder * reduction ratio / 360 degree
+    pos_from_device: "deg2rad(obj6064)*360/200/4096" # actual position [count] -> rad
+    vel_to_device: "rint(rad2deg(vel)*4096*200/360)" # rad/s -> mdeg/s
+    vel_from_device: "deg2rad(obj606C)*360/200/4096" # actual velocity [count/s] -> rad/s
+    eff_to_device: "rint(eff)" # just round to integer
+    eff_from_device: "0" # unset!! effort on motor!
     #publish: ["1003sub0!"] # For debugging or for simple CANopen interfaces. it blocks the control loop
     #publish: ["6064!"]  #actual position_actual_value
+    encoder_resolution: 4096

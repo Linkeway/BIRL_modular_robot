@@ -1,28 +1,22 @@
 #!/bin/bash
 
 
-if [ $# -ne 3 ]
+if [ $# -ne 2 ]
 then 
-	echo "Usage:  set_joint_vel.sh <joint_type> <joint_id> <velocity rad/sec>"
-	echo "E.g. :  set_joint_vel.sh T 1 3.15"
-	echo "        set_joint_vel.sh I 1 3.15"
+	echo "Usage:  set_joint_vel.sh  <joint_id> <velocity pulses/sec>"
+
 	exit 0
 fi
 
-if [ $1 == T ];then
-	transmission_ratio=480
-elif [ $1 == I ];then
-	transmission_ratio=457
-else
-	echo "No such Joint type! T or I or t or i supported!"
-	exit 0
-fi
-vel=$3
+
+transmission_ratio=1
+
+vel=$2
 #calculate the COB-id of the SDO for the given node-id
-SDO=$(( `echo "ibase=16;600"|bc` + $2 ))
+SDO=$(( `echo "ibase=16;600"|bc` + $1 ))
 COBid=`echo "obase=16;$SDO"|bc`
 
-vel_in_cnts=`echo  "$vel*$transmission_ratio*4096/2/3.14159"|bc`
+vel_in_cnts=`echo  "$vel*$transmission_ratio"|bc`
 vel_hex=`echo "obase=16;$vel_in_cnts"|bc`
 
 zero_8digits=00000000

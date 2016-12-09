@@ -3,6 +3,7 @@
 if [ "$#" -ne 3 ]
 then
 	echo "Three arguments needed: nodeID, position_in_pulse, velocity_in_pulse_per_sec!"
+	echo "e.g. rel_pos_ctrl_test.sh 10000 10000"
 else
 	zero_8digits=00000000
 

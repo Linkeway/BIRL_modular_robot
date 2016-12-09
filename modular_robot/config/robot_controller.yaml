@@ -18,8 +18,8 @@ joint_trajectory_controller:
      - I1_Joint
      - T2_Joint
      - T3_Joint
-     - I4_Joint
-     - T5_Joint
+     - i4_Joint
+     - t5_Joint
     
     
   constraints:
@@ -40,8 +40,8 @@ joint_group_position_controller:
      - I1_Joint
      - T2_Joint
      - T3_Joint
-     - I4_Joint
-     - T5_Joint
+     - i4_Joint
+     - t5_Joint
   required_drive_mode: 1
 #  pid:
 #    p: 100.0

@@ -69,7 +69,7 @@
     <limit lower="-2.09" upper="2.09" effort="28" velocity="2.09" />
     <calibration   rising="0"   falling="0" />
     <dynamics      damping="0"  friction="0" />
-    <safety_controller soft_upper="-2.07" soft_lower="2.07"  k_position="0" k_velocity="0" />
+<!--    <safety_controller soft_upper="-2.07" soft_lower="2.07"  k_position="0" k_velocity="0" />-->
   </joint>
   
   <!--  reduction ratio-->

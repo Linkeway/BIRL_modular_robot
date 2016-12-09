@@ -5,7 +5,11 @@
 <!--  <param name="robot_description" command="$(find xacro)/xacro.py $(find mr_description)/urdf/T_module/T_module_only.urdf.xacro" />-->
   <param name="robot_description" command="$(find xacro)/xacro.py $(find mr_description)/robots/moduleManipulator.urdf.xacro" />
 <!--  <param  name="robot_description"  textfile="$(find mr_description)/urdf/I_module/I_module.urdf" />-->
-
+  <rosparam>
+    dependent_joints:
+      g6_Joint1: {parent: g6_Joint, factor: 1 }
+  </rosparam>
+  
     <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" />
 
     <node name="module_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" >
