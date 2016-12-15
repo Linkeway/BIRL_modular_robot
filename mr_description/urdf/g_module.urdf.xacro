@@ -72,9 +72,9 @@
     <child   link="${name}_finger_link" />
     <axis   xyz="-1 0 0" />
     <limit    lower="0"  upper="0.06" effort="1" velocity="0.06" />
-    <calibration   rising="1"   falling="1" />
-    <dynamics    damping="1"    friction="1" />
-    <safety_controller soft_upper="0.06" soft_lower="0" k_position="1" k_velocity="1" />
+<!--    <calibration   rising="1"   falling="1" />-->
+<!--    <dynamics    damping="1"    friction="1" />-->
+<!--    <safety_controller soft_upper="0.06" soft_lower="0" k_position="1" k_velocity="1" />-->
   </joint>
   
   <link  name="${name}_finger_link1">
@@ -112,9 +112,9 @@
     <child    link="${name}_finger_link1" />
     <axis   xyz="1 0 0" />
     <limit  lower="0"  upper="0.06" effort="1" velocity="0.06" />
-    <calibration  rising="1" />
-    <dynamics  damping="1"  friction="1" />
-    <safety_controller soft_upper="0.06" soft_lower="0" k_position="1" k_velocity="1" />
+<!--    <calibration  rising="1" />-->
+<!--    <dynamics  damping="1"  friction="1" />-->
+<!--    <safety_controller soft_upper="0.06" soft_lower="0" k_position="1" k_velocity="1" />-->
   </joint>
 
 
