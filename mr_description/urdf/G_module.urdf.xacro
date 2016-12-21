@@ -31,8 +31,7 @@
         xyz="0 0 0"
         rpy="0 0 0" />
       <geometry>
-        <mesh
-          filename="package://mr_description/meshes/palm_link.STL" />
+        <mesh filename="package://mr_description/meshes/palm_link.STL" />
       </geometry>
       <material  name="">
         <color rgba="0.1 0.1 0.1 1" />
@@ -49,22 +48,13 @@
   </link>
   
 <!--  joint between the palm and the left finger-->
-  <joint name="${name}_Joint"
-    type="prismatic">
-    <origin
-      xyz="0.038 0 0"
-      rpy="0 0 0" />
+  <joint name="${name}_Joint"  type="prismatic">
+    <origin xyz="0.038 0 0"  rpy="0 0 0" />
     <parent link="${name}_palm_link" />
     <child  link="${name}_finger_link_l" />
     <axis   xyz="-1 0 0" />
-    <limit
-      lower="0"
-      upper="0.04"
-      effort="0"
-      velocity="0.1" />
-    <dynamics
-      damping="1"
-      friction="1" />
+    <limit  lower="0"  upper="0.04" effort="10" velocity="0.02" />
+    <dynamics  damping="1" friction="1" />
   </joint>
 
    <!-- test reduction ratio-->
@@ -84,11 +74,8 @@
 <!--  the left finger link-->
   <link name="${name}_finger_link_l">
     <inertial>
-      <origin
-        xyz="-0.053748 0.15337 2.2717E-07"
-        rpy="0 0 0" />
-      <mass
-        value="0.89853" />
+      <origin  xyz="-0.053748 0.15337 2.2717E-07"  rpy="0 0 0" />
+      <mass   value="0.89853" />
       <inertia
         ixx="0.0023606"
         ixy="-0.00017835"
@@ -107,41 +94,31 @@
       </material>
     </visual>
     <collision>
-      <origin xyz="-0.05 0.18 0" rpy="0 0 0" />
-<!--      <origin xyz="0 0 0" rpy="0 0 0" />-->
+<!--      <origin xyz="-0.05 0.18 0" rpy="0 0 0" />-->
+      <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-      	<box size="0.01 0.1 0.1"/>
-<!--        <mesh filename="package://mr_description/meshes/finger_link_l.STL" />-->
+<!--      	<box size="0.01 0.1 0.1"/>-->
+        <mesh filename="package://mr_description/meshes/finger_link_l.STL" />
       </geometry>
     </collision>
   </link>
   
   
 <!--  joint between the right finger and the palm-->
-  <joint  name="${name}_finger_joint_r"
-    type="prismatic">
+  <joint  name="${name}_Joint1"  type="prismatic">
     <origin  xyz="-0.038 0 0" rpy="0 0 0" />
     <parent link="${name}_palm_link" />
     <child  link="${name}_finger_link_r" />
     <axis  xyz="1 0 0" />
-    <limit
-      lower="0"
-      upper="0.04"
-      effort="0"
-      velocity="0.1" />
-    <dynamics
-      damping="1"
-      friction="1" />
+    <limit lower="0"  upper="0.04" effort="10" velocity="0.02" />
+    <dynamics   damping="1" friction="1" />
   </joint>
  
 <!-- the right finger link-->
   <link name="${name}_finger_link_r">
     <inertial>
-      <origin
-        xyz="0.053748 0.15337 -2.2717E-07"
-        rpy="0 0 0" />
-      <mass
-        value="0.89853" />
+      <origin   xyz="0.053748 0.15337 -2.2717E-07"  rpy="0 0 0" />
+      <mass    value="0.89853" />
       <inertia
         ixx="0.0023606"
         ixy="0.00017835"
@@ -160,17 +137,16 @@
       </material>
     </visual>
     <collision>
-      <origin xyz="0.05 0.18 0" rpy="0 0 0" />
-<!--      <origin xyz="0 0 0" rpy="0 0 0" />-->
+<!--      <origin xyz="0.05 0.18 0" rpy="0 0 0" />-->
+      <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-      	<box size="0.01 0.1 0.1"/>
-<!--        <mesh filename="package://mr_description/meshes/finger_link_r.STL" />-->
+<!--      	<box size="0.01 0.1 0.1"/>-->
+        <mesh filename="package://mr_description/meshes/finger_link_r.STL" />
       </geometry>
     </collision>
   </link>
   
   
-
 <!--    joint between the palm link and the tcp-->
   <joint name="${name}_tcp_joint" type="fixed">
     <origin xyz="0 0.17836 0"  rpy="0 0 0" />
@@ -181,9 +157,6 @@
   
   <link name="${name}_tcp" />
   
-  
-
-
 
   </xacro:macro>
 </robot>

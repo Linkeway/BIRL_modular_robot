@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="climbot5d">
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="wheeled5d">
 
   <xacro:property name="pi" value="3.1415926535897931" />
   
@@ -31,15 +31,36 @@
        the origin block defines where the component is w.r.t its parent (in this case the parent 
        is the world frame). For more, see http://www.ros.org/wiki/xacro -->
 
-<!--    climbot move group 1-->
-  <link name="base_gripper1" />
+
+
+
+  <link name="world" />
   
-  <xacro:G_invert name="G0" parent="base_gripper1">
-    <origin xyz="0 0 0.17836" rpy="${-pi*0.5} 0 0" />
-  </xacro:G_invert>
+  <joint name="wheel_Joint1" type="fixed">
+    <origin xyz="0 0 0.15" rpy="0 ${pi*0.5} 0"/>
+    <parent link="world"/>
+    <child link="wheel1"/>
+  </joint>
+  <link name="wheel1" >
+    <visual>
+      <origin xyz=" 0 0 -0.025" rpy="0 0 0" />
+      <geometry>
+      	<cylinder radius="0.15" length="0.05"/>
+      </geometry>
+      <material name="">
+        <color rgba="0.02 0.02 0.02 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz=" 0 0 -0.025" rpy="0 0 0" />
+      <geometry>
+      	<cylinder radius="0.15" length="0.05"/>
+      </geometry>
+    </collision>
+  </link>
   
-  <xacro:I_module name="I1" parent="G0_palm_link">
-    <origin xyz="0 0 0" rpy="${pi*0.5} 0 0" />
+  <xacro:I_module name="I1" parent="wheel1">
+    <origin xyz="0 0 0" rpy="0 0 ${pi*0.5}" />
   </xacro:I_module>
 
   <xacro:T_module name="T2" parent="I1_Lr_Link_3">
@@ -58,42 +79,27 @@
     <origin xyz="0 0 0" rpy="0 0 0" />
   </xacro:I_module>
   
-  <xacro:G_module name="G6" parent="I5_Lr_Link_3">
-    <origin xyz="0 0 0" rpy="${pi*0.5} 0 0" />
-  </xacro:G_module>
-  
-
-
-<!--    climbot move group 2-->
-
-<!--   <link name="base_gripper2" />-->
-<!--   -->
-<!--  <xacro:G_invert name="_G6" parent="base_gripper2">-->
-<!--    <origin xyz="0.2 0 0.17836" rpy="${-pi*0.5} 0 0" />-->
-<!--  </xacro:G_invert>-->
-
-<!--  <xacro:I_module name="_I5" parent="_G6_palm_link">-->
-<!--    <origin xyz="0 0 0" rpy="${pi*0.5} 0 0" />-->
-<!--  </xacro:I_module>-->
-
-<!--  <xacro:T_invert name="_T4" parent="_I5_Lr_Link_3">-->
-<!--    <origin xyz="0 0 0.005" rpy="0 0 0" />-->
-<!--  </xacro:T_invert>-->
-<!--  -->
-<!--  <xacro:T_module name="_T3" parent="_T4_Lr_Link_0">-->
-<!--    <origin xyz="0 0 0" rpy="0 0 0" />-->
-<!--  </xacro:T_module>-->
-
-<!--  <xacro:T_invert name="_T2" parent="_T3_Lr_Link_3">-->
-<!--    <origin xyz="0 0 0.005" rpy="0 0 0" />-->
-<!--  </xacro:T_invert>-->
-
-<!--  <xacro:I_module name="_I1" parent="_T2_Lr_Link_0">-->
-<!--    <origin xyz="0 0 0" rpy="0 0 0" />-->
-<!--  </xacro:I_module>-->
-<!--  -->
-<!--  <xacro:G_module name="_G0" parent="_I1_Lr_Link_3">-->
-<!--    <origin xyz="0 0 0" rpy="${pi*0.5} 0 0" />-->
-<!--  </xacro:G_module>-->
+  <joint name="wheel_Joint2" type="fixed">
+    <origin xyz="0 0 0.05" rpy="0 0 0"/>
+    <parent link="I5_Lr_Link_3"/>
+    <child link="wheel2"/>
+  </joint>
+  <link name="wheel2" >
+    <visual>
+      <origin xyz=" 0 0 -0.025" rpy="0 0 0" />
+      <geometry>
+      	<cylinder radius="0.15" length="0.05"/>
+      </geometry>
+      <material name="">
+        <color rgba="0.02 0.02 0.02 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz=" 0 0 -0.025" rpy="0 0 0" />
+      <geometry>
+      	<cylinder radius="0.15" length="0.05"/>
+      </geometry>
+    </collision>
+  </link>  
   
 </robot>

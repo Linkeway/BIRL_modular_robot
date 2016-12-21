@@ -1,9 +1,9 @@
 <launch>
   <arg name="module_robot" />
   <arg name="gui" default="true" />
-<!--  <param name="robot_description" textfile="$(find mr_description)/robots/I_module.URDF" />-->
+<!--  <param name="robot_description" textfile="$(find mr_description)/robots/moduleManipulator.urdf" />-->
   <param name="robot_description" command="$(find xacro)/xacro '$(find mr_description)/robots/moduleManipulator.urdf.xacro'" />
-  
+<!--  <param name="robot_description" command="$(find xacro)/xacro '$(find mr_description)/robots/manipulator6d.urdf.xacro'" />-->
 <!--  <rosparam>-->
 <!--    dependent_joints:-->
 <!--      G6_finger_joint_r: {parent: G6_Joint, factor: 1 }-->
@@ -11,6 +11,7 @@
   <rosparam>
     dependent_joints:
       g6_Joint1: {parent: g6_Joint, factor: 1 }
+<!--      g7_Joint1: {parent: g7_Joint, factor: 1 }-->
   </rosparam>
   
   <param name="use_gui" value="$(arg gui)" />

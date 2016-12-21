@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="manipulator5d">
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="ModuleManipulator">
 
   <xacro:property name="pi" value="3.1415926535897931" />
   
@@ -58,29 +58,33 @@
     <origin xyz="0 0 0" rpy="0 0 0" />
   </xacro:T_invert>
 
-  <xacro:T_module name="T3" parent="T2_Lr_Link_0">
-    <origin xyz="0 0 0.005" rpy="0 0 ${pi}" />
+  <xacro:I_module name="I3" parent="T2_Lr_Link_0">
+    <origin xyz="0 0 0.005" rpy="0 0 0" />
+  </xacro:I_module>
+  
+  <xacro:T_module name="T4" parent="I3_Lr_Link_3">
+    <origin xyz="0 0 0" rpy="0 0 ${pi}" />
   </xacro:T_module>
 
-  <xacro:connect_link_100_85  name="cl" parent="T3_Lr_Link_3">
+  <xacro:connect_link_100_85  name="cl" parent="T4_Lr_Link_3">
     <origin xyz="0 0 0" rpy="0 0 0" />
   </xacro:connect_link_100_85>
   
-  <xacro:i_module name="i4" parent="cl_100_85_connect_link2">
+  <xacro:i_module name="i5" parent="cl_100_85_connect_link2">
     <origin xyz="0 0 0" rpy="0 0 0" />
   </xacro:i_module>  
 
-  <xacro:t_module name="t5" parent="i4_link2">
+  <xacro:t_module name="t6" parent="i5_link2">
     <origin xyz="0 0 0" rpy="0 0 ${-pi*0.5}" />
   </xacro:t_module>
 
-  <xacro:g_module name="g6" parent="t5_link2">
+  <xacro:g_module name="g7" parent="t6_link2">
     <origin xyz="0 0 0.0825" rpy="0 0 0" />
   </xacro:g_module>
 
   <joint name="tcp_fixed_joint" type="fixed" >
     <origin xyz="0 0 0.16" rpy="0 0 0" />
-    <parent link="g6_palm_link" />
+    <parent link="g7_palm_link" />
     <child link="tcp" />
   </joint>
   

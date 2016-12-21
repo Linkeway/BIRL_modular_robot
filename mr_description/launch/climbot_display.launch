@@ -1,5 +1,3 @@
-
-
 <launch>
   <arg name="module_robot" />
   <arg name="gui" default="true" />
@@ -13,8 +11,8 @@
 <!--  <param name="robot_description" textfile="$(find mr_description)/robots/I_module.URDF" />-->
     <rosparam>
       dependent_joints:
-        G0_finger_joint_l: {parent: G0_finger_joint_r, factor: 1 }
-        G6_finger_joint_l: {parent: G6_finger_joint_r, factor: 1 }
+        G0_Joint1: {parent: G0_Joint, factor: 1 }
+        G6_Joint1: {parent: G6_Joint, factor: 1 }
     </rosparam>
     <node name="rviz"  pkg="rviz"  type="rviz" args="-d $(find mr_description)/urdf.rviz -f base_gripper1" />
   </group>
@@ -23,8 +21,8 @@
     <param name="robot_description" command="$(find xacro)/xacro '$(find mr_description)/robots/climbot_invert.urdf.xacro'" />
     <rosparam>
       dependent_joints:
-        _G0_finger_joint_l: {parent: _G0_finger_joint_r, factor: 1 }
-        _G6_finger_joint_l: {parent: _G6_finger_joint_r, factor: 1 }
+        _G0_Joint1: {parent: _G0_Joint, factor: 1 }
+        _G6_Joint1: {parent: _G6_Joint, factor: 1 }
     </rosparam>
     <node name="rviz"  pkg="rviz"  type="rviz" args="-d $(find mr_description)/urdf.rviz -f base_gripper2" />
   </group>

@@ -1,0 +1,10 @@
+<launch>
+  <arg name="i_module" />
+  <arg name="gui" default="true" />
+<!--  <param name="robot_description" textfile="$(find mr_description)/robots/I_module.URDF" />-->
+  <param  name="robot_description" command="$(find xacro)/xacro '$(find mr_description)/urdf/i_module_only.urdf.xacro'" />
+  <param name="use_gui" value="$(arg gui)" />
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" />
+  <node name="rviz"  pkg="rviz"  type="rviz" args="-d $(find mr_description)/urdf.rviz -f base_link" />
+</launch>
