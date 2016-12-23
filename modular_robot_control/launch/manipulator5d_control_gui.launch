@@ -3,7 +3,7 @@
   <!--group ns="robot"-->
 
 <!--  <param name="robot_description" command="$(find xacro)/xacro.py $(find mr_description)/urdf/T_module/T_module_only.urdf.xacro" />-->
-  <param name="robot_description" command="$(find xacro)/xacro.py $(find mr_description)/robots/moduleManipulator.urdf.xacro" />
+  <param name="robot_description" command="$(find xacro)/xacro.py $(find mr_description)/robots/manipulator5d.urdf.xacro" />
 <!--  <param  name="robot_description"  textfile="$(find mr_description)/urdf/I_module/I_module.urdf" />-->
   <rosparam>
     dependent_joints:
@@ -43,7 +43,7 @@
     
 <!--  transform the topic from joint_state_publisher to that of canopen_motor_node-->
 <!--  <node name="topic_transf_joint_state_pub_to_canopen_motor" pkg="topic_tools" type="transform" args="/joint_states /I_Joint_position_controller/command std_msgs/Float64 'm.position[0]'" output="screen" />-->
-  <node name="module_state_adaptor" pkg="birl_module_canopen" type="module_state_adaptor.py" args="canopen_motor_chain"/>
+  <node name="module_state_adaptor" pkg="birl_module_canopen" type="module_state_adaptor.py" args="canopen_driver"/>
   
   <!-- control_mode_adapter -->
 <!--  <node  name="control_mode_adapter" pkg="modular_robot_control" type="I_controller_node" cwd="node" respawn="false" output="screen"/>-->
