@@ -2,7 +2,7 @@
   <arg name="module_robot" />
   <arg name="gui" default="true" />
 <!--  <param name="robot_description" textfile="$(find mr_description)/robots/moduleManipulator.urdf" />-->
-  <param name="robot_description" command="$(find xacro)/xacro '$(find mr_description)/robots/moduleManipulator.urdf.xacro'" />
+  <param name="robot_description" command="$(find xacro)/xacro '$(find mr_description)/robots/manipulator5d.urdf.xacro'" />
 <!--  <param name="robot_description" command="$(find xacro)/xacro '$(find mr_description)/robots/manipulator6d.urdf.xacro'" />-->
 <!--  <rosparam>-->
 <!--    dependent_joints:-->
@@ -23,5 +23,5 @@
     </node>
 <!--  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />-->
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" />
-  <node name="rviz"  pkg="rviz"  type="rviz" args="-d $(find mr_description)/urdf.rviz -f base_link" />
+  <node name="rviz"  pkg="rviz"  type="rviz" args="-d $(find mr_description)/rviz/manipulator5d.rviz -f base_link" />
 </launch>

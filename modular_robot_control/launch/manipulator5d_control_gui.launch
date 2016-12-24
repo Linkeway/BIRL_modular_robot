@@ -2,7 +2,6 @@
 <launch>
   <!--group ns="robot"-->
 
-<!--  <param name="robot_description" command="$(find xacro)/xacro.py $(find mr_description)/urdf/T_module/T_module_only.urdf.xacro" />-->
   <param name="robot_description" command="$(find xacro)/xacro.py $(find mr_description)/robots/manipulator5d.urdf.xacro" />
 <!--  <param  name="robot_description"  textfile="$(find mr_description)/urdf/I_module/I_module.urdf" />-->
   <rosparam>
@@ -10,24 +9,26 @@
       g6_Joint1: {parent: g6_Joint, factor: 1 }
   </rosparam>
   
-    <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" />
-
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" >
+        <remap from="joint_states" to="/joint_states_command"/>
+    </node>
+  
     <node name="module_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" >
         <param name="use_gui" value="true"/>
 	<param name="publish_frequency" type="double" value="10.0" />
 	<param name="gui_caption" value="BIRL"/>
-<!--         <remap from="joint_states" to="/joint_pos_commands"/>-->
+        <remap from="joint_states" to="/joint_states_command"/>
     </node>
     
-    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find mr_description)/urdf.rviz" />
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find mr_description)/rviz/manipulator5d.rviz" />
 
 
-  <node name="canopen_motor_chain" pkg="canopen_motor_node" type="canopen_motor_node" output="screen" clear_params="true">
+  <node name="canopen_driver" pkg="canopen_motor_node" type="canopen_motor_node" output="screen" clear_params="true">
 					<!--   launch-prefix="gdb -ex run -/-args">-->
 <!--<group ns="canopen_motor_chain_node" >-->
      <rosparam command="load" file="$(find birl_module_canopen)/config/can.yaml" />
      <rosparam command="load" file="$(find birl_module_canopen)/config/robot_motors.yaml" />
-     <remap from="joint_states" to="/feedback_joint_states"/> 
+<!--     <remap from="joint_states" to="/feedback_joint_states"/> -->
 <!--</group>-->
   </node>
   
