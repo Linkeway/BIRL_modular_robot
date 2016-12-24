@@ -27,14 +27,14 @@
 					<!--   launch-prefix="gdb -ex run -/-args">-->
 <!--<group ns="canopen_motor_chain_node" >-->
      <rosparam command="load" file="$(find birl_module_canopen)/config/can.yaml" />
-     <rosparam command="load" file="$(find birl_module_canopen)/config/robot_motors.yaml" />
+     <rosparam command="load" file="$(find birl_module_canopen)/config/manipulator5d_motors.yaml" />
 <!--     <remap from="joint_states" to="/feedback_joint_states"/> -->
 <!--</group>-->
   </node>
   
   
 <!-- controllers -->
-  <rosparam command="load" file="$(find modular_robot_control)/config/robot_controller.yaml" />
+  <rosparam command="load" file="$(find modular_robot_control)/config/manipulator5d_controller.yaml" />
 <!--  <rosparam ns="arm" command="load" file="$(find schunk_lwa4p)/config/joint_limits.yaml"/>-->
 <!--  <rosparam ns="arm" command="load" file="$(find schunk_lwa4p)/config/arm_cartesian_controller.yaml"/>-->
 
