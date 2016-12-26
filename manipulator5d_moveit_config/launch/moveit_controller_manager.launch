@@ -1,0 +1,8 @@
+<launch>
+ <!-- Set the param that trajectory_execution_manager needs to find the controller plugin -->
+ <!-- moveit_simple_controller_manager - A very basic controller manager plugin. Can connect to FollowJointTrajectoryAction and GripperCommandAction servers. -->
+ <arg name="moveit_controller_manager" default="moveit_simple_controller_manager/MoveItSimpleControllerManager" />
+ <param name="moveit_controller_manager" value="$(arg moveit_controller_manager)"/>
+ <!-- load controller_list -->
+ <rosparam file="$(find manipulator5d_moveit_config)/config/controllers.yaml"/>
+</launch>

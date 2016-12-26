@@ -1,8 +1,8 @@
 moveit_setup_assistant_config:
   URDF:
     package: mr_description
-    relative_path: robots/moduleManipulator.urdf
+    relative_path: robots/manipulator5d.urdf
   SRDF:
-    relative_path: config/ModuleManipulator.srdf
+    relative_path: config/Manipulator5d.srdf
   CONFIG:
     generated_timestamp: 1481809289

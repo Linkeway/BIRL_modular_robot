@@ -1,6 +1,6 @@
 Panels:
   - Class: rviz/Displays
-    Help Height: 84
+    Help Height: 78
     Name: Displays
     Property Tree Widget:
       Expanded:
@@ -10,9 +10,8 @@ Panels:
         - /MotionPlanning1/Planning Request1
         - /MotionPlanning1/Planning Metrics1
         - /MotionPlanning1/Planned Path1
-        - /TF1
       Splitter Ratio: 0.557377
-    Tree Height: 330
+    Tree Height: 336
   - Class: rviz/Help
     Name: Help
   - Class: rviz/Views
@@ -224,11 +223,11 @@ Visualization Manager:
         Colliding Link Color: 255; 0; 0
         Goal State Alpha: 1
         Goal State Color: 250; 128; 0
-        Interactive Marker Size: 0
+        Interactive Marker Size: 1
         Joint Violation Color: 255; 0; 255
         Planning Group: climbot_arm
-        Query Goal State: false
-        Query Start State: false
+        Query Goal State: true
+        Query Start State: true
         Show Workspace: false
         Start State Alpha: 1
         Start State Color: 0; 255; 0
@@ -387,114 +386,32 @@ Visualization Manager:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-        Robot Alpha: 0.5
+        Robot Alpha: 1
         Show Robot Collision: false
-        Show Robot Visual: true
+        Show Robot Visual: false
       Value: true
     - Class: rviz/TF
-      Enabled: true
+      Enabled: false
       Frame Timeout: 15
       Frames:
         All Enabled: false
-        G0_finger_link_l:
-          Value: false
-        G0_finger_link_r:
-          Value: false
-        G0_palm_link:
-          Value: false
-        G6_finger_link_l:
-          Value: false
-        G6_finger_link_r:
-          Value: false
-        G6_palm_link:
-          Value: false
-        G6_tcp:
-          Value: true
-        I1_InLink_1:
-          Value: false
-        I1_Lr_Link_0:
-          Value: false
-        I1_Lr_Link_3:
-          Value: false
-        I1_OutLink_2:
-          Value: false
-        I5_InLink_1:
-          Value: false
-        I5_Lr_Link_0:
-          Value: false
-        I5_Lr_Link_3:
-          Value: false
-        I5_OutLink_2:
-          Value: false
-        T2_InLink_1:
-          Value: false
-        T2_Lr_Link_0:
-          Value: false
-        T2_Lr_Link_3:
-          Value: false
-        T2_OutLink_2:
-          Value: false
-        T3_InLink_1:
-          Value: false
-        T3_Lr_Link_0:
-          Value: false
-        T3_Lr_Link_3:
-          Value: false
-        T3_OutLink_2:
-          Value: false
-        T4_InLink_1:
-          Value: false
-        T4_Lr_Link_0:
-          Value: false
-        T4_Lr_Link_3:
-          Value: false
-        T4_OutLink_2:
-          Value: false
-        base_gripper1:
-          Value: false
-        world:
-          Value: false
       Marker Scale: 1
       Name: TF
       Show Arrows: true
       Show Axes: true
       Show Names: true
       Tree:
-        world:
-          base_gripper1:
-            G0_palm_link:
-              G0_finger_link_l:
-                {}
-              G0_finger_link_r:
-                {}
-              I1_Lr_Link_0:
-                I1_InLink_1:
-                  I1_OutLink_2:
-                    I1_Lr_Link_3:
-                      T2_Lr_Link_0:
-                        T2_InLink_1:
-                          T2_OutLink_2:
-                            T2_Lr_Link_3:
-                              T3_Lr_Link_3:
-                                T3_OutLink_2:
-                                  T3_InLink_1:
-                                    T3_Lr_Link_0:
-                                      T4_Lr_Link_0:
-                                        T4_InLink_1:
-                                          T4_OutLink_2:
-                                            T4_Lr_Link_3:
-                                              I5_Lr_Link_0:
-                                                I5_InLink_1:
-                                                  I5_OutLink_2:
-                                                    I5_Lr_Link_3:
-                                                      G6_palm_link:
-                                                        G6_finger_link_l:
-                                                          {}
-                                                        G6_finger_link_r:
-                                                          {}
-                                                        G6_tcp:
-                                                          {}
+        {}
       Update Interval: 0
+      Value: false
+    - Class: rviz/InteractiveMarkers
+      Enable Transparency: true
+      Enabled: true
+      Name: InteractiveMarkers
+      Show Axes: true
+      Show Descriptions: true
+      Show Visual Aids: true
+      Update Topic: ""
       Value: true
   Enabled: true
   Global Options:
@@ -523,10 +440,10 @@ Visualization Manager:
         Z: -2.35873e-06
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 0.039797
+      Pitch: 0.254797
       Target Frame: base_gripper1
       Value: XYOrbit (rviz)
-      Yaw: 4.66495
+      Yaw: 4.55995
     Saved: ~
 Window Geometry:
   Displays:
@@ -542,5 +459,5 @@ Window Geometry:
   Views:
     collapsed: false
   Width: 1680
-  X: 0
-  Y: 24
+  X: 55
+  Y: 14

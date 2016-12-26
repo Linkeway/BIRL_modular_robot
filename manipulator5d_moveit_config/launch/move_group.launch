@@ -28,13 +28,13 @@
   <!-- Trajectory Execution Functionality -->
   <include ns="move_group" file="$(find manipulator5d_moveit_config)/launch/trajectory_execution.launch.xml" if="$(arg allow_trajectory_execution)">
     <arg name="moveit_manage_controllers" value="true" />
-    <arg name="moveit_controller_manager" value="ModuleManipulator" unless="$(arg fake_execution)"/>
+    <arg name="moveit_controller_manager" value="Manipulator5d" unless="$(arg fake_execution)"/>
     <arg name="moveit_controller_manager" value="fake" if="$(arg fake_execution)"/>
   </include>
 
   <!-- Sensors Functionality -->
   <include ns="move_group" file="$(find manipulator5d_moveit_config)/launch/sensor_manager.launch.xml" if="$(arg allow_trajectory_execution)">
-    <arg name="moveit_sensor_manager" value="ModuleManipulator" />
+    <arg name="moveit_sensor_manager" value="Manipulator5d" />
   </include>
 
   <!-- Start the actual move_group node/action server -->

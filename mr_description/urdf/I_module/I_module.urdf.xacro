@@ -1,8 +1,9 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
+
 <!--definition of default_inertial -->
-<xacro:macro name="I_module" params="parent name *origin">
+<xacro:macro name="I_module" params="parent name *origin rotate_direction_pos:=1">
 
 <!-- joint between base_link and Lockring_Link -->
 	<joint name="${name}_joint_0" type="fixed" >
@@ -73,7 +74,15 @@
     <origin  xyz="0 0 0.12015" rpy="0 0 0" />
     <parent  link="${name}_InLink_1" />
     <child   link="${name}_OutLink_2" />
-    <axis   xyz="0 0 1" />
+
+<!--    <xacro:if value="${rotate_direction_pos}">-->
+<!--       <axis   xyz="0 0 1" />-->
+<!--    </xacro:if>-->
+<!--    <xacro:unless value="${rotate_direction_pos}">-->
+<!--       <axis   xyz="0 0 -1" />-->
+<!--    </xacro:unless>-->
+    <axis   xyz="0 0 ${rotate_direction_pos}" />
+           
     <limit   effort="75"  velocity="1.1" />
   </joint>
   

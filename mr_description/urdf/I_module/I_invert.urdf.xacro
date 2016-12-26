@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+
+
+
+
+<!-- Now we can start using the macros included above to define the actual robot -->
+
+  <!-- The first use of a macro.  This one was defined in base.urdf.xacro above.
+       A macro like this will expand to a set of link and joint definitions, and to additional
+       Gazebo-related extensions (sensor plugins, etc).  The macro takes an argument, name, 
+       that equals "base", and uses it to generate names for its component links and joints 
+       (e.g., base_link).  The included origin block is also an argument to the macro.  By convention, 
+       the origin block defines where the component is w.r.t its parent (in this case the parent 
+       is the world frame). For more, see http://www.ros.org/wiki/xacro -->
+
+  <!-- I Module -->
+  <xacro:include filename="$(find mr_description)/urdf/I_module/I_module.urdf.xacro" />
+  
+  <xacro:macro name="I_invert" params="parent name *origin">
+    <xacro:I_module name="${name}" parent="${parent}" rotate_direction_pos="1">
+       <insert_block name="origin" />
+    </xacro:I_module>
+  </xacro:macro>
+  
+</robot>
+  

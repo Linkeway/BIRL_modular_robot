@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+<xacro:property name="sleeve_link_length" value="0.0532" />
+
+<!--definition of default_inertial -->
+<xacro:macro name="sleeve_link" params="parent name *origin">
+
+<!-- joint between base_link and sleeve_link -->
+  <joint name="${name}_joint" type="fixed" >
+    <insert_block name="origin" />
+    <parent link="${parent}" />
+    <child link="${name}_link" />
+  </joint>
+
+<!--the sleeve_Link !!!inertial value to be added!! -->
+  <link name="${name}_link">
+    
+    <visual>
+      <origin xyz="0 0 ${sleeve_link_length*0.5}" rpy="0 0 0" />
+      <geometry>
+	<cylinder radius="0.05" length="${sleeve_link_length}"  />
+      </geometry>
+      <material name="Red"/>
+    </visual>
+    
+    <collision>
+      <origin xyz="0 0 ${sleeve_link_length*0.5}" rpy="0 0 0" />
+      <geometry>
+	<cylinder radius="0.05" length="${sleeve_link_length}"  />
+      </geometry>
+    </collision>
+    
+  </link>
+
+</xacro:macro>
+</robot>
