@@ -44,8 +44,10 @@
     
 <!--  transform the topic from joint_state_publisher to that of canopen_motor_node-->
 <!--  <node name="topic_transf_joint_state_pub_to_canopen_motor" pkg="topic_tools" type="transform" args="/joint_states /I_Joint_position_controller/command std_msgs/Float64 'm.position[0]'" output="screen" />-->
-  <node name="module_state_adaptor" pkg="birl_module_canopen" type="module_state_adaptor.py" args="canopen_driver"/>
-  
+  <node name="module_state_adaptor" pkg="birl_module_canopen" type="module_state_adaptor.py" args="canopen_driver">
+      <remap from="joint_states" to="/joint_states_command"/>
+  </node>
+    
   <!-- control_mode_adapter -->
 <!--  <node  name="control_mode_adapter" pkg="modular_robot_control" type="I_controller_node" cwd="node" respawn="false" output="screen"/>-->
 <!--  <node ns="arm" name="joint_states_relay" pkg="topic_tools" type="relay" args="joint_states /joint_states" cwd="node" respawn="true" output="screen"/>-->

@@ -13,7 +13,7 @@
  <arg name="moveit_controller_manager" default="moveit_simple_controller_manager/MoveItSimpleControllerManager" />
  <param name="moveit_controller_manager" value="$(arg moveit_controller_manager)"/>
  <!-- load controller_list -->
- <rosparam file="$(find manipulator5d_moveit_config)/config/controllers.yaml"/>
+ <rosparam file="$(find manipulator5d_moveit_config)/config/controller.yaml"/>
  
  
   <!-- Load the URDF, SRDF and other .yaml configuration files on the param server -->
@@ -25,10 +25,10 @@
   
 
   <!-- We do not have a robot connected, so publish fake joint states -->
-  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+<!--  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">-->
 <!--    <param name="/use_gui" value="false"/>-->
 <!--    <rosparam param="/source_list">[/move_group/fake_controller_joint_states]</rosparam>-->
-  </node>
+<!--  </node>-->
 
   <!-- Given the published joint states, publish tf for the robot links -->
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="true" output="screen" />
