@@ -1,8 +1,0 @@
-moveit_setup_assistant_config:
-  URDF:
-    package: mr_description
-    relative_path: robots/climbot.urdf
-  SRDF:
-    relative_path: config/climbot.srdf
-  CONFIG:
-    generated_timestamp: 1474426051
