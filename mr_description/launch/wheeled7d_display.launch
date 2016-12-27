@@ -4,10 +4,10 @@
 
   <param name="use_gui" value="$(arg gui)" />
 
-  <param name="robot_description" command="$(find xacro)/xacro '$(find mr_description)/robots/wheeled5d.urdf.xacro'" />
+  <param name="robot_description" command="$(find xacro)/xacro '$(find mr_description)/robots/wheeled7d.urdf.xacro'" />
 <!--  <param name="robot_description" textfile="$(find mr_description)/robots/I_module.URDF" />-->
 
-  <node name="rviz"  pkg="rviz"  type="rviz" args="-d $(find mr_description)/rviz/wheeled5d.rviz -f world" />
+  <node name="rviz"  pkg="rviz"  type="rviz" args="-d $(find mr_description)/rviz/wheeled7d.rviz -f world" />
 
   <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" />

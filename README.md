@@ -3,18 +3,19 @@
    - **birl_module_canopen** : package for canopen communication with joint modules
    - **mr_description**	     : URDF files
 **Note**: The robotic system is developed in BIRL lab and is introded in this [paper](http://ieeexplore.ieee.org/document/5354051/).
+
 ### Quick demo:
 ```
 $ roslaunch mr_description manipulator5d_display.launch
 ```
 or
 ```
-
+$ roslauch mr_description climbot5d_display.launch
 ```
 ***
 To communicate with the real robot(e.g. a 5 Dof modular manipulator), try
 ```
-$ rosrun birl_module_canopen can_prepare.sh
+$ rosrun birl_module_canopen can_prepare.sh # load CAN kernal driver and start monitoring CAN bus
 $ roslaunch modular_robot_control manipulator5d_control_gui.launch
 $ rosservice call /driver/init
 ```

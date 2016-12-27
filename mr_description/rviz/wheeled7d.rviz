@@ -6,7 +6,6 @@ Panels:
       Expanded:
         - /Global Options1
         - /RobotModel1
-        - /RobotState1
       Splitter Ratio: 0.5
     Tree Height: 775
   - Class: rviz/Selection
@@ -78,22 +77,42 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
-        I5_InLink_1:
+        I4_InLink_1:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        I5_Lr_Link_0:
+        I4_Lr_Link_0:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        I5_Lr_Link_3:
+        I4_Lr_Link_3:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        I5_OutLink_2:
+        I4_OutLink_2:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        I7_InLink_1:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        I7_Lr_Link_0:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        I7_Lr_Link_3:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        I7_OutLink_2:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -139,22 +158,42 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
-        T4_InLink_1:
+        T5_InLink_1:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        T4_Lr_Link_0:
+        T5_Lr_Link_0:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        T4_Lr_Link_3:
+        T5_Lr_Link_3:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        T4_OutLink_2:
+        T5_OutLink_2:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        T6_InLink_1:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        T6_Lr_Link_0:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        T6_Lr_Link_3:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        T6_OutLink_2:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -177,138 +216,6 @@ Visualization Manager:
       Robot Description: robot_description
       TF Prefix: ""
       Update Interval: 0
-      Value: true
-      Visual Enabled: true
-    - Attached Body Color: 150; 50; 150
-      Class: moveit_rviz_plugin/RobotState
-      Collision Enabled: false
-      Enabled: true
-      Links:
-        All Links Enabled: true
-        Expand Joint Details: false
-        Expand Link Details: false
-        Expand Tree: false
-        I1_InLink_1:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        I1_Lr_Link_0:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        I1_Lr_Link_3:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        I1_OutLink_2:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        I5_InLink_1:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        I5_Lr_Link_0:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        I5_Lr_Link_3:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        I5_OutLink_2:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        Link Tree Style: Links in Alphabetic Order
-        T2_InLink_1:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        T2_Lr_Link_0:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        T2_Lr_Link_3:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        T2_OutLink_2:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        T3_InLink_1:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        T3_Lr_Link_0:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        T3_Lr_Link_3:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        T3_OutLink_2:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        T4_InLink_1:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        T4_Lr_Link_0:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        T4_Lr_Link_3:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        T4_OutLink_2:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        wheel1:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        wheel2:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        world:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-      Name: RobotState
-      Robot Alpha: 1
-      Robot Description: robot_description
-      Robot State Topic: display_robot_state
-      Show All Links: true
-      Show Highlights: true
       Value: true
       Visual Enabled: true
   Enabled: true
@@ -335,7 +242,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 2.54598
+      Distance: 5.94842
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.06
         Stereo Focal Distance: 1
@@ -347,10 +254,10 @@ Visualization Manager:
         Z: -2.38419e-07
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 0.785398
+      Pitch: 0.565398
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 0.785398
+      Yaw: 6.12359
     Saved: ~
 Window Geometry:
   Displays:
