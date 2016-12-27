@@ -11,6 +11,7 @@ or
 ```
 $ roslaunch mr_description climbot5d_display.launch
 ```
+***
 To communicate with the real robot(e.g. a 5 Dof modular manipulator), try
 ```
 $ rosrun birl_module_canopen can_prepare.sh
@@ -18,5 +19,7 @@ $ roslaunch modular_robot_control manipulator5d_control_gui.launch
 $ rosservice call /driver/init
 ```
 This shold start a position control GUI.
+***
+
 
 
