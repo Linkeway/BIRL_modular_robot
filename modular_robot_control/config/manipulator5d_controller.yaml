@@ -1,7 +1,5 @@
-
-
 ## joint_names
-joint_names: [I_Joint]
+joint_names: [I1_Joint, T2_Joint, T3_Joint, i4_Joint, t5_Joint]
 
 ## control_mode_adapter
 max_command_silence: 0.5
@@ -21,11 +19,10 @@ joint_trajectory_controller:
      - i4_Joint
      - t5_Joint
     
-    
-  constraints:
-      goal_time: 0.25
-      stopped_velocity_tolerance: 0.05
-      I1_Joint: {trajectory: 0.1, goal: 0.1}
+#  constraints:
+#      goal_time: 0.25
+#      stopped_velocity_tolerance: 0.05
+#      I1_Joint: {trajectory: 0.1, goal: 0.1}
 
   stop_trajectory_duration: 0.25
   state_publish_rate:  25

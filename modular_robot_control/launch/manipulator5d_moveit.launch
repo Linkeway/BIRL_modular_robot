@@ -4,24 +4,19 @@
 
   <include file="$(find manipulator5d_moveit_config)/launch/manipulator5d_moveit_controller_manager.launch"/>
 
-
-  
   <rosparam>
     dependent_joints:
       g6_Joint1: {parent: g6_Joint, factor: 1 }
   </rosparam>
   
 
-
   <node name="canopen_driver" pkg="canopen_motor_node" type="canopen_motor_node" output="screen" clear_params="true">
 					<!--   launch-prefix="gdb -ex run -/-args">-->
-<!--<group ns="canopen_motor_chain_node" >-->
      <rosparam command="load" file="$(find birl_module_canopen)/config/can.yaml" />
      <rosparam command="load" file="$(find birl_module_canopen)/config/manipulator5d_motors.yaml" />
 <!--     <remap from="joint_states" to="/feedback_joint_states"/> -->
-<!--</group>-->
+
   </node>
-  
   
 <!-- controllers -->
   <rosparam command="load" file="$(find modular_robot_control)/config/manipulator5d_controller.yaml" />

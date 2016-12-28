@@ -1,18 +1,19 @@
-controller_list:  # this specifies controllers that moveit need to talk to
- - name: joint_trajectory_controller # arm_controller
+
+controller_list:  # this specifies controllers on the MoveIt! side
+ - name:  joint_trajectory_controller # arm_controller
    action_ns: follow_joint_trajectory
    type: FollowJointTrajectory
    default: true
-   joints:
+   joints: 
      - I1_Joint
      - T2_Joint
      - T3_Joint
      - i4_Joint
      - t5_Joint
-     
- - name: gripper_controller
-   action_ns: gripper_action
-   type: GripperCommand
-   default: true
-   joints:
-     - G6_Joint
+    
+# - name: gripper_controller
+#   action_ns: gripper_action
+#   type: GripperCommand
+#   default: true
+#   joints:
+#     - G6_Joint

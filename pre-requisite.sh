@@ -1,6 +1,6 @@
 
 
-sudo apt-get install ros-indigo-ros-control ros-indigo-ros-canopen python-pip
+sudo apt-get install ros-indigo-ros-control ros-indigo-ros-controllers  ros-indigo-ros-canopen python-pip
 sudo pip install python-can
 sudo touch /etc/can.conf
 sudo chmod a+w /etc/can.conf
@@ -41,7 +41,7 @@ gedit README &
 cd usb-to-can_v2_socketcan
 
 #then follow the instructions in README!!!!  NOTE: try "lsmod | grep can_dev" if "lsmod | grep can-dev" doesn't work
-#when Ubuntu system kernal updated, then the can-dev module might need to be re-installed .
+# if make install failed with "required key not avaible", disable SCEURE BOOT in BIOS.
 sudo modprobe can-dev;sudo apt-get install module-assistant;sudo module-assistant prepare;make;sudo make install
 #to monitor the can bus data , use " candump -dex can0 ", to send data to CAN bus use " cansend can0 123#112233 "
 sudo apt-get install can-utils

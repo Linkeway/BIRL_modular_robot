@@ -1,4 +1,4 @@
-name: robot
+name: manipulator5d
 
 defaults: #all defaults can be overwritten per node
   eds_pkg: birl_module_canopen

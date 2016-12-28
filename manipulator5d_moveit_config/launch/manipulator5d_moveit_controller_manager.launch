@@ -1,4 +1,3 @@
-
 <launch>
 
   <!-- By default, we do not start a database (it can be large) -->
@@ -36,11 +35,17 @@
   <!-- Run the main MoveIt executable without trajectory execution (we do not have controllers configured by default) -->
   <include file="$(find manipulator5d_moveit_config)/launch/move_group.launch">
     <arg name="allow_trajectory_execution" value="true"/>
-<!--    <arg name="fake_execution" value="true"/>-->
+    <arg name="fake_execution" value="false"/>
     <arg name="info" value="true"/>
     <arg name="debug" value="$(arg debug)"/>
   </include>
 
+<!--    <remap from="/moveit_simple_controller_manager/cancel" to="/joint_trajectory_controller/follow_joint_trajectory/cancel"/>-->
+<!--    <remap from="/moveit_simple_controller_manager/feedback" to="/joint_trajectory_controller/follow_joint_trajectory/feedback"/>-->
+<!--    <remap from="/moveit_simple_controller_manager/goal" to="/joint_trajectory_controller/follow_joint_trajectory/goal"/>-->
+<!--    <remap from="/moveit_simple_controller_manager/result" to="/joint_trajectory_controller/follow_joint_trajectory/result"/>-->
+<!--    <remap from="/moveit_simple_controller_manager/status" to="/joint_trajectory_controller/follow_joint_trajectory/status" />-->
+    
   <!-- Run Rviz and load the default config to see the state of the move_group node -->
   <include file="$(find manipulator5d_moveit_config)/launch/moveit_rviz.launch">
     <arg name="config" value="true"/>
