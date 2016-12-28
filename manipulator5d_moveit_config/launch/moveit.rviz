@@ -8,6 +8,7 @@ Panels:
         - /MotionPlanning1/Scene Geometry1
         - /MotionPlanning1/Scene Robot1
         - /MotionPlanning1/Planning Request1
+        - /MotionPlanning1/Planning Metrics1
         - /MotionPlanning1/Planned Path1
       Splitter Ratio: 0.74256
     Tree Height: 332
@@ -187,14 +188,14 @@ Visualization Manager:
         Trajectory Topic: move_group/display_planned_path
       Planning Metrics:
         Payload: 1
-        Show Joint Torques: false
+        Show Joint Torques: true
         Show Manipulability: false
         Show Manipulability Index: false
         Show Weight Limit: false
         TextHeight: 0.08
       Planning Request:
         Colliding Link Color: 255; 0; 0
-        Goal State Alpha: 1
+        Goal State Alpha: 0.5
         Goal State Color: 250; 128; 0
         Interactive Marker Size: 0
         Joint Violation Color: 255; 0; 255
@@ -364,10 +365,10 @@ Visualization Manager:
         Z: 2.23518e-07
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 0.204793
+      Pitch: 0.664793
       Target Frame: base_link
       Value: XYOrbit (rviz)
-      Yaw: 2.85866
+      Yaw: 4.45366
     Saved: ~
 Window Geometry:
   Displays:
@@ -383,5 +384,5 @@ Window Geometry:
   Views:
     collapsed: false
   Width: 1828
-  X: 82
+  X: 72
   Y: 14

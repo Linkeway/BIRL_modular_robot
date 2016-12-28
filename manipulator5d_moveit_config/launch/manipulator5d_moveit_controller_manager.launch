@@ -12,7 +12,7 @@
  <arg name="moveit_controller_manager" default="moveit_simple_controller_manager/MoveItSimpleControllerManager" />
  <param name="moveit_controller_manager" value="$(arg moveit_controller_manager)"/>
  <!-- load controller_list -->
- <rosparam file="$(find manipulator5d_moveit_config)/config/controller.yaml"/>
+ <rosparam file="$(find manipulator5d_moveit_config)/config/controllers.yaml" ns="move_group"/>
  
  
   <!-- Load the URDF, SRDF and other .yaml configuration files on the param server -->
