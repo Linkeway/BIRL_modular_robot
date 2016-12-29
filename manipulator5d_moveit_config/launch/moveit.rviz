@@ -194,7 +194,7 @@ Visualization Manager:
         Show Weight Limit: false
         TextHeight: 0.08
       Planning Request:
-        Colliding Link Color: 255; 0; 0
+        Colliding Link Color: 255; 255; 255
         Goal State Alpha: 0.5
         Goal State Color: 250; 128; 0
         Interactive Marker Size: 0
@@ -384,5 +384,5 @@ Window Geometry:
   Views:
     collapsed: false
   Width: 1828
-  X: 72
+  X: 62
   Y: 14
