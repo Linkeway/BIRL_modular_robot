@@ -900,6 +900,7 @@ PDOMapping=0
 
 
 
+
 [1800]
 ParameterName=1. Transmit PDO Parameter
 ObjectType=0x9
@@ -1926,6 +1927,7 @@ ObjectType=0x7
 DataType=0x0005
 AccessType=rw
 PDOMapping=1
+DefaultValue=0
 
 [60C1sub3]
 ParameterName=Interpolated velocity value

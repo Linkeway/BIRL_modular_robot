@@ -18,12 +18,48 @@ defaults: #all defaults can be overwritten per node
   eff_from_device: "0" # unset!! effort on motor!
   
   dcf_overlay: # "ObjectID": "ParameterValue" (both as strings)
-    "6081": "0x90000"
+#    "6081": "0x90000" # velocity that the trajectory generator attempts to achieve when in position profile mode.
 #    "1016sub1" : "0x7F0064" # heartbeat timeout of 100 ms for master at 127
 #    "1017": "1000" # heartbeat producer, set the node to repoduce heart beat signal every second
-    "1601sub2": "0x60c10120" # map RPDO2 to 60c1sub1(for PVT mode)
+    "60c0": "0x0000" # map Interpolation submode 0:Linear interpolation with constant time. -1:varible time -2:PVT
+    "1600sub0": "1"
+    "1600sub1": "0x60400010" # map Control Word to RPDO1
+    "1601sub0": "2"
+    "1601sub1": "0x60600008" # map 0x6060(mode of operation) to RPDO2
+    "1601sub2": "0x60600008" # map 0x6060(mode of operation) to RPDO2    
+    "1602sub0": "1"
+    "1602sub1": "0x607a0020" # map 607a Target Position to RPDO3
+    "1603sub0": "1"
+    "1603sub1": "0x60ff0020" # map 607a Target Velocity to RPDO4
+    "1604sub0": "1"
+    "1604sub1": "0x60710010" # map 607a Target torque to RPDO5
+    "1605sub0": "1"
+    "1605sub1": "0x60c10120" # map 60c1sub1(position for PVT mode) to RPDO6
+    "1606sub0": "1"
+    "1606sub1": "0x60c10208" # map 60c1sub2(time for PVT mode) to RPDO7
+    "1607sub0": "1"
+    "1607sub1": "0x60c10320" # map 60c1sub3(velocity for PVT mode) to RPDO8
+    "1607sub2": "0x60c10320" # map 60c1sub3(velocity for PVT mode) to RPDO8
+    
+    "1a00sub0": "1"
+    "1a00sub1": "0x60410010" # map Status Word to TPDO1
+    "1a01sub0": "1"
+    "1a01sub1": "0x60610008" # map Display mode of operation to TPDO2   
+    "1a02sub0": "2"
+    "1a02sub1": "0x60640020" # map actual position to TPDO3
+    "1a02sub2": "0x60640020" # map actual position to TPDO3    
+    "1a03sub0": "2"
+    "1a03sub1": "0x606C0020" # map actual velocity to TPDO4
+    "1a03sub2": "0x606C0020" # map actual velocity to TPDO4
+    "1a04sub0": "1"
+    "1a04sub1": "0x60770010" # map actual torque to TPDO5
+    "1a05sub0": "0" 
+#    "1a05sub1": " " # TPDO6
+    "1a06sub0": "1"
+    "1a06sub1": "0x60FD0020" # map digital input to TPDO7
     
     
+        
 #pos_unit_factor: 1000000.0
 #vel_unit_factor: 1000000.0
 
