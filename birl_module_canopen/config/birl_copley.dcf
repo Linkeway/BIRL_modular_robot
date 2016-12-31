@@ -28,8 +28,8 @@ Granularity=8
 DynamicChannelsSupported=0
 CompactPDO=0
 GroupMessaging=0
-NrOfRXPDO=2
-NrOfTXPDO=4
+NrOfRXPDO=8
+NrOfTXPDO=8
 LSS_Supported=1
 
 [DummyUsage]
@@ -435,6 +435,214 @@ DefaultValue=255
 PDOMapping=0
 ObjFlags=0
 ParameterValue=0x1
+
+
+
+
+
+[1402]
+ParameterName=Receive PDO 2 Communication Parameter
+ObjectType=0x9
+SubNumber=3
+
+[1402sub0]
+ParameterName=Number of Entries
+ObjectType=0x7
+DataType=0x0005
+AccessType=ro
+DefaultValue=2
+PDOMapping=0
+LowLimit=2
+HighLimit=2
+
+[1402sub1]
+ParameterName=COB-ID use by RPDO 3
+ObjectType=0x7
+DataType=0x0007
+AccessType=rw
+DefaultValue=$NODEID+1024
+PDOMapping=0
+
+[1402sub2]
+ParameterName=Transmission type RPDO 3
+ObjectType=0x7
+DataType=0x0005
+AccessType=rw
+DefaultValue=255
+PDOMapping=0
+LowLimit=0
+HighLimit=255
+
+[1403]
+ParameterName=Receive PDO 3 Communication Parameter
+ObjectType=0x9
+SubNumber=3
+
+[1403sub0]
+ParameterName=Number of Entries
+ObjectType=0x7
+DataType=0x0005
+AccessType=ro
+DefaultValue=2
+PDOMapping=0
+LowLimit=2
+HighLimit=2
+
+[1403sub1]
+ParameterName=COB-ID use by RPDO 4
+ObjectType=0x7
+DataType=0x0007
+AccessType=rw
+DefaultValue=$NODEID+1280
+PDOMapping=0
+
+[1403sub2]
+ParameterName=Transmission type RPDO 4
+ObjectType=0x7
+DataType=0x0005
+AccessType=rw
+DefaultValue=255
+PDOMapping=0
+LowLimit=0
+HighLimit=255
+
+[1404]
+ParameterName=Receive PDO 4 Communication Parameter
+ObjectType=0x9
+SubNumber=3
+
+[1404sub0]
+ParameterName=Number of Entries
+ObjectType=0x7
+DataType=0x0005
+AccessType=ro
+DefaultValue=2
+PDOMapping=0
+LowLimit=2
+HighLimit=2
+
+[1404sub1]
+ParameterName=COB-ID use by RPDO 5
+ObjectType=0x7
+DataType=0x0007
+AccessType=rw
+DefaultValue=2147483648
+PDOMapping=0
+
+[1404sub2]
+ParameterName=Transmission type RPDO 5
+ObjectType=0x7
+DataType=0x0005
+AccessType=rw
+DefaultValue=255
+PDOMapping=0
+LowLimit=0
+HighLimit=255
+
+[1405]
+ParameterName=Receive PDO 5 Communication Parameter
+ObjectType=0x9
+SubNumber=3
+
+[1405sub0]
+ParameterName=Number of Entries
+ObjectType=0x7
+DataType=0x0005
+AccessType=ro
+DefaultValue=2
+PDOMapping=0
+LowLimit=2
+HighLimit=2
+
+[1405sub1]
+ParameterName=COB-ID use by RPDO 6
+ObjectType=0x7
+DataType=0x0007
+AccessType=rw
+DefaultValue=2147483648
+PDOMapping=0
+
+[1405sub2]
+ParameterName=Transmission type RPDO 6
+ObjectType=0x7
+DataType=0x0005
+AccessType=rw
+DefaultValue=255
+PDOMapping=0
+LowLimit=0
+HighLimit=255
+
+[1406]
+ParameterName=Receive PDO 6 Communication Parameter
+ObjectType=0x9
+SubNumber=3
+
+[1406sub0]
+ParameterName=Number of Entries
+ObjectType=0x7
+DataType=0x0005
+AccessType=ro
+DefaultValue=2
+PDOMapping=0
+LowLimit=2
+HighLimit=2
+
+[1406sub1]
+ParameterName=COB-ID use by RPDO 7
+ObjectType=0x7
+DataType=0x0007
+AccessType=rw
+DefaultValue=2147483648
+PDOMapping=0
+
+[1406sub2]
+ParameterName=Transmission type RPDO 7
+ObjectType=0x7
+DataType=0x0005
+AccessType=rw
+DefaultValue=255
+PDOMapping=0
+LowLimit=0
+HighLimit=255
+
+[1407]
+ParameterName=Receive PDO 7 Communication Parameter
+ObjectType=0x9
+SubNumber=3
+
+[1407sub0]
+ParameterName=Number of Entries
+ObjectType=0x7
+DataType=0x0005
+AccessType=ro
+DefaultValue=2
+PDOMapping=0
+LowLimit=2
+HighLimit=2
+
+[1407sub1]
+ParameterName=COB-ID use by RPDO 8
+ObjectType=0x7
+DataType=0x0007
+AccessType=rw
+DefaultValue=2147483648
+PDOMapping=0
+
+[1407sub2]
+ParameterName=Transmission type RPDO 8
+ObjectType=0x7
+DataType=0x0005
+AccessType=rw
+DefaultValue=255
+PDOMapping=0
+LowLimit=0
+HighLimit=255
+
+
+
+
+
+
 
 [1600]
 ParameterName=1. Receive PDO Mapping

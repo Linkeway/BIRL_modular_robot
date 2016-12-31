@@ -10,14 +10,14 @@
   </rosparam>
   
     <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" >
-        <remap from="joint_states" to="/joint_states_command"/>
+        <remap from="joint_states" to="/joint_command"/>
     </node>
   
     <node name="module_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" >
         <param name="use_gui" value="true"/>
 	<param name="publish_frequency" type="double" value="10.0" />
 	<param name="gui_caption" value="BIRL"/>
-        <remap from="joint_states" to="/joint_states_command"/>
+        <remap from="joint_states" to="/joint_command"/>
     </node>
     
     <node name="rviz" pkg="rviz" type="rviz" args="-d $(find mr_description)/rviz/manipulator5d.rviz" />
@@ -45,7 +45,7 @@
 <!--  transform the topic from joint_state_publisher to that of canopen_motor_node-->
 <!--  <node name="topic_transf_joint_state_pub_to_canopen_motor" pkg="topic_tools" type="transform" args="/joint_states /I_Joint_position_controller/command std_msgs/Float64 'm.position[0]'" output="screen" />-->
   <node name="module_state_adaptor" pkg="birl_module_canopen" type="module_state_adaptor.py" args="canopen_driver">
-      <remap from="joint_states" to="/joint_states_command"/>
+      <remap from="joint_states" to="/joint_command"/>
   </node>
     
   <!-- control_mode_adapter -->
