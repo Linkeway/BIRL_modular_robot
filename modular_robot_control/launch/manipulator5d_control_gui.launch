@@ -15,8 +15,8 @@
   
     <node name="module_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" >
         <param name="use_gui" value="true"/>
-	<param name="publish_frequency" type="double" value="10.0" />
-	<param name="gui_caption" value="BIRL"/>
+	      <param name="publish_frequency" type="double" value="10.0" />
+    	  <param name="gui_caption" value="BIRL"/>
         <remap from="joint_states" to="/joint_command"/>
     </node>
     

@@ -4,13 +4,10 @@ Panels:
     Name: Displays
     Property Tree Widget:
       Expanded:
-        - /Global Options1
-        - /Status1
-        - /Grid1
         - /module_robot1/Links1
-        - /TF1
         - /TF1/Frames1
         - /TF1/Tree1
+        - /InteractiveMarkers1
       Splitter Ratio: 0.694767
     Tree Height: 775
   - Class: rviz/Selection
@@ -226,6 +223,8 @@ Visualization Manager:
           Value: false
         i4_link2:
           Value: false
+        moving_frame:
+          Value: true
         t5_link:
           Value: false
         t5_link2:
@@ -264,7 +263,18 @@ Visualization Manager:
                                                   {}
                                                 tcp:
                                                   {}
+        moving_frame:
+          {}
       Update Interval: 0
+      Value: true
+    - Class: rviz/InteractiveMarkers
+      Enable Transparency: true
+      Enabled: true
+      Name: InteractiveMarkers
+      Show Axes: false
+      Show Descriptions: false
+      Show Visual Aids: true
+      Update Topic: /basic_controls/update
       Value: true
   Enabled: true
   Global Options:
@@ -290,22 +300,22 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 1.70384
+      Distance: 2.44824
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.06
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: -0.144394
-        Y: -0.223371
-        Z: 0.665651
+        X: -0.17624
+        Y: 0.105417
+        Z: 0.720099
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 0.384797
+      Pitch: 0.0447968
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 3.49225
+      Yaw: 5.48409
     Saved: ~
 Window Geometry:
   Displays:

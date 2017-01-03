@@ -1,19 +1,14 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(modular_robot_control)
+project(mr_setup_detect)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-  #Eigen3 REQUIRED
   roscpp
   rospy
   std_msgs
-  geometry_msgs
-  trac_ik_lib
-  kdl_conversions
 )
-find_package(orocos_kdl REQUIRED)
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -106,12 +101,11 @@ find_package(orocos_kdl REQUIRED)
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
 #  INCLUDE_DIRS include
-#  LIBRARIES modular_robot_control
-#  CATKIN_DEPENDS roscpp rospy std_msgs geometry_msgs
+#  LIBRARIES mr_setup_detect
+#  CATKIN_DEPENDS roscpp rospy std_msgs
 #  DEPENDS system_lib
 )
 
- #include <Eigen/Core>
 ###########
 ## Build ##
 ###########
@@ -121,34 +115,30 @@ catkin_package(
 # include_directories(include)
 include_directories(
   ${catkin_INCLUDE_DIRS}
-  /usr/include/eigen3 
-  #${Eigen_INCLUDE_DIRS}
 )
 
 ## Declare a C++ library
-# add_library(modular_robot_control
-#   src/${PROJECT_NAME}/modular_robot_control.cpp
+# add_library(mr_setup_detect
+#   src/${PROJECT_NAME}/mr_setup_detect.cpp
 # )
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
 ## either from message generation or dynamic reconfigure
-# add_dependencies(modular_robot_control ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+# add_dependencies(mr_setup_detect ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Declare a C++ executable
-add_executable(I_controller_node src/I_controller_node.cpp)
-add_executable(ik_node src/ik_node.cpp)
+# add_executable(mr_setup_detect_node src/mr_setup_detect_node.cpp)
+
 ## Add cmake target dependencies of the executable
 ## same as for the library above
-# add_dependencies(modular_robot_control_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+# add_dependencies(mr_setup_detect_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
- target_link_libraries(I_controller_node
-   ${catkin_LIBRARIES}
- )
-target_link_libraries(ik_node
-  ${catkin_LIBRARIES} 
-)
+# target_link_libraries(mr_setup_detect_node
+#   ${catkin_LIBRARIES}
+# )
+
 #############
 ## Install ##
 #############
@@ -164,7 +154,7 @@ target_link_libraries(ik_node
 # )
 
 ## Mark executables and/or libraries for installation
-# install(TARGETS modular_robot_control modular_robot_control_node
+# install(TARGETS mr_setup_detect mr_setup_detect_node
 #   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
@@ -189,7 +179,7 @@ target_link_libraries(ik_node
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_modular_robot_control.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_mr_setup_detect.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()
