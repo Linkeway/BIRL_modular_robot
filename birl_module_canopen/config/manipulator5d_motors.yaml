@@ -2,7 +2,7 @@ name: manipulator5d
 
 defaults: #all defaults can be overwritten per node
   eds_pkg: birl_module_canopen
-  eds_file: "config/CopleyAmp2.eds" #birl_copley.dcf"   #Schunk_0_63.dcf"  #CopleyAmp2.eds"
+  eds_file: "config/CopleyAmp2.eds" #birl_copley.dcf"   #Schunk_0_63.dcf"  
   encoder_resolution: 4096
     
   # the below part of the defaults section is optional

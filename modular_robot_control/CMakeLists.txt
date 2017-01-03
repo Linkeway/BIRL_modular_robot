@@ -5,11 +5,15 @@ project(modular_robot_control)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
+  #Eigen3 REQUIRED
   roscpp
   rospy
   std_msgs
-
+  geometry_msgs
+  trac_ik_lib
+  kdl_conversions
 )
+find_package(orocos_kdl REQUIRED)
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -103,10 +107,11 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES modular_robot_control
-#  CATKIN_DEPENDS roscpp rospy std_msgs
+#  CATKIN_DEPENDS roscpp rospy std_msgs geometry_msgs
 #  DEPENDS system_lib
 )
 
+ #include <Eigen/Core>
 ###########
 ## Build ##
 ###########
@@ -116,6 +121,8 @@ catkin_package(
 # include_directories(include)
 include_directories(
   ${catkin_INCLUDE_DIRS}
+  /usr/include/eigen3 
+  #${Eigen_INCLUDE_DIRS}
 )
 
 ## Declare a C++ library
@@ -130,7 +137,7 @@ include_directories(
 
 ## Declare a C++ executable
 add_executable(I_controller_node src/I_controller_node.cpp)
-
+add_executable(ik_node src/ik_node.cpp)
 ## Add cmake target dependencies of the executable
 ## same as for the library above
 # add_dependencies(modular_robot_control_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
@@ -139,7 +146,9 @@ add_executable(I_controller_node src/I_controller_node.cpp)
  target_link_libraries(I_controller_node
    ${catkin_LIBRARIES}
  )
-
+target_link_libraries(ik_node
+  ${catkin_LIBRARIES} 
+)
 #############
 ## Install ##
 #############
