@@ -1,0 +1,1 @@
+## This package uses [ar_track_alvar](http://wiki.ros.org/ar_track_alvar) to detect the *setup of a robotic system* built with our modules. Each module is attached by a tag. The tag ID indicates the serial number of the module.
