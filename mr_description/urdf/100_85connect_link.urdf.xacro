@@ -45,14 +45,14 @@
     </collision>
   </link>
   
-  <link name="${name}_100_85_connect_link2" />
-  
   <joint   name="${name}_fixed" type="fixed">
     <origin xyz="0 0 0.0236" rpy="0 0 0" />
     <parent   link="${name}_100_85_connect_link" />
-    <child    link="${name}_100_85_connect_link2" />
+    <child    link="${name}_100_85_connect_Link" />
     <axis     xyz="0 0 0" />
   </joint>
+  
+  <link name="${name}_100_85_connect_Link" />
   
   </xacro:macro>
 </robot>

@@ -125,14 +125,14 @@
 <!-- joint between Lockring_Link and TModule_InLink -->
     <joint name="${name}_Lr_Joint_1" type="fixed">
       <origin xyz="0 0 -0.1416" rpy="0 3.1416 0" />
-      <child link="${name}_Lr_Link_0" />
+      <child link="${name}_Link" />
       <parent  link="${name}_InLink_1" />
       <axis   xyz="0 0 0" />
       <limit  lower="0" upper="0"  effort="0"   velocity="0" />
     </joint>
 
   <!--the Lockring_Link in T module-->
-  <link name="${name}_Lr_Link_0">
+  <link name="${name}_Link">
     <inertial>
       <origin xyz="2.9038E-18 -2.1866E-18 0.0015" rpy="0 0 0" />
       <mass   value="8.4823E-05" />

@@ -3,9 +3,12 @@
 """
 linkeway
 Jan. 2017
+
 SUBSCRIPTIONS:
   + ar_pose_marker (ar_track_alvar_msgs/AlvarMarkers) ~ pose of all markers detected by ar_track_alvar
-
+OUTPUT:
+Automatically generate robot.urdf.xacro to [PATH_TO_MR_DESCRIPTION_PACKAGE]/robot/robot.urdf.xacro
+Automatically generate robot_display.launch to [PATH_TO_MR_DESCRIPTION_PACKAGE]/lauch/robot_display.launch
 """
 
 import rospy
@@ -14,6 +17,7 @@ from ar_track_alvar_msgs.msg import AlvarMarkers
 import numpy as np
 import math
 import tf
+import rospkg
 
 Threshold= 0.26
 database_dic={} 
@@ -88,7 +92,7 @@ def find_parent_module(child_marker,child_inversion,child_joint_angle,candidate_
             if np.dot(vector_norm, candidate_y_axis) < -math.cos(26.0*math.pi/180.0):
                 parent_module_marker= candidate_parent_marker # parent found
                 parent_module_inversion= 'inverted'
-            elif database_dic[candidate_parent_marker] in ['T','t']:
+            elif database_dic[candidate_parent_marker.id] in ['T','t']:
                 parent_module_marker= candidate_parent_marker # parent found
                 parent_module_inversion= 'upright'
             elif np.dot( vector_norm, candidate_y_axis) >  math.cos(26.0*math.pi/180.0):
@@ -116,7 +120,7 @@ def find_parent_module(child_marker,child_inversion,child_joint_angle,candidate_
                 break
 
             # if candicate marker not on y_axis of child with err of 土 26.0 degree 
-            print math.acos(np.dot( vector_norm, y_axis))*180/math.pi
+            # print math.acos(np.dot( vector_norm, y_axis))*180/math.pi
             if np.dot( vector_norm, y_axis) >  math.cos(26.0*math.pi/180.0) and child_inversion == 'upright':
                 # in this case child is upright
                 parent_module_marker= candidate_parent_marker # parent found
@@ -153,6 +157,36 @@ def find_parent_module(child_marker,child_inversion,child_joint_angle,candidate_
 #   find_chain(parent_marker,markers)
 #   chain.append(parent_marker) #chain stores markers from base to end-effector
 
+# writes xacros to urdf_file_path according to template file specified by template_file_path 
+def create_urdf_file(chain_list,urdf_file_path,template_file_path):
+    with open(urdf_file_path, "w") as urdf_file:
+
+        with open(template_file_path) as template_file:
+            for line in template_file:
+                urdf_file.write(line)
+            template_file.close()
+        cnt=1
+        for module in chain_list:
+
+            type = module['type']
+            if module['inversion'] == 'upright':
+                inversion = 'module'
+            else:
+                inversion = 'invert'
+
+            if cnt == 1:
+                parent_link = 'base_link'
+
+            urdf_file.write("  <xacro:{}_{} name=\"{}{}\" parent=\"{}\">\n".format(type,inversion,type,cnt,parent_link) )
+            urdf_file.write("    <origin xyz=\"0 0 0\" rpy=\"0 0 0\" />\n")
+            urdf_file.write("  </xacro:{}_{}>\n\n".format(type,inversion))
+            parent_link = '{}{}_Link'.format(type,cnt)
+
+            cnt = cnt +1
+
+        urdf_file.write("\n</robot>")
+        urdf_file.close()
+
 
 if __name__ == "__main__":
     rospy.init_node("setup_detector", log_level=rospy.INFO)
@@ -164,7 +198,7 @@ if __name__ == "__main__":
     
     chain= [] # list that stores module type, inversion, assembly parameter from end-effector to base
     for marker in markers:
-        if database_dic[marker.id] in ['t','g', 'G', 'S', 'W']: # marker on end-effector
+        if database_dic[marker.id] in ['g', 'G', 'S', 'W']: # marker on end-effector
             inversion= 'upright'
             joint_angle= 0
             
@@ -175,7 +209,7 @@ if __name__ == "__main__":
                                     'type': database_dic[marker.id],
                                     'inversion': inversion,
                                     'connect_param': connect_param, 
-                                    'jonit_angle': joint_angle
+                                    'joint_angle': joint_angle
                                 }
                 chain.append(module_state)
               
@@ -190,7 +224,10 @@ if __name__ == "__main__":
         rospy.loginfo( "module_type:{}; direction:{}; connection:{}; joint_angle:{}"
                   .format(node['type'],node['inversion'],node['connect_param'],node['joint_angle']) )
 
-
+    package_path = rospkg.RosPack().get_path('mr_description')
+    xacro_file = package_path + '/robots/robot.urdf.xacro'
+    template_file = package_path + '/robots/mr_xacro_template.urdf.xacro'
+    create_urdf_file(chain, xacro_file, template_file)
 
 
 

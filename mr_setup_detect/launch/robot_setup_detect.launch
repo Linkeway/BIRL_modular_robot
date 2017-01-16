@@ -1,0 +1,16 @@
+<launch>
+
+  <!--give a name to the detected robot-->
+  <arg name="robot_name" default="robot">
+  
+  <!--  start kinect2-->
+  <include file="$(find kinect2_bridge)/launch/kinect2_bridge.launch" />
+  
+  <!--  start marker detection-->
+  <include file="$(find mr_setup_detect)/launch/ar_track_no_kinect.launch" />
+  
+  <!--  generate robot xacro file-->
+  <node name="mr_robot_setup_detector" pkg="mr_setup_detect" type="setup_detector" args="$(robot_name)" />
+
+
+</launch>

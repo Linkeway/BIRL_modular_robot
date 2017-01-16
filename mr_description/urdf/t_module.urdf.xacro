@@ -36,7 +36,7 @@
     </collision>
   </link>
   
-  <link name="${name}_link2">
+  <link name="${name}_Link">
     <visual>
       <origin xyz="0 0 0.0825" rpy="0 0 0" />
       <geometry>
@@ -64,7 +64,7 @@
   <joint  name="${name}_Joint" type="revolute">
     <origin xyz="0 0 0.131" rpy="0 0 3.1416" />
     <parent link="${name}_link" />
-    <child link="${name}_link2" />
+    <child link="${name}_Link" />
     <axis  xyz="1 0 0" />
     <limit lower="-2.09" upper="2.09" effort="28" velocity="2.09" />
     <calibration   rising="0"   falling="0" />

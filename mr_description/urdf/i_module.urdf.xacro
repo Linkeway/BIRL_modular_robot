@@ -37,7 +37,7 @@
     </collision>
   </link>
   
-  <link  name="${name}_link2">
+  <link  name="${name}_Link">
     <inertial>
       <origin xyz="-2.4633E-14 3.7186E-08 -0.022781" rpy="0 0 0" />
       <mass   value="0.80864" />
@@ -69,7 +69,7 @@
   <joint   name="${name}_Joint"  type="continuous">
     <origin xyz="0 0 0.137" rpy="-8.5591E-29 0 0" />
     <parent  link="${name}_link" />
-    <child   link="${name}_link2" />
+    <child   link="${name}_Link" />
     <axis    xyz="0 0 1" />
     <limit lower="-3.1416" upper="3.1416" effort="30" velocity="1.29" />
     <calibration  rising="1" falling="1" />

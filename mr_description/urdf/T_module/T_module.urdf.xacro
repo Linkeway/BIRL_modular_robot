@@ -124,13 +124,13 @@
     <joint name="${name}_Lr_Joint_3" type="fixed">
       <origin  xyz="0 -0.0934 0"  rpy="-1.5708 0 3.1416" />
       <parent link="${name}_OutLink_2" />
-      <child  link="${name}_Lr_Link_3" />
+      <child  link="${name}_Link" />
       <axis   xyz="0 0 0" />
       <limit  lower="0" upper="0"  effort="0"   velocity="0" />
     </joint>
 
 <!--the Lockring_Link in T module-->
-  <link name="${name}_Lr_Link_3">
+  <link name="${name}_Link">
     <inertial>
       <origin xyz="-2.7136E-19 9.8046E-20 -0.0015" rpy="0 0 0" />
       <mass value="8.4823E-05" />
