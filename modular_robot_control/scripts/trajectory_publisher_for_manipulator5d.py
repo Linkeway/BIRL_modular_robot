@@ -36,7 +36,7 @@ def jointTrajectoryCommand():
         p = JointTrajectoryPoint()
         theta = rps*2.0*math.pi*i*dt
         x1 = -0.4*math.sin(2*theta)
-        x2 =  0.4*math.sin(1*theta)
+        x2 = 0.4*math.sin(1*theta)
 
         p.positions.append(0)
         p.positions.append(0)
@@ -44,11 +44,11 @@ def jointTrajectoryCommand():
         p.positions.append(x2)
         p.positions.append(x1)
 
-#        p.velocities.append(0.05)
-#        p.velocities.append(0.05)
-#        p.velocities.append(0.05)
-#        p.velocities.append(0.05)
-#        p.velocities.append(0.09)
+        p.velocities.append(0.05)
+        p.velocities.append(0.05)
+        p.velocities.append(0.05)
+        p.velocities.append(0.09)
+        p.velocities.append(0.09)
 
         jt.points.append(p)
 

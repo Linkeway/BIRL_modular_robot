@@ -2,7 +2,7 @@ name: manipulator5d
 
 defaults: #all defaults can be overwritten per node
   eds_pkg: birl_module_canopen
-  eds_file: "config/CopleyAmp2.eds" #birl_copley.dcf"   #Schunk_0_63.dcf"  
+  eds_file: "config/birl_copley.dcf" #CopleyAmp2.eds" #birl_copley.dcf"   #Schunk_0_63.dcf"  
   encoder_resolution: 4096
     
   # the below part of the defaults section is optional
@@ -25,7 +25,7 @@ defaults: #all defaults can be overwritten per node
     "1600sub0": "1"
     "1600sub1": "0x60400010" # map Control Word to RPDO1
     "1601sub0": "1"
-    "1601sub1": "0x60600008" # map 0x6060(mode of operation) to RPDO2
+    "1605sub1": "0x60600008" # map 0x6060(mode of operation) to RPDO6
     "1602sub0": "1"
     "1602sub1": "0x607a0020" # map 607a Target Position to RPDO3
     "1603sub0": "1"
@@ -33,27 +33,27 @@ defaults: #all defaults can be overwritten per node
     "1604sub0": "1"
     "1604sub1": "0x60710010" # map 607a Target torque to RPDO5
     "1605sub0": "1"
-    "1605sub1": "0x60c10120" # map 60c1sub1(position for PVT mode) to RPDO6
+    "1601sub1": "0x60c10120" # map 60c1sub1(position for PVT mode) to RPDO2
     "1606sub0": "1"
     "1606sub1": "0x60c10208" # map 60c1sub2(time for PVT mode) to RPDO7
     "1607sub0": "1"
     "1607sub1": "0x60c10320" # map 60c1sub3(velocity for PVT mode) to RPDO8
    
     
-    "1a00sub0": "1"
-    "1a00sub1": "0x60410010" # map Status Word to TPDO1
-    "1a01sub0": "1"
-    "1a01sub1": "0x60610008" # map Display mode of operation to TPDO2   
-    "1a02sub0": "2"
-    "1a02sub1": "0x60640020" # map actual position to TPDO3
-    "1a03sub0": "2"
-    "1a03sub1": "0x606C0020" # map actual velocity to TPDO4
-    "1a04sub0": "1"
-    "1a04sub1": "0x60770010" # map actual torque to TPDO5
-    "1a05sub0": "0" 
-#    "1a05sub1": " " # TPDO6
-    "1a06sub0": "1"
-    "1a06sub1": "0x60FD0020" # map digital input to TPDO7
+#    "1a00sub0": "1"
+#    "1a00sub1": "0x60410010" # map Status Word to TPDO1
+#    "1a01sub0": "1"
+#    "1a01sub1": "0x60610008" # map Display mode of operation to TPDO2   
+#    "1a02sub0": "2"
+#    "1a02sub1": "0x60640020" # map actual position to TPDO3
+#    "1a03sub0": "2"
+#    "1a03sub1": "0x606C0020" # map actual velocity to TPDO4
+#    "1a04sub0": "1"
+#    "1a04sub1": "0x60770010" # map actual torque to TPDO5
+#    "1a05sub0": "0" 
+##    "1a05sub1": " " # TPDO6
+#    "1a06sub0": "1"
+#    "1a06sub1": "0x60FD0020" # map digital input to TPDO7
     
     
         
