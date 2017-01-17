@@ -47,15 +47,15 @@
     <origin xyz="0 0 0" rpy="${pi*0.5} ${-pi*0.5} 0" />
   </xacro:I_module>
 
-  <xacro:T_invert name="T2" parent="I1_Lr_Link_3">
+  <xacro:T_invert name="T2" parent="I1_Link">
     <origin xyz="0 0 0.005" rpy="0 0 0" />
   </xacro:T_invert>
   
-  <xacro:T_module name="T3" parent="T2_Lr_Link_0" >
+  <xacro:T_module name="T3" parent="T2_Link" >
     <origin xyz="0 0 0.005" rpy="0 0 ${pi}" />
   </xacro:T_module>
 
-  <xacro:sleeve_link name="sleeve_link" parent="T3_Lr_Link_3" >
+  <xacro:sleeve_link name="sleeve_link" parent="T3_Link" >
     <origin xyz="0 0 0" rpy="0 0 0" />
   </xacro:sleeve_link>
   
@@ -63,11 +63,11 @@
     <origin xyz="0 0 ${sleeve_link_length}" rpy="0 0 0" />
   </xacro:T_module>
 
-  <xacro:I_invert name="I5" parent="T4_Lr_Link_3">
+  <xacro:I_invert name="I5" parent="T4_Link">
     <origin xyz="0 0 0" rpy="0 0 0" />
   </xacro:I_invert>
   
-  <xacro:G_module name="G6" parent="I5_Lr_Link_3">
+  <xacro:G_module name="G6" parent="I5_Link">
     <origin xyz="0 0 0" rpy="${pi*0.5} 0 ${-pi*0.5}" />
   </xacro:G_module>
   

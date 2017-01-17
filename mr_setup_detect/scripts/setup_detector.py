@@ -4,11 +4,14 @@
 linkeway
 Jan. 2017
 
+PARAMETERS:
+  + /robot_name ~ default: 'robot'
 SUBSCRIPTIONS:
   + ar_pose_marker (ar_track_alvar_msgs/AlvarMarkers) ~ pose of all markers detected by ar_track_alvar
 OUTPUT:
 Automatically generate robot.urdf.xacro to [PATH_TO_MR_DESCRIPTION_PACKAGE]/robot/robot.urdf.xacro
 Automatically generate robot_display.launch to [PATH_TO_MR_DESCRIPTION_PACKAGE]/lauch/robot_display.launch
+
 """
 
 import rospy
@@ -18,6 +21,8 @@ import numpy as np
 import math
 import tf
 import rospkg
+import sys 
+import roslaunch
 
 Threshold= 0.26
 database_dic={} 
@@ -42,7 +47,7 @@ def receive_marker_msg(topic):
                 detected_tag_id.append(id)
                 markers.append( copy.deepcopy(marker) )
 
-# connect_param has only 4 alternatives due to mechanical pin hole
+# TODO: connect_param has only 4 alternatives due to mechanical pin hole
 def descretize_connect_param(angle):
     if math.fabs(angle) < math.pi/4.0:
         return 0
@@ -53,6 +58,9 @@ def descretize_connect_param(angle):
     if math.fabs(angle - math.pi*3/2 ) < math.pi/4.0:
         return math.pi*3/2
     
+# INPUT: child_marker and its state, unchecked markers
+# OUTPUT: state of parent module_state
+# TODO: use combinatorial optimization methods instead of hardcoded geometrical constraints to achevie generality of the solution
 def find_parent_module(child_marker,child_inversion,child_joint_angle,candidate_parent_markers):
     parent_module_marker = []
     connect_param =0 
@@ -97,7 +105,7 @@ def find_parent_module(child_marker,child_inversion,child_joint_angle,candidate_
                 parent_module_inversion= 'upright'
             elif np.dot( vector_norm, candidate_y_axis) >  math.cos(26.0*math.pi/180.0):
                 parent_module_marker= candidate_parent_marker # parent found
-                parent_module_inversion= 'inverted'
+                parent_module_inversion= 'upright'
 
 
         else: # for markers of these kind, parent should locate on y_axis
@@ -147,15 +155,7 @@ def find_parent_module(child_marker,child_inversion,child_joint_angle,candidate_
         rospy.logerr( 'can\'t find parent marker for marker id: {}'.format(child_marker.id))
         return [0,0,0,0]
     return [parent_module_marker, parent_module_inversion, connect_param, parent_joint_angle] 
-# Todo: do it in a recursive way instead of a ugly return
-# chain= []
-# def find_chain(child_marker, markers):
-#   if not markers == True:
-#       return
-#   ...find out parent_marker...
-#   markers.remove(parent_marker)
-#   find_chain(parent_marker,markers)
-#   chain.append(parent_marker) #chain stores markers from base to end-effector
+
 
 # writes xacros to urdf_file_path according to template file specified by template_file_path 
 def create_urdf_file(chain_list,urdf_file_path,template_file_path):
@@ -187,10 +187,28 @@ def create_urdf_file(chain_list,urdf_file_path,template_file_path):
         urdf_file.write("\n</robot>")
         urdf_file.close()
 
+# create a .launch file and a .rviz(optionally) in order to display or visualize xacro_file
+def create_launch_file(launch_file, xacro_file, rviz_conf_file = []):
+    with open(launch_file, "w") as file:
+        file.write('<launch>\n\n')
+        file.write('  <arg name="gui" default="true" />\n\n')
+        file.write('  <param name=\"robot_description\" command=\"$(find xacro)/xacro \'{}\' \"/>\n'.format(xacro_file))
+        file.write('  <node name=\"module_state_publisher\" pkg=\"joint_state_publisher\" type=\"joint_state_publisher\" />\n')
+        file.write('  <node name=\"robot_state_publisher\" pkg=\"robot_state_publisher\" type=\"state_publisher\" />\n')
+        if rviz_conf_file == []:
+            file.write('  <node name=\"rviz\" pkg=\"rviz\" type=\"rviz\" args=\"-f base_link\" if=\"$(arg gui)\"/>\n\n')
+        else:
+            file.write('  <node name=\"rviz\" pkg=\"rviz\" type=\"rviz\" args=\"-d {} -f base_link\" if=\"$(arg gui)\"/>\n\n'.format(rviz_conf_file))
+        file.write('</launch>')
+    file.close()
 
 if __name__ == "__main__":
     rospy.init_node("setup_detector", log_level=rospy.INFO)
 
+    robot_name = "robot"
+    if len(sys.argv) > 1:
+        robot_name = sys.argv[1]
+    
     load_module_data("../module_database/modules.dat")
 
     # receive message from /ar_pose_marker topic
@@ -198,7 +216,7 @@ if __name__ == "__main__":
     
     chain= [] # list that stores module type, inversion, assembly parameter from end-effector to base
     for marker in markers:
-        if database_dic[marker.id] in ['g', 'G', 'S', 'W']: # marker on end-effector
+        if database_dic[marker.id] in ['g', 'G', 'S', 'W']: # if is marker on end-effector
             inversion= 'upright'
             joint_angle= 0
             
@@ -216,18 +234,34 @@ if __name__ == "__main__":
                 marker=copy.deepcopy(parent_module_marker)
                 inversion= parent_module_inversion
                 joint_angle= parent_joint_angle
-            
             break
-
     chain.reverse() # from base to end-effector
+
+            # TODO: do it in a recursive way instead of a ugly return in find_parent_module()
+            # chain= []
+            # def find_chain(child_marker, unchecked_markers):
+            #   if not unchecked_markers:
+            #       return
+            #   ...find out parent_marker...
+            #   unchecked_markers.remove(parent_marker)
+            #   find_chain(parent_marker, unchecked_markers)
+            #   chain.append(parent_marker) #chain stores markers from base to end-effector
+            
     for node in chain:
         rospy.loginfo( "module_type:{}; direction:{}; connection:{}; joint_angle:{}"
                   .format(node['type'],node['inversion'],node['connect_param'],node['joint_angle']) )
 
     package_path = rospkg.RosPack().get_path('mr_description')
-    xacro_file = package_path + '/robots/robot.urdf.xacro'
+    xacro_file = package_path + '/robots/{}.urdf.xacro'.format(robot_name)
     template_file = package_path + '/robots/mr_xacro_template.urdf.xacro'
     create_urdf_file(chain, xacro_file, template_file)
 
-
-
+    launch_file = package_path + '/launch/{}_display.launch'.format(robot_name)
+    rviz_conf_file = package_path + '/rviz/{}.rviz'.format(robot_name)
+    create_launch_file(launch_file, xacro_file, rviz_conf_file)
+    
+    
+ #   uuid = roslaunch.rlutil.get_or_generate_uuid(None, False)
+ #   roslaunch.configure_logging(uuid)
+ #   launch = roslaunch.parent.ROSLaunchParent(uuid, launch_file)  
+ #   launch.start()
