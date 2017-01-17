@@ -43,5 +43,3 @@
        the origin block defines where the component is w.r.t its parent (in this case the parent 
        is the world frame). For more, see http://www.ros.org/wiki/xacro -->
 
-  <!-- foot for robot-->
-  <link name="base_link"/>

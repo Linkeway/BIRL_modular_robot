@@ -92,9 +92,9 @@ def find_parent_module(child_marker,child_inversion,child_joint_angle,candidate_
                                                      candidate_parent_marker.pose.pose.orientation.y,
                                                      candidate_parent_marker.pose.pose.orientation.z,
                                                      candidate_parent_marker.pose.pose.orientation.w])
-        candidate_y_axis= np.array([matrix[0][1],matrix[1][1] ,matrix[2][1]])
-        candidate_x_axis= np.array([matrix[0][0],matrix[1][0] ,matrix[2][0]])
-        candidate_z_axis= np.array([matrix[0][2],matrix[1][2] ,matrix[2][2]])
+        candidate_y_axis= np.array([matrix[0][1], matrix[1][1], matrix[2][1]])
+        candidate_x_axis= np.array([matrix[0][0], matrix[1][0], matrix[2][0]])
+        candidate_z_axis= np.array([matrix[0][2], matrix[1][2], matrix[2][2]])
 
         if database_dic[child_marker.id] in ['T', 't'] and child_inversion== 'inverted':
             if np.dot(vector_norm, candidate_y_axis) < -math.cos(26.0*math.pi/180.0):
@@ -121,7 +121,7 @@ def find_parent_module(child_marker,child_inversion,child_joint_angle,candidate_
                 else:
                     parent_module_inversion= 'upright'
 
-                # find out connection and joint_angle
+                # find joint_angle
                 # Todo
 
                 
@@ -144,16 +144,24 @@ def find_parent_module(child_marker,child_inversion,child_joint_angle,candidate_
                 if database_dic[parent_module_marker.id] in ['t','T']: 
                     if parent_module_inversion == 'upright':
                         parent_joint_angle= angle_y # TODO angle between 0 to pi
-                        connect_param= math.acos(np.dot(z_axis,candidate_z_axis)) # TODO
+                        
                     else:
-                        a=1
+                        None
                 else:
-                    a=1
+                    None
                 break
 
     if parent_module_marker == []:
         rospy.logerr( 'can\'t find parent marker for marker id: {}'.format(child_marker.id))
         return [0,0,0,0]
+
+    # calculate connect_param, which is the angle between two z axes of markers
+    z_axes_angle = math.acos( np.clip( np.dot(z_axis,candidate_z_axis), -1, 1))
+    if np.dot(vector_norm, np.cross(z_axis, candidate_z_axis) ) > 0: # if sin > 0
+        connect_param = descretize_connect_param( z_axes_angle )
+    else:
+        connect_param = descretize_connect_param( 2*math.pi - z_axes_angle )
+    
     return [parent_module_marker, parent_module_inversion, connect_param, parent_joint_angle] 
 
 
@@ -166,6 +174,8 @@ def create_urdf_file(chain_list,urdf_file_path,template_file_path):
                 urdf_file.write(line)
             template_file.close()
         cnt=1
+        urdf_file.write("  <link name=\"base_link\"/>\n\n")
+
         for module in chain_list:
 
             type = module['type']
@@ -188,18 +198,33 @@ def create_urdf_file(chain_list,urdf_file_path,template_file_path):
         urdf_file.close()
 
 # create a .launch file and a .rviz(optionally) in order to display or visualize xacro_file
-def create_launch_file(launch_file, xacro_file, rviz_conf_file = []):
+def create_launch_file(launch_file, xacro_file, chain, rviz_conf_file = []):
     with open(launch_file, "w") as file:
         file.write('<launch>\n\n')
         file.write('  <arg name="gui" default="true" />\n\n')
         file.write('  <param name=\"robot_description\" command=\"$(find xacro)/xacro \'{}\' \"/>\n'.format(xacro_file))
-        file.write('  <node name=\"module_state_publisher\" pkg=\"joint_state_publisher\" type=\"joint_state_publisher\" />\n')
+        file.write('  <node name=\"module_state_publisher\" pkg=\"joint_state_publisher\" type=\"joint_state_publisher\">\n')
+        file.write('    <param name=\"use_gui\" value=\"true\"/>\n')
+        file.write('  </node>\n')
         file.write('  <node name=\"robot_state_publisher\" pkg=\"robot_state_publisher\" type=\"state_publisher\" />\n')
         if rviz_conf_file == []:
             file.write('  <node name=\"rviz\" pkg=\"rviz\" type=\"rviz\" args=\"-f base_link\" if=\"$(arg gui)\"/>\n\n')
         else:
             file.write('  <node name=\"rviz\" pkg=\"rviz\" type=\"rviz\" args=\"-d {} -f base_link\" if=\"$(arg gui)\"/>\n\n'.format(rviz_conf_file))
+        
+        # write dependent_joints parameters of gripper module
+        cnt=1
+        for module in chain:
+            if module['type'] in ['g', 'G']:
+                module_name = '{}{}'.format(module['type'],cnt)
+                file.write('  <rosparam>\n')
+                file.write('    dependent_joints:\n')
+                file.write('      {0}_Joint1: {1} parent: {0}_Joint, factor: 1 {2}\n'.format(module_name, '{', '}') )
+                file.write('  </rosparam>\n\n')
+            cnt = cnt+1
+
         file.write('</launch>')
+
     file.close()
 
 if __name__ == "__main__":
@@ -258,7 +283,7 @@ if __name__ == "__main__":
 
     launch_file = package_path + '/launch/{}_display.launch'.format(robot_name)
     rviz_conf_file = package_path + '/rviz/{}.rviz'.format(robot_name)
-    create_launch_file(launch_file, xacro_file, rviz_conf_file)
+    create_launch_file(launch_file, xacro_file, chain, rviz_conf_file)
     
     uuid = roslaunch.rlutil.get_or_generate_uuid(None, False)
     roslaunch.configure_logging(uuid)
