@@ -69,16 +69,12 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
+          Value: false
         I1_Lr_Link_0:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        I1_Offset_Link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: false
         I1_OutLink_2:
           Alpha: 1
           Show Axes: false
@@ -98,12 +94,16 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-          Value: false
         T2_Offset_Link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-          Value: true
+          Value: false
+        T2_Offset_Lr_Link_3:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: false
         T2_OutLink_2:
           Alpha: 1
           Show Axes: false
@@ -118,12 +118,12 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-          Value: true
+          Value: false
         T3_Lr_Link_0:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-          Value: true
+          Value: false
         T3_OutLink_2:
           Alpha: 1
           Show Axes: false
@@ -158,6 +158,10 @@ Visualization Manager:
           Show Trail: false
           Value: true
         i4_Link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        i4_Offset_Link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -192,99 +196,19 @@ Visualization Manager:
       Value: true
       Visual Enabled: true
     - Class: rviz/TF
-      Enabled: true
+      Enabled: false
       Frame Timeout: 15
       Frames:
         All Enabled: false
-        I1_InLink_1:
-          Value: false
-        I1_Link:
-          Value: true
-        I1_Lr_Link_0:
-          Value: false
-        I1_Offset_Link:
-          Value: true
-        I1_OutLink_2:
-          Value: false
-        T2_InLink_1:
-          Value: false
-        T2_Link:
-          Value: true
-        T2_Lr_Link_3:
-          Value: false
-        T2_Offset_Link:
-          Value: true
-        T2_OutLink_2:
-          Value: false
-        T3_InLink_1:
-          Value: false
-        T3_Link:
-          Value: true
-        T3_Lr_Link_0:
-          Value: false
-        T3_OutLink_2:
-          Value: false
-        base_link:
-          Value: true
-        cl_100_85_connect_Link:
-          Value: true
-        cl_100_85_connect_link:
-          Value: false
-        g6_finger_link:
-          Value: false
-        g6_finger_link1:
-          Value: false
-        g6_palm_link:
-          Value: false
-        i4_Link:
-          Value: true
-        i4_link:
-          Value: false
-        t5_Link:
-          Value: true
-        t5_Offset_Link:
-          Value: true
-        t5_link:
-          Value: false
-        tcp:
-          Value: true
       Marker Scale: 0.5
       Name: TF
       Show Arrows: true
       Show Axes: true
       Show Names: true
       Tree:
-        base_link:
-          I1_Lr_Link_0:
-            I1_InLink_1:
-              I1_OutLink_2:
-                I1_Offset_Link:
-                  I1_Link:
-                    T2_Lr_Link_3:
-                      T2_OutLink_2:
-                        T2_InLink_1:
-                          T2_Offset_Link:
-                            T2_Link:
-                              T3_Lr_Link_0:
-                                T3_InLink_1:
-                                  T3_OutLink_2:
-                                    T3_Link:
-                                      cl_100_85_connect_link:
-                                        cl_100_85_connect_Link:
-                                          i4_link:
-                                            i4_Link:
-                                              t5_link:
-                                                t5_Offset_Link:
-                                                  t5_Link:
-                                                    g6_palm_link:
-                                                      g6_finger_link:
-                                                        {}
-                                                      g6_finger_link1:
-                                                        {}
-                                                      tcp:
-                                                        {}
+        {}
       Update Interval: 0
-      Value: true
+      Value: false
     - Class: rviz/InteractiveMarkers
       Enable Transparency: true
       Enabled: true
@@ -318,16 +242,16 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 1.23297
+      Distance: 3.53426
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.06
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: -0.125913
-        Y: 0.123975
-        Z: 0.233876
+        X: -0.100641
+        Y: 0.186352
+        Z: 0.838078
       Name: Current View
       Near Clip Distance: 0.01
       Pitch: 0.0447968

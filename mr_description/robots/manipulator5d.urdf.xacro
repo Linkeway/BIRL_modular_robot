@@ -55,11 +55,11 @@
   </xacro:I_module>
 
   <xacro:T_invert name="T2" parent="I1_Link" >
-    <origin xyz="0 0 0.005" rpy="0 0 0" />
+    <origin xyz="0 0 0" rpy="0 0 0" />
   </xacro:T_invert>
 
   <xacro:T_module name="T3" parent="T2_Link">
-    <origin xyz="0 0 0" rpy="0 0 ${pi}" />
+    <origin xyz="0 0 0" rpy="0 0 0" />
   </xacro:T_module>
 
   <xacro:connect_link_100_85  name="cl" parent="T3_Link">
