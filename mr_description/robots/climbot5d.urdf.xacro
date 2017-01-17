@@ -52,7 +52,7 @@
   </xacro:T_invert>
   
   <xacro:T_module name="T3" parent="T2_Link" >
-    <origin xyz="0 0 0.005" rpy="0 0 ${pi}" />
+    <origin xyz="0 0 0" rpy="0 0 ${pi}" />
   </xacro:T_module>
 
   <xacro:sleeve_link name="sleeve_link" parent="T3_Link" >

@@ -69,7 +69,7 @@
 
 <!--Joint between Offset_Link and Lockring_Link-->
   <joint name="${name}_Offset_Joint" type="fixed">
-    <origin xyz="0 0 0" rpy="0 0 ${0.5*pi}"/>
+    <origin xyz="0 0 0" rpy="0 0 ${-0.5*pi}"/>
     <parent link="${name}_Offset_Link"/>
     <child link="${name}_Link"/>
   </joint>
