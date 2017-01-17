@@ -55,7 +55,7 @@
   </xacro:I_module>
 
   <xacro:T_invert name="T2" parent="I1_Link" >
-    <origin xyz="0 0 0" rpy="0 0 0" />
+    <origin xyz="0 0 0.005" rpy="0 0 0" />
   </xacro:T_invert>
 
   <xacro:T_module name="T3" parent="T2_Link">
@@ -71,7 +71,7 @@
   </xacro:i_module>  
 
   <xacro:t_module name="t5" parent="i4_Link">
-    <origin xyz="0 0 0" rpy="0 0 ${-pi*0.5}" />
+    <origin xyz="0 0 0" rpy="0 0 0" />
   </xacro:t_module>
 
   <xacro:g_module name="g6" parent="t5_Link">
