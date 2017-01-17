@@ -12,8 +12,26 @@
     <child link="${name}_Lr_Link_3" />
   </joint>
 
+<!--Joint between Offset_Lockring_Link and Lockring_Link-->
+  <joint name="${name}_Offset_Joint2" type="fixed">
+    <origin xyz="0 0 0.005" rpy="0 0 0"/>
+    <parent link="${name}_Lr_Link_3"/>
+    <child link="${name}_Offset_Lr_Link_3"/>
+  </joint>
+
 <!--the Lockring_Link in T module-->
   <link name="${name}_Lr_Link_3">
+<!--    <collision>-->
+<!--      <origin xyz="0 0 0" rpy="0 0 0" />-->
+<!--      <geometry>-->
+<!--        <mesh filename="package://mr_description/meshes/VT_InLink.STL" />-->
+<!--      </geometry>-->
+<!--    </collision>-->
+  </link>
+
+
+<!--the Offset_Lockring_Link in T module-->
+  <link name="${name}_Offset_Lr_Link_3">
     <inertial>
       <origin xyz="-2.7136E-19 9.8046E-20 -0.0015" rpy="0 0 0" />
       <mass value="8.4823E-05" />
@@ -39,7 +57,7 @@
     <joint name="${name}_Lr_Joint_3" type="fixed">
       <origin  xyz="0 0 0.0884"  rpy="-${90*pi/180} 3.1416 3.1416" />
       <child link="${name}_OutLink_2" />
-      <parent  link="${name}_Lr_Link_3" />
+      <parent  link="${name}_Offset_Lr_Link_3" />
       <axis   xyz="0 0 0" />
       <limit  lower="0" upper="0"  effort="0"   velocity="0" />
     </joint>

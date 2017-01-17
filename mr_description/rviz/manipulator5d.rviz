@@ -56,7 +56,7 @@ Visualization Manager:
       Collision Enabled: false
       Enabled: true
       Links:
-        All Links Enabled: true
+        All Links Enabled: false
         Expand Joint Details: false
         Expand Link Details: false
         Expand Tree: false
@@ -69,12 +69,8 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
+          Value: false
         I1_Lr_Link_0:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        I1_Offset_Link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -98,12 +94,16 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-          Value: true
         T2_Offset_Link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-          Value: true
+          Value: false
+        T2_Offset_Lr_Link_3:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: false
         T2_OutLink_2:
           Alpha: 1
           Show Axes: false
@@ -118,12 +118,12 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-          Value: true
+          Value: false
         T3_Lr_Link_0:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-          Value: true
+          Value: false
         T3_OutLink_2:
           Alpha: 1
           Show Axes: false
@@ -242,16 +242,16 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 1.74375
+      Distance: 3.53426
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.06
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: -0.135772
-        Y: 0.142125
-        Z: 0.67745
+        X: -0.100641
+        Y: 0.186352
+        Z: 0.838078
       Name: Current View
       Near Clip Distance: 0.01
       Pitch: 0.0447968
