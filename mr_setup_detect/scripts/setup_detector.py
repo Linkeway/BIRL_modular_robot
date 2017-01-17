@@ -23,6 +23,7 @@ import tf
 import rospkg
 import sys 
 import roslaunch
+from sensor_msgs.msg import JointState
 
 Threshold= 0.26
 database_dic={} 
@@ -47,7 +48,7 @@ def receive_marker_msg(topic):
                 detected_tag_id.append(id)
                 markers.append( copy.deepcopy(marker) )
 
-# TODO: connect_angle has only 4 alternatives due to mechanical pin hole
+# connect_angle has only 4 alternatives due to mechanical pin hole
 def descretize_connect_angle(angle):
     if math.fabs(angle) < math.pi/4.0:
         return 0
@@ -69,6 +70,7 @@ def find_parent_module(child_marker,child_inversion,child_joint_angle,candidate_
     if not candidate_parent_markers: # if no unchecked markers
         return [0,0,0,0]
 
+    # find parent_module and its inversion
     for candidate_parent_marker in candidate_parent_markers:
         vector= np.array([
                             child_marker.pose.pose.position.x - candidate_parent_marker.pose.pose.position.x,
@@ -79,7 +81,7 @@ def find_parent_module(child_marker,child_inversion,child_joint_angle,candidate_
         if vector_mag > Threshold: # if candicate marker too far from child-marker
             continue
 
-        vector_norm= vector / vector_mag
+        unit_vector= vector / vector_mag
         
         matrix= tf.transformations.quaternion_matrix(  [child_marker.pose.pose.orientation.x,
                                                         child_marker.pose.pose.orientation.y,
@@ -97,20 +99,19 @@ def find_parent_module(child_marker,child_inversion,child_joint_angle,candidate_
         candidate_z_axis= np.array([matrix[0][2], matrix[1][2], matrix[2][2]])
 
         if database_dic[child_marker.id] in ['T', 't'] and child_inversion== 'inverted':
-            if np.dot(vector_norm, candidate_y_axis) < -math.cos(26.0*math.pi/180.0):
+            if np.dot(unit_vector, candidate_y_axis) < -math.cos(26.0*math.pi/180.0):
                 parent_module_marker= candidate_parent_marker # parent found
                 parent_module_inversion= 'inverted'
             elif database_dic[candidate_parent_marker.id] in ['T','t']:
                 parent_module_marker= candidate_parent_marker # parent found
                 parent_module_inversion= 'upright'
-            elif np.dot( vector_norm, candidate_y_axis) >  math.cos(26.0*math.pi/180.0):
+            elif np.dot( unit_vector, candidate_y_axis) >  math.cos(26.0*math.pi/180.0):
                 parent_module_marker= candidate_parent_marker # parent found
                 parent_module_inversion= 'upright'
 
-
         else: # for markers of these kind, parent should locate on y_axis
             # if candicate marker not on y_axis of child with err of 26.0 degree 
-            if np.dot( vector_norm, y_axis) < -math.cos(26.0*math.pi/180.0) and child_inversion == 'inverted':
+            if np.dot( unit_vector, y_axis) < -math.cos(26.0*math.pi/180.0) and child_inversion == 'inverted':
                 # in this case child belongs to non-Tt type inverted
                 parent_module_marker= candidate_parent_marker # parent found
 
@@ -120,16 +121,11 @@ def find_parent_module(child_marker,child_inversion,child_joint_angle,candidate_
                     parent_module_inversion= 'inverted'
                 else:
                     parent_module_inversion= 'upright'
-
-                # find joint_angle
-                # Todo
-
-                
                 break
 
             # if candicate marker not on y_axis of child with err of 26.0 degree 
-            # print math.acos(np.dot( vector_norm, y_axis))*180/math.pi
-            if np.dot( vector_norm, y_axis) >  math.cos(26.0*math.pi/180.0) and child_inversion == 'upright':
+            # print math.acos(np.dot( unit_vector, y_axis))*180/math.pi
+            if np.dot( unit_vector, y_axis) >  math.cos(26.0*math.pi/180.0) and child_inversion == 'upright':
                 # in this case child is upright
                 parent_module_marker= candidate_parent_marker # parent found
 
@@ -140,28 +136,27 @@ def find_parent_module(child_marker,child_inversion,child_joint_angle,candidate_
                 else:
                     parent_module_inversion= 'upright'
 
-                # find out connection and joint_angle
-                if database_dic[parent_module_marker.id] in ['t','T']: 
-                    if parent_module_inversion == 'upright':
-                        parent_joint_angle= angle_y # TODO angle between 0 to pi
-                        
-                    else:
-                        None
-                else:
-                    None
-                break
-
     if parent_module_marker == []:
         rospy.logerr( 'can\'t find parent marker for marker id: {}'.format(child_marker.id))
         return [0,0,0,0]
 
     # calculate connect_angle, which is the angle between two z axes of markers
     z_axes_angle = math.acos( np.clip( np.dot(z_axis,candidate_z_axis), -1, 1))
-    if np.dot(vector_norm, np.cross(z_axis, candidate_z_axis) ) > 0: # if sin > 0
+    if np.dot(unit_vector, np.cross(z_axis, candidate_z_axis) ) > 0: # use unit_vector to determine positive direction of connect_angle 
         connect_angle = descretize_connect_angle( z_axes_angle )
     else:
         connect_angle = descretize_connect_angle( 2*math.pi - z_axes_angle )
     
+    # find out parent_joint_angle
+    if database_dic[parent_module_marker.id] in ['t','T']:
+        if parent_module_inversion == 'upright':
+            parent_joint_angle = math.acos( np.clip( np.dot(unit_vector,candidate_y_axis), -1, 1))
+            if np.dot(candidate_z_axis, np.cross(unit_vector, candidate_y_axis) ) < 0: # use z_axis to determine positive direction of angle 
+                parent_joint_angle = - parent_joint_angle
+        else:
+            # TODO: find out joint_angle for T/t inverted module 
+            None
+
     return [parent_module_marker, parent_module_inversion, connect_angle, parent_joint_angle] 
 
 
@@ -234,7 +229,6 @@ def create_launch_file(launch_file, xacro_file, chain, rviz_conf_file = []):
             cnt = cnt+1
 
         file.write('</launch>')
-
     file.close()
 
 if __name__ == "__main__":
@@ -300,6 +294,20 @@ if __name__ == "__main__":
     launch = roslaunch.parent.ROSLaunchParent(uuid, [launch_file])  
     launch.start()
     
+    #TODO: publish joint states
+    rospy.sleep(10)
+    msg = JointState()
+    msg.header.stamp = rospy.Time.now()
+    cnt = 1
+    for node in chain:
+        joint_name = "{}{}_Joint".format(node['type'], cnt)
+        cnt = cnt +1
+        msg.name.append(joint_name)
+        msg.position = node['joint_angle']
+
+    pub = rospy.Publisher('joint_states', JointState, queue_size=5)
+    pub.publish(msg)
+
     while not rospy.is_shutdown():
         None
     launch.shutdown()
