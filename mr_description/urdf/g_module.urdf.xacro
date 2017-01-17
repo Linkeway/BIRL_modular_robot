@@ -10,6 +10,7 @@
     <parent link="${parent}" />
     <child link="${name}_palm_link" />
   </joint>
+
   
   <link name="${name}_palm_link">
     <visual>
