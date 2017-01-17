@@ -109,7 +109,7 @@ def find_parent_module(child_marker,child_inversion,child_joint_angle,candidate_
 
 
         else: # for markers of these kind, parent should locate on y_axis
-            # if candicate marker not on y_axis of child with err of 土 26.0 degree 
+            # if candicate marker not on y_axis of child with err of 26.0 degree 
             if np.dot( vector_norm, y_axis) < -math.cos(26.0*math.pi/180.0) and child_inversion == 'inverted':
                 # in this case child belongs to non-Tt type inverted
                 parent_module_marker= candidate_parent_marker # parent found
@@ -127,7 +127,7 @@ def find_parent_module(child_marker,child_inversion,child_joint_angle,candidate_
                 
                 break
 
-            # if candicate marker not on y_axis of child with err of 土 26.0 degree 
+            # if candicate marker not on y_axis of child with err of 26.0 degree 
             # print math.acos(np.dot( vector_norm, y_axis))*180/math.pi
             if np.dot( vector_norm, y_axis) >  math.cos(26.0*math.pi/180.0) and child_inversion == 'upright':
                 # in this case child is upright
@@ -260,8 +260,11 @@ if __name__ == "__main__":
     rviz_conf_file = package_path + '/rviz/{}.rviz'.format(robot_name)
     create_launch_file(launch_file, xacro_file, rviz_conf_file)
     
+    uuid = roslaunch.rlutil.get_or_generate_uuid(None, False)
+    roslaunch.configure_logging(uuid)
+    launch = roslaunch.parent.ROSLaunchParent(uuid, [launch_file])  
+    launch.start()
     
- #   uuid = roslaunch.rlutil.get_or_generate_uuid(None, False)
- #   roslaunch.configure_logging(uuid)
- #   launch = roslaunch.parent.ROSLaunchParent(uuid, launch_file)  
- #   launch.start()
+    while not rospy.is_shutdown():
+        None
+    launch.shutdown()
