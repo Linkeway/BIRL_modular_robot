@@ -47,8 +47,8 @@ def receive_marker_msg(topic):
                 detected_tag_id.append(id)
                 markers.append( copy.deepcopy(marker) )
 
-# TODO: connect_param has only 4 alternatives due to mechanical pin hole
-def descretize_connect_param(angle):
+# TODO: connect_angle has only 4 alternatives due to mechanical pin hole
+def descretize_connect_angle(angle):
     if math.fabs(angle) < math.pi/4.0:
         return 0
     if math.fabs(angle-math.pi/2) < math.pi/4.0:
@@ -63,7 +63,7 @@ def descretize_connect_param(angle):
 # TODO: use combinatorial optimization methods instead of hardcoded geometrical constraints to achevie generality of the solution
 def find_parent_module(child_marker,child_inversion,child_joint_angle,candidate_parent_markers):
     parent_module_marker = []
-    connect_param =0 
+    connect_angle =0 
     parent_joint_angle =0
     
     if not candidate_parent_markers: # if no unchecked markers
@@ -155,14 +155,14 @@ def find_parent_module(child_marker,child_inversion,child_joint_angle,candidate_
         rospy.logerr( 'can\'t find parent marker for marker id: {}'.format(child_marker.id))
         return [0,0,0,0]
 
-    # calculate connect_param, which is the angle between two z axes of markers
+    # calculate connect_angle, which is the angle between two z axes of markers
     z_axes_angle = math.acos( np.clip( np.dot(z_axis,candidate_z_axis), -1, 1))
     if np.dot(vector_norm, np.cross(z_axis, candidate_z_axis) ) > 0: # if sin > 0
-        connect_param = descretize_connect_param( z_axes_angle )
+        connect_angle = descretize_connect_angle( z_axes_angle )
     else:
-        connect_param = descretize_connect_param( 2*math.pi - z_axes_angle )
+        connect_angle = descretize_connect_angle( 2*math.pi - z_axes_angle )
     
-    return [parent_module_marker, parent_module_inversion, connect_param, parent_joint_angle] 
+    return [parent_module_marker, parent_module_inversion, connect_angle, parent_joint_angle] 
 
 
 # writes xacros to urdf_file_path according to template file specified by template_file_path 
@@ -177,8 +177,7 @@ def create_urdf_file(chain_list,urdf_file_path,template_file_path):
         urdf_file.write("  <link name=\"base_link\"/>\n\n")
 
         for module in chain_list:
-
-            type = module['type']
+            
             if module['inversion'] == 'upright':
                 inversion = 'module'
             else:
@@ -186,12 +185,23 @@ def create_urdf_file(chain_list,urdf_file_path,template_file_path):
 
             if cnt == 1:
                 parent_link = 'base_link'
-
+            
+            type = module['type']
             urdf_file.write("  <xacro:{}_{} name=\"{}{}\" parent=\"{}\">\n".format(type,inversion,type,cnt,parent_link) )
             urdf_file.write("    <origin xyz=\"0 0 0\" rpy=\"0 0 0\" />\n")
             urdf_file.write("  </xacro:{}_{}>\n\n".format(type,inversion))
-            parent_link = '{}{}_Link'.format(type,cnt)
 
+            if parent_link[0] in ['G','I','T'] and type in ['g','i','t']:
+                urdf_file.write("  <xacro:connect_link_100_85  name=\"cl{}\" parent=\"{}\">\n".format( "{}-{}".format(cnt,cnt+1), parent_link) )
+                urdf_file.write("    <origin xyz=\"0 0 0\" rpy=\"0 0 0\" />\n")
+                urdf_file.write("  </xacro:connect_link_100_85>\n\n")
+
+            if parent_link[0] in ['g','i','t'] and type in ['G','I','T']:
+                urdf_file.write("  <xacro:connect_link_85_100  name=\"cl{}\" parent=\"{}\">\n".format( "{}-{}".format(cnt,cnt+1), parent_link) )
+                urdf_file.write("    <origin xyz=\"0 0 0\" rpy=\"0 0 0\" />\n")
+                urdf_file.write("  </xacro:connect_link_85_100>\n\n")
+
+            parent_link = '{}{}_Link'.format(type,cnt)
             cnt = cnt +1
 
         urdf_file.write("\n</robot>")
@@ -247,11 +257,11 @@ if __name__ == "__main__":
             
             while markers: # while not empty  
                 markers.remove(marker)
-                [parent_module_marker, parent_module_inversion, connect_param, parent_joint_angle]=find_parent_module(marker,inversion,joint_angle,markers)
+                [parent_module_marker, parent_module_inversion, connect_angle, parent_joint_angle]=find_parent_module(marker,inversion,joint_angle,markers)
                 module_state=   { 
                                     'type': database_dic[marker.id],
                                     'inversion': inversion,
-                                    'connect_param': connect_param, 
+                                    'connect_angle': connect_angle, 
                                     'joint_angle': joint_angle
                                 }
                 chain.append(module_state)
@@ -274,7 +284,7 @@ if __name__ == "__main__":
             
     for node in chain:
         rospy.loginfo( "module_type:{}; direction:{}; connection:{}; joint_angle:{}"
-                  .format(node['type'],node['inversion'],node['connect_param'],node['joint_angle']) )
+                  .format(node['type'],node['inversion'],node['connect_angle'],node['joint_angle']) )
 
     package_path = rospkg.RosPack().get_path('mr_description')
     xacro_file = package_path + '/robots/{}.urdf.xacro'.format(robot_name)

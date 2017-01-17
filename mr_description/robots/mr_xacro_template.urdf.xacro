@@ -23,6 +23,9 @@
   
   <!-- 100_85_connect_link Module -->
   <xacro:include filename="$(find mr_description)/urdf/100_85connect_link.urdf.xacro" />
+
+  <!-- 85_100_connect  Module -->
+  <xacro:include filename="$(find mr_description)/urdf/85_100connect_link.urdf.xacro" />
   
   <!-- t85 Module -->
   <xacro:include filename="$(find mr_description)/urdf/t_module.urdf.xacro" />
