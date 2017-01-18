@@ -25,7 +25,7 @@ import sys
 import roslaunch
 from sensor_msgs.msg import JointState
 
-Threshold= 0.26
+Threshold= 0.30
 database_dic={} 
 markers=[]
 
@@ -37,7 +37,7 @@ def load_module_data(file_name):
         database_dic[int(tagID)]=type
     database.close()
 
-# topic Subscriber
+# topic Subscriber. TODO: message pre-processing 
 def receive_marker_msg(topic):
     detected_tag_id=[]
     msg = rospy.wait_for_message(topic, AlvarMarkers)
@@ -202,15 +202,16 @@ def create_urdf_file(chain_list,urdf_file_path,template_file_path):
         urdf_file.write("\n</robot>")
         urdf_file.close()
 
-# create a .launch file and a .rviz(optionally) in order to display or visualize xacro_file
-def create_launch_file(launch_file, xacro_file, chain, rviz_conf_file = []):
+# create a .launch file and a .rviz(optionally) in order to display or visualize generated xacro_file
+def create_launch_file(launch_file, xacro_file, chain, rviz_conf_file = [],publish_joint_states = True):
     with open(launch_file, "w") as file:
         file.write('<launch>\n\n')
         file.write('  <arg name="gui" default="true" />\n\n')
         file.write('  <param name=\"robot_description\" command=\"$(find xacro)/xacro \'{}\' \"/>\n'.format(xacro_file))
-        file.write('  <node name=\"module_state_publisher\" pkg=\"joint_state_publisher\" type=\"joint_state_publisher\">\n')
-        file.write('    <param name=\"use_gui\" value=\"true\"/>\n')
-        file.write('  </node>\n')
+        if publish_joint_states:
+            file.write('  <node name=\"module_state_publisher\" pkg=\"joint_state_publisher\" type=\"joint_state_publisher\">\n')
+            file.write('    <param name=\"use_gui\" value=\"true\"/>\n')
+            file.write('  </node>\n')
         file.write('  <node name=\"robot_state_publisher\" pkg=\"robot_state_publisher\" type=\"state_publisher\" />\n')
         if rviz_conf_file == []:
             file.write('  <node name=\"rviz\" pkg=\"rviz\" type=\"rviz\" args=\"-f base_link\" if=\"$(arg gui)\"/>\n\n')
@@ -231,14 +232,19 @@ def create_launch_file(launch_file, xacro_file, chain, rviz_conf_file = []):
         file.write('</launch>')
     file.close()
 
+# show string in GREEN color
+def colorize(str):
+    return "\033[1;32;40m" + str + "\033[0m"
+
 if __name__ == "__main__":
     rospy.init_node("setup_detector", log_level=rospy.INFO)
 
     robot_name = "robot"
     if len(sys.argv) > 1:
         robot_name = sys.argv[1]
-    
-    load_module_data("../module_database/modules.dat")
+
+    database_path = rospkg.RosPack().get_path('mr_setup_detect') + '/module_database/modules.dat'
+    load_module_data(database_path)
 
     # receive message from /ar_pose_marker topic
     receive_marker_msg("/ar_pose_marker")
@@ -287,27 +293,38 @@ if __name__ == "__main__":
 
     launch_file = package_path + '/launch/{}_display.launch'.format(robot_name)
     rviz_conf_file = package_path + '/rviz/{}.rviz'.format(robot_name)
-    create_launch_file(launch_file, xacro_file, chain, rviz_conf_file)
+    create_launch_file(launch_file, xacro_file, chain, rviz_conf_file, False)
     
+    rospy.loginfo( colorize("Files automatically generated!") )
+    rospy.loginfo( colorize("Launching {}_display.launch...".format(robot_name)) )
+
     uuid = roslaunch.rlutil.get_or_generate_uuid(None, False)
     roslaunch.configure_logging(uuid)
     launch = roslaunch.parent.ROSLaunchParent(uuid, [launch_file])  
     launch.start()
     
-    #TODO: publish joint states
-    rospy.sleep(10)
-    msg = JointState()
-    msg.header.stamp = rospy.Time.now()
-    cnt = 1
-    for node in chain:
-        joint_name = "{}{}_Joint".format(node['type'], cnt)
-        cnt = cnt +1
-        msg.name.append(joint_name)
-        msg.position = node['joint_angle']
-
+    # publish joint states
     pub = rospy.Publisher('joint_states', JointState, queue_size=5)
-    pub.publish(msg)
-
     while not rospy.is_shutdown():
-        None
+        msg = JointState()
+        cnt = 1
+        for node in chain:
+            joint_name = "{}{}_Joint".format(node['type'], cnt)
+            msg.name.append(joint_name)
+            msg.position.append(node['joint_angle'])
+            if node['type'] in ['g','G']: # gripper module has two joints
+                msg.name.append(joint_name + '1')
+                msg.position.append(node['joint_angle'])
+            cnt = cnt +1
+        msg.header.stamp = rospy.Time.now()
+
+        pub.publish(msg)
+        rospy.sleep(0.1)
+        
+
     launch.shutdown()
+    create_launch_file(launch_file, xacro_file, chain, rviz_conf_file, True)
+    rospy.loginfo( colorize("Files saved!") )
+    rospy.loginfo( colorize("You can try [ roslaunch mr_description {}_display.launch ]".format(robot_name)) )
+
+    
