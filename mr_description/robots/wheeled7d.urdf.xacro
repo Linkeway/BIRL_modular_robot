@@ -63,35 +63,35 @@
     <origin xyz="0 0 0" rpy="0 0 ${pi*0.5}" />
   </xacro:I_module>
 
-  <xacro:T_invert name="T2" parent="I1_Lr_Link_3">
+  <xacro:T_invert name="T2" parent="I1_Link">
     <origin xyz="0 0 0" rpy="0 0 0" />
   </xacro:T_invert>
   
-  <xacro:T_module name="T3" parent="T2_Lr_Link_0" >
-    <origin xyz="0 0 0.005" rpy="0 0 0" />
+  <xacro:T_module name="T3" parent="T2_Link" >
+    <origin xyz="0 0 0" rpy="0 0 0" />
   </xacro:T_module>
   
   
-    <xacro:I_module name="I4" parent="T3_Lr_Link_3">
+    <xacro:I_module name="I4" parent="T3_Link">
     <origin xyz="0 0 0" rpy="0 0 0" />
   </xacro:I_module>
   
-   <xacro:T_invert name="T5" parent="I4_Lr_Link_3">
+   <xacro:T_invert name="T5" parent="I4_Link">
     <origin xyz="0 0 0" rpy="0 0 0" />
   </xacro:T_invert>
   
 
-  <xacro:T_module name="T6" parent="T5_Lr_Link_0">
+  <xacro:T_module name="T6" parent="T5_Link">
     <origin xyz="0 0 0" rpy="0 0 0" />
   </xacro:T_module>
 
-  <xacro:I_module name="I7" parent="T6_Lr_Link_3">
+  <xacro:I_module name="I7" parent="T6_Link">
     <origin xyz="0 0 0" rpy="0 0 0" />
   </xacro:I_module>
   
   <joint name="wheel_Joint2" type="fixed">
     <origin xyz="0 0 0.05" rpy="0 0 0"/>
-    <parent link="I7_Lr_Link_3"/>
+    <parent link="I7_Link"/>
     <child link="wheel2"/>
   </joint>
   <link name="wheel2" >
