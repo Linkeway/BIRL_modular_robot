@@ -68,7 +68,7 @@ def find_parent_module(child_marker,child_inversion,child_joint_angle,candidate_
     parent_joint_angle =0
     
     if not candidate_parent_markers: # if no unchecked markers
-        return [0,0,0,0]
+        return [0,0,0]
 
     # find parent_module and its inversion
     for candidate_parent_marker in candidate_parent_markers:
@@ -147,18 +147,75 @@ def find_parent_module(child_marker,child_inversion,child_joint_angle,candidate_
     else:
         connect_angle = descretize_connect_angle( 2*math.pi - z_axes_angle )
     
-    # find out parent_joint_angle
-    if database_dic[parent_module_marker.id] in ['t','T']:
-        if parent_module_inversion == 'upright':
-            parent_joint_angle = math.acos( np.clip( np.dot(unit_vector,candidate_y_axis), -1, 1))
-            if np.dot(candidate_z_axis, np.cross(unit_vector, candidate_y_axis) ) < 0: # use z_axis to determine positive direction of angle 
-                parent_joint_angle = - parent_joint_angle
-        else:
-            # TODO: find out joint_angle for T/t inverted module 
-            None
 
-    return [parent_module_marker, parent_module_inversion, connect_angle, parent_joint_angle] 
 
+    return [parent_module_marker, parent_module_inversion, connect_angle] 
+
+# This function recomputes joint angles for T-type module
+def compute_T_joint_angle(chain):
+    child = {}
+    grandchild = {}
+    new_chain = []
+
+    for module in chain:
+        if child:
+            child['joint_angle']=0
+
+        if child and child['type'] in ['t','T']:
+            matrix= tf.transformations.quaternion_matrix([  child['pose'].orientation.x,
+                                                            child['pose'].orientation.y,
+                                                            child['pose'].orientation.z,
+                                                            child['pose'].orientation.w])
+            y_axis= np.array([matrix[0][1], matrix[1][1], matrix[2][1]])
+            z_axis= np.array([matrix[0][2], matrix[1][2], matrix[2][2]]) 
+
+            vec_child2module = np.array([   module['pose'].position.x - child['pose'].position.x,
+                                            module['pose'].position.y - child['pose'].position.y,
+                                            module['pose'].position.z - child['pose'].position.z])  
+            uni_child2module = vec_child2module / np.linalg.norm(vec_child2module)
+
+            vec_child2grand = np.array([    grandchild['pose'].position.x - child['pose'].position.x,
+                                            grandchild['pose'].position.y - child['pose'].position.y,
+                                            grandchild['pose'].position.z - child['pose'].position.z])  
+            uni_child2grand = vec_child2grand / np.linalg.norm(vec_child2grand)
+
+            if grandchild['type'] == {} and child['inversion'] == 'upright':
+                child['joint_angle'] = 0
+            elif child['inversion'] == 'upright':             
+                child['joint_angle'] = math.acos(np.dot(y_axis,uni_child2grand))
+                if np.dot(z_axis,np.cross(y_axis,uni_child2grand) ) < 0:
+                    child['joint_angle'] = - child['joint_angle']
+
+            if child['inversion'] == 'inverted':             
+                child['joint_angle'] = math.acos(np.dot(y_axis,uni_child2module))
+                if np.dot(z_axis,np.cross(y_axis,uni_child2module) ) < 0:
+                    child['joint_angle'] = - child['joint_angle']   
+
+        if child:
+            new_chain.append(child)
+
+        grandchild = child
+        child = module
+
+    module['joint_angle'] = 0
+    if module['type'] in ['t','T']:
+        if module['inversion'] =='upright':
+            matrix= tf.transformations.quaternion_matrix([  module['pose'].orientation.x,
+                                                            module['pose'].orientation.y,
+                                                            module['pose'].orientation.z,
+                                                            module['pose'].orientation.w])
+            y_axis= np.array([matrix[0][1], matrix[1][1], matrix[2][1]])
+            z_axis= np.array([matrix[0][2], matrix[1][2], matrix[2][2]])              
+            vec_module2child = np.array([   child['pose'].position.x - module['pose'].position.x,
+                                            child['pose'].position.y - module['pose'].position.y,
+                                            child['pose'].position.z - module['pose'].position.z])  
+            uni_vec = np.linalg.norm(vec_module2child)    
+            module['joint_angle'] = math.acos(np.dot(uni_vec,y_axis))
+            if np.dot(z_axis,np.cross(y_axis,uni_vec) ) < 0:
+                module['joint_angle'] = - module['joint_angle']
+
+    new_chain.append(module)
+    return new_chain
 
 # writes xacros to urdf_file_path according to template file specified by template_file_path 
 def create_urdf_file(chain_list,urdf_file_path,template_file_path):
@@ -183,7 +240,7 @@ def create_urdf_file(chain_list,urdf_file_path,template_file_path):
             
             type = module['type']
             urdf_file.write("  <xacro:{}_{} name=\"{}{}\" parent=\"{}\">\n".format(type,inversion,type,cnt,parent_link) )
-            urdf_file.write("    <origin xyz=\"0 0 0\" rpy=\"0 0 0\" />\n")
+            urdf_file.write("    <origin xyz=\"0 0 0\" rpy=\"0 0 {}\" />\n".format(module['connect_angle']))
             urdf_file.write("  </xacro:{}_{}>\n\n".format(type,inversion))
 
             if parent_link[0] in ['G','I','T'] and type in ['g','i','t']:
@@ -257,18 +314,16 @@ if __name__ == "__main__":
             
             while markers: # while not empty  
                 markers.remove(marker)
-                [parent_module_marker, parent_module_inversion, connect_angle, parent_joint_angle]=find_parent_module(marker,inversion,joint_angle,markers)
-                module_state=   { 
-                                    'type': database_dic[marker.id],
-                                    'inversion': inversion,
-                                    'connect_angle': connect_angle, 
-                                    'joint_angle': joint_angle
-                                }
-                chain.append(module_state)
+                [parent_module_marker, parent_module_inversion, connect_angle]=find_parent_module(marker,inversion,joint_angle,markers)
+                chain.append( { 'pose': marker.pose.pose,
+                                'type': database_dic[marker.id],
+                                'inversion': inversion,
+                                'connect_angle': connect_angle } )
               
                 marker=copy.deepcopy(parent_module_marker)
                 inversion= parent_module_inversion
-                joint_angle= parent_joint_angle
+
+            chain = compute_T_joint_angle(chain)
             break
     chain.reverse() # from base to end-effector
 

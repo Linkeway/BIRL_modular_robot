@@ -1,0 +1,29 @@
+<launch>
+
+  <arg name="module_robot" />
+  <arg name="gui" default="true" />
+<!--  <param name="robot_description" textfile="$(find mr_description)/robots/manipulator5d.urdf" />-->
+  <param name="robot_description" command="$(find xacro)/xacro '$(find mr_description)/robots/all_modules.urdf.xacro'" />
+<!--  <param name="robot_description" command="$(find xacro)/xacro '$(find mr_description)/robots/manipulator6d.urdf.xacro'" />-->
+<!--  <rosparam>-->
+<!--    dependent_joints:-->
+<!--      G6_finger_joint_r: {parent: G6_Joint, factor: 1 }-->
+<!--  </rosparam>-->
+  <rosparam>
+    dependent_joints:
+      g_Joint1: {parent: g_Joint, factor: 1 }
+      G_Joint1: {parent: G_Joint, factor: 1 }
+  </rosparam>
+  
+  <param name="use_gui" value="$(arg gui)" />
+
+  <node name="module_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" >
+    <param name="use_gui" value="$(arg gui)"/>
+    <param name="publish_frequency" type="double" value="10.0" />
+    <param name="gui_caption" value="BIRL"/>
+  </node>
+<!--  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />-->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" />
+  <node name="rviz"  pkg="rviz"  type="rviz" args="-d $(find mr_description)/rviz/all_modules.rviz -f base_link" if="$(arg gui)"/>
+
+</launch>
