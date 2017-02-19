@@ -13,7 +13,7 @@
   <xacro:include filename="$(find mr_description)/urdf/T_module/T_module.urdf.xacro" />
   
   <!-- T Invert Module -->
-  <xacro:include filename="$(find mr_description)/urdf/T_module/T_Invert.urdf.xacro" />
+  <xacro:include filename="$(find mr_description)/urdf/T_module/T_invert.urdf.xacro" />
 
   <!-- Gripper100 Module -->
   <xacro:include filename="$(find mr_description)/urdf/G_module.urdf.xacro" />
@@ -101,8 +101,8 @@
 <!--    <origin xyz="0 0 0" rpy="0 0 0" />-->
 <!--  </xacro:T_module>-->
 <!--  -->
-<!--  <xacro:T_Invert name="_T3" parent="_T4_Lr_Link_3">-->
-<!--  </xacro:T_Invert>-->
+<!--  <xacro:T_invert name="_T3" parent="_T4_Lr_Link_3">-->
+<!--  </xacro:T_invert>-->
 
 <!--  <xacro:T_module name="_T2" parent="_T3_Lr_Link_0">-->
 <!--    <origin xyz="0 0 0" rpy="0 0 0" />-->

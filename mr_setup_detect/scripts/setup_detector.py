@@ -25,7 +25,7 @@ import sys
 import roslaunch
 from sensor_msgs.msg import JointState
 
-Threshold= 0.30
+Threshold= 0.3
 database_dic={} 
 markers=[]
 
@@ -49,7 +49,12 @@ def receive_marker_msg(topic):
                 markers.append( copy.deepcopy(marker) )
 
 # connect_angle has only 4 alternatives due to mechanical pin hole
-def descretize_connect_angle(angle):
+def descretize_connect_angle(angle): 
+    while angle < 0:
+        angle = angle + math.pi  *2
+    while angle > math.pi *2:
+        angle = angle - math.pi*2
+
     if math.fabs(angle) < math.pi/4.0:
         return 0
     if math.fabs(angle-math.pi/2) < math.pi/4.0:
@@ -58,7 +63,8 @@ def descretize_connect_angle(angle):
         return math.pi
     if math.fabs(angle - math.pi*3/2 ) < math.pi/4.0:
         return math.pi*3/2
-    
+    return 0
+
 # INPUT: child_marker and its state, unchecked markers
 # OUTPUT: state of parent module_state
 # TODO: use combinatorial optimization methods instead of hardcoded geometrical constraints to achevie generality of the solution
@@ -145,7 +151,7 @@ def find_parent_module(child_marker,child_inversion,child_joint_angle,candidate_
     if np.dot(unit_vector, np.cross(z_axis, candidate_z_axis) ) > 0: # use unit_vector to determine positive direction of connect_angle 
         connect_angle = descretize_connect_angle( z_axes_angle )
     else:
-        connect_angle = descretize_connect_angle( 2*math.pi - z_axes_angle )
+        connect_angle = descretize_connect_angle( - z_axes_angle )
     
 
 
@@ -239,19 +245,25 @@ def create_urdf_file(chain_list,urdf_file_path,template_file_path):
                 parent_link = 'base_link'
             
             type = module['type']
-            urdf_file.write("  <xacro:{}_{} name=\"{}{}\" parent=\"{}\">\n".format(type,inversion,type,cnt,parent_link) )
-            urdf_file.write("    <origin xyz=\"0 0 0\" rpy=\"0 0 {}\" />\n".format(module['connect_angle']))
-            urdf_file.write("  </xacro:{}_{}>\n\n".format(type,inversion))
-
-            if parent_link[0] in ['G','I','T'] and type in ['g','i','t']:
+            
+            if parent_link[0] in ['G','I','T','sl'] and type in ['g','i','t']:
                 urdf_file.write("  <xacro:connect_link_100_85  name=\"cl{}\" parent=\"{}\">\n".format( "{}-{}".format(cnt,cnt+1), parent_link) )
                 urdf_file.write("    <origin xyz=\"0 0 0\" rpy=\"0 0 0\" />\n")
                 urdf_file.write("  </xacro:connect_link_100_85>\n\n")
 
-            if parent_link[0] in ['g','i','t'] and type in ['G','I','T']:
+            if parent_link[0] in ['g','i','t'] and type in ['G','I','T','sl']:
                 urdf_file.write("  <xacro:connect_link_85_100  name=\"cl{}\" parent=\"{}\">\n".format( "{}-{}".format(cnt,cnt+1), parent_link) )
                 urdf_file.write("    <origin xyz=\"0 0 0\" rpy=\"0 0 0\" />\n")
                 urdf_file.write("  </xacro:connect_link_85_100>\n\n")
+
+            if type == 'sl':
+                urdf_file.write("  <xacro:sleeve_link name=\"sl{}\" parent=\"{}\">\n".format(cnt,parent_link) )
+                urdf_file.write("    <origin xyz=\"0 0 0\" rpy=\"0 0 0\" />\n")
+                urdf_file.write("  </xacro:sleeve_link>\n\n")
+            else:
+                urdf_file.write("  <xacro:{}_{} name=\"{}{}\" parent=\"{}\">\n".format(type,inversion,type,cnt,parent_link) )
+                urdf_file.write("    <origin xyz=\"0 0 0\" rpy=\"0 0 {}\" />\n".format(module['connect_angle']))
+                urdf_file.write("  </xacro:{}_{}>\n\n".format(type,inversion))
 
             parent_link = '{}{}_Link'.format(type,cnt)
             cnt = cnt +1

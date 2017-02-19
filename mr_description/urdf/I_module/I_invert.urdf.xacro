@@ -2,27 +2,162 @@
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
 
+<!--definition of default_inertial -->
+<xacro:macro name="I_invert" params="parent name *origin rotate_direction_pos:=1">
 
+<!-- joint between base_link and Lockring_Link -->
+	<joint name="${name}_joint_0" type="fixed" >
+		<insert_block name="origin" />
+		<parent link="${parent}" />
+		<child link="${name}_Lr_Link_0" />
+	</joint>
 
+<!--the Lockring_Link in I module-->
+  <link name="${name}_Lr_Link_0">
+    <inertial>
+      <origin xyz="1.7347E-18 4.5022E-17 0.0028047" rpy="0 0 1" />
+      <mass value="0.0017728" />
+      <inertia ixx="2.1769E-06" ixy="-6.7209E-37" ixz="8.0356E-39" 
+               iyy="2.1769E-06" iyz="-1.0785E-36" izz="4.3442E-06"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://mr_description/meshes/VI_InLink.STL" />
+      </geometry>
+      <material name="White"/>
+    </visual>
+<!--    <collision>-->
+<!--      <origin xyz="0 0 0" rpy="0 0 0" />-->
+<!--      <geometry>-->
+<!--        <mesh filename="package://mr_description/meshes/VI_InLink.STL" />-->
+<!--      </geometry>-->
+<!--    </collision>-->
+  </link>
 
-<!-- Now we can start using the macros included above to define the actual robot -->
+<!-- joint between Lockring_Link and IModule_InLink -->
+    <joint name="${name}_Lr_Joint_1" type="fixed">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <parent link="${name}_Lr_Link_0" />
+      <child  link="${name}_InLink_1" />
+      <axis   xyz="0 0 0" />
+      <limit  lower="0" upper="0"  effort="0"   velocity="0" />
+    </joint>
 
-  <!-- The first use of a macro.  This one was defined in base.urdf.xacro above.
-       A macro like this will expand to a set of link and joint definitions, and to additional
-       Gazebo-related extensions (sensor plugins, etc).  The macro takes an argument, name, 
-       that equals "base", and uses it to generate names for its component links and joints 
-       (e.g., base_link).  The included origin block is also an argument to the macro.  By convention, 
-       the origin block defines where the component is w.r.t its parent (in this case the parent 
-       is the world frame). For more, see http://www.ros.org/wiki/xacro -->
+<!--the IModule_InLink in I module-->
+  <link name="${name}_InLink_1">
+    <inertial>
+      <origin xyz="0.0024379 -0.0024994 0.076186" rpy="0 0 0" />
+      <mass   value="0.58944" />
+      <inertia  ixx="0.0012341"  ixy="-3.8775E-05"  ixz="-3.5596E-05"
+      				  iyy="0.001235"   iyz="3.487E-05"    izz="0.00097195" />
+    </inertial>
+    <visual>
+      <origin   xyz="0 0 0"  rpy="0 0 0" />
+      <geometry>
+        <mesh   filename="package://mr_description/meshes/I_InLink.STL" />
+      </geometry>
+      <material name="Red"/>
+    </visual>
+    <collision>
+<!--      <origin   xyz="0 0 0"  rpy="0 0 0" />-->
+	<origin   xyz="0 0 0.083"  rpy="0 0 0" />
+      <geometry>
+<!--        <mesh   filename="package://mr_description/meshes/I_InLink.STL" />-->
+	<cylinder radius="0.05" length="0.158"  />
+      </geometry>
+    </collision>
+  </link>
 
-  <!-- I Module -->
-  <xacro:include filename="$(find mr_description)/urdf/I_module/I_module.urdf.xacro" />
+<!-- joint between IModule_InLink and IModule_OutLink -->
+  <joint  name="${name}_Joint"  type="continuous">
+    <origin  xyz="0 0 0.12015" rpy="0 0 0" />
+    <parent  link="${name}_InLink_1" />
+    <child   link="${name}_OutLink_2" />
+
+<!--    <xacro:if value="${rotate_direction_pos}">-->
+<!--       <axis   xyz="0 0 1" />-->
+<!--    </xacro:if>-->
+<!--    <xacro:unless value="${rotate_direction_pos}">-->
+<!--       <axis   xyz="0 0 -1" />-->
+<!--    </xacro:unless>-->
+    <axis   xyz="0 0 ${rotate_direction_pos}" />
+           
+    <limit   effort="75"  velocity="1.1" />
+  </joint>
   
-  <xacro:macro name="I_invert" params="parent name *origin">
-    <xacro:I_module name="${name}" parent="${parent}" rotate_direction_pos="1">
-       <insert_block name="origin" />
-    </xacro:I_module>
-  </xacro:macro>
   
+  <!--    test reduction ratio-->
+  <transmission name="simple_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="${name}_Joint">
+      <hardwareInterface>PositionJointInterface</hardwareInterface>
+      <hardwareInterface>VelocityJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="${name}_motor">
+      <mechanicalReduction>457</mechanicalReduction> 
+      <hardwareInterface>PositionJointInterface</hardwareInterface>
+      <hardwareInterface>VelocityJointInterface</hardwareInterface>
+    </actuator>
+  </transmission>
+
+<!--the IModule_OutLink in I module-->
+  <link  name="${name}_OutLink_2">
+    <inertial>  
+			<origin  xyz="-2.1654E-06 1.6134E-06 0.015967" rpy="0 0 0" />
+      <mass    value="1.185" />
+      <inertia  ixx="0.0008146"  ixy="-5.4911E-08"  ixz="-2.4725E-08"
+       				  iyy="0.00081463" iyz="1.7434E-08"   izz="0.0013197" />
+    </inertial>
+    <visual>
+      <origin  xyz="0 0 0"  rpy="0 0 0" />
+      <geometry>
+        <mesh  filename="package://mr_description/meshes/I_OutLink.STL" />
+      </geometry>
+      <material  name="Red"/>
+    </visual>
+<!--    <collision>-->
+<!--      <origin  xyz="0 0 0" rpy="0 0 0" />-->
+<!--      <geometry>-->
+<!--        <mesh  filename="package://mr_description/meshes/I_OutLink.STL" />-->
+<!--      </geometry>-->
+<!--    </collision>-->
+  </link>
+
+<!-- joint between IModule_OutLink and Lockring_Link -->
+    <joint name="${name}_Lr_Joint_3" type="fixed">
+      <origin xyz="0 0 0.0432" rpy="0 0 0" />
+      <parent link="${name}_OutLink_2" />
+      <child  link="${name}_Link" />
+      <axis   xyz="0 0 0" />
+      <limit  lower="0" upper="0"  effort="0"   velocity="0" />
+    </joint>
+
+<!--the Lockring_Link in I module-->
+  <link name="${name}_Link">
+    <inertial>
+      <origin  xyz="-1.7347E-18 4.5159E-17 -0.00285"  rpy="0 0 0" />
+      <mass    value="0.0017728" />
+      <inertia   ixx="2.1769E-06"  ixy="-9.5009E-37"  ixz="1.6071E-38"
+                 iyy="2.1769E-06"  iyz="-1.0575E-36"  izz="4.3442E-06" />
+    </inertial>
+    <visual>
+      <origin  xyz="0 0 0"  rpy="0 0 0" />
+      <geometry>
+        <mesh  filename="package://mr_description/meshes/VI_OutLink.STL" />
+      </geometry>
+      <material name="White"/>
+    </visual>
+<!--    <collision>-->
+<!--      <origin  xyz="0 0 0" rpy="0 0 0" />-->
+<!--      <geometry>-->
+<!--        <mesh  filename="package://mr_description/meshes/VI_OutLink.STL" />-->
+<!--      </geometry>-->
+<!--    </collision>-->
+  </link>
+
+
+
+
+</xacro:macro>
 </robot>
-  

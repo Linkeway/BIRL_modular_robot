@@ -12,20 +12,17 @@
   <!-- T Module -->
   <xacro:include filename="$(find mr_description)/urdf/T_module/T_module.urdf.xacro" />
   
+  <!-- I Invert Module -->
+  <xacro:include filename="$(find mr_description)/urdf/I_module/I_invert.urdf.xacro" />
+  
   <!-- T Invert Module -->
-  <xacro:include filename="$(find mr_description)/urdf/T_module/T_Invert.urdf.xacro" />
+  <xacro:include filename="$(find mr_description)/urdf/T_module/T_invert.urdf.xacro" />
 
   <!-- Gripper100 Module -->
   <xacro:include filename="$(find mr_description)/urdf/G_module.urdf.xacro" />
     
   <!-- Gripper100 invert Module -->
   <xacro:include filename="$(find mr_description)/urdf/G_invert.urdf.xacro" />
-  
-  <!-- 100_85_connect_link Module -->
-  <xacro:include filename="$(find mr_description)/urdf/100_85connect_link.urdf.xacro" />
-
-  <!-- 85_100_connect  Module -->
-  <xacro:include filename="$(find mr_description)/urdf/85_100connect_link.urdf.xacro" />
   
   <!-- t85 Module -->
   <xacro:include filename="$(find mr_description)/urdf/t_module.urdf.xacro" />
@@ -35,6 +32,15 @@
   
    <!-- g85  Module -->
   <xacro:include filename="$(find mr_description)/urdf/g_module.urdf.xacro" />
+  
+  <!-- 100_85_connect_link Module -->
+  <xacro:include filename="$(find mr_description)/urdf/100_85connect_link.urdf.xacro" />
+
+  <!-- 85_100_connect  Module -->
+  <xacro:include filename="$(find mr_description)/urdf/85_100connect_link.urdf.xacro" />
+  
+  <!-- sleeve_link Module -->
+  <xacro:include filename="$(find mr_description)/urdf/sleeve_link.urdf.xacro" />
   
 <!-- Now we can start using the macros included above to define the actual youbot -->
 
