@@ -32,5 +32,14 @@
     
   </link>
 
+<!-- offset joint -->
+  <joint name="${name}_offset_joint" type="fixed" >
+    <origin xyz="0 0 ${sleeve_link_length}" rpy="0 0 0" />
+    <parent link="${name}_link" />
+    <child link="${name}_Link" />
+  </joint>
+
+<link name="${name}_Link"/>
+
 </xacro:macro>
 </robot>

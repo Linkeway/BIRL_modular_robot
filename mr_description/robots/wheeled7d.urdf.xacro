@@ -13,7 +13,7 @@
   <xacro:include filename="$(find mr_description)/urdf/T_module/T_module.urdf.xacro" />
   
   <!-- T Invert Module -->
-  <xacro:include filename="$(find mr_description)/urdf/T_module/T_Invert.urdf.xacro" />
+  <xacro:include filename="$(find mr_description)/urdf/T_module/T_invert.urdf.xacro" />
 
   <!-- Gripper100 Module -->
   <xacro:include filename="$(find mr_description)/urdf/G_module.urdf.xacro" />

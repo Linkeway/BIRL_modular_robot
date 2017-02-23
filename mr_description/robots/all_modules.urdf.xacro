@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="manipulator5d">
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="ModuleManipulator">
 
   <xacro:property name="pi" value="3.1415926535897931" />
   
@@ -50,41 +50,55 @@
 <!--    <origin xyz="0 0 0.17836" rpy="${-pi*0.5} 0 0" />-->
 <!--  </xacro:G_invert>-->
   
-  <xacro:I_module name="I1" parent="base_link">
+  <xacro:I_module name="I" parent="base_link">
     <origin xyz="0 0 0" rpy="0 0 0" />
   </xacro:I_module>
 
-  <xacro:T_invert name="T2" parent="I1_Link" >
-    <origin xyz="0 0 0" rpy="0 0 0" />
-  </xacro:T_invert>
-
-  <xacro:T_module name="T3" parent="T2_Link">
-    <origin xyz="0 0 0" rpy="0 0 0" />
+  <xacro:i_module name="i" parent="base_link">
+    <origin xyz="0 0.13 0" rpy="0 0 0" />
+  </xacro:i_module>  
+  
+  <xacro:T_module name="T" parent="base_link">
+    <origin xyz="0 0.26 0" rpy="0 0 ${pi*0.5}" />
   </xacro:T_module>
 
-  <xacro:connect_link_100_85  name="cl" parent="T3_Link">
-    <origin xyz="0 0 0" rpy="0 0 0" />
-  </xacro:connect_link_100_85>
-  
-  <xacro:i_module name="i4" parent="cl_100_85_connect_Link">
-    <origin xyz="0 0 0" rpy="0 0 0" />
-  </xacro:i_module>  
+  <xacro:t_module name="t" parent="base_link">
+    <origin xyz="0 0.39 0" rpy="0 0 0" />
+  </xacro:t_module>  
 
-  <xacro:t_module name="t5" parent="i4_Link">
-    <origin xyz="0 0 0" rpy="0 0 0" />
-  </xacro:t_module>
-
-  <xacro:g_module name="g6" parent="t5_Link">
-    <origin xyz="0 0 0" rpy="0 0 0" />
+  <xacro:G_module name="G" parent="base_link">
+    <origin xyz="0 -0.26 0" rpy="${pi*0.5} 0 ${pi*0.5}" />
+  </xacro:G_module>
+      
+  <xacro:g_module name="g" parent="base_link">
+    <origin xyz="0 -0.13 0" rpy="0 0 ${pi*0.5}" />
   </xacro:g_module>
-
   <joint name="tcp_fixed_joint" type="fixed" >
     <origin xyz="0 0 0.16" rpy="0 0 0" />
-    <parent link="g6_palm_link" />
+    <parent link="g_palm_link" />
     <child link="tcp" />
   </joint>
-  
   <link name="tcp"/>
+    
+  <xacro:T_invert name="Ti" parent="base_link" >
+    <origin xyz="0 0.52 0" rpy="0 0 0" />
+  </xacro:T_invert>
+
+  
+
+
+  <xacro:connect_link_100_85  name="cl" parent="base_link">
+    <origin xyz="0 0.65 0" rpy="0 0 0" />
+  </xacro:connect_link_100_85>
+  
+
+
+
+
+
+
+
+
 
 <!--  <xacro:G_module name="G6" parent="T5_Lr_Link_3">-->
 <!--    <origin xyz="0 0 0" rpy="${pi*0.5} 0 ${pi*0.5}" />-->

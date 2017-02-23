@@ -9,9 +9,16 @@
   <joint name="${name}_joint_0" type="fixed" >
     <insert_block name="origin" />
     <parent link="${parent}" />
+    <child link="${name}_link" />
+  </joint>
+  <link name="${name}_link"/>
+<!-- joint between parent_link and palm _Link -->
+  <joint name="${name}_offset_joint" type="fixed" >
+    <origin xyz="0 0 0" rpy="${pi*0.5} 0 ${-pi*0.5}" />
+    <parent link="${name}_link" />
     <child link="${name}_palm_link" />
   </joint>
-
+  
 <!--the palm link-->
   <link name="${name}_palm_link">
     <inertial>

@@ -16,7 +16,7 @@
   <xacro:include filename="$(find mr_description)/urdf/I_module/I_invert.urdf.xacro" />
   
   <!-- T Invert Module -->
-  <xacro:include filename="$(find mr_description)/urdf/T_module/T_Invert.urdf.xacro" />
+  <xacro:include filename="$(find mr_description)/urdf/T_module/T_invert.urdf.xacro" />
 
   <!-- Gripper100 Module -->
   <xacro:include filename="$(find mr_description)/urdf/G_module.urdf.xacro" />
@@ -40,7 +40,7 @@
   <link name="base_gripper1" />
   
   <xacro:G_invert name="G0" parent="base_gripper1">
-    <origin xyz="0 0 0.17836" rpy="${-pi*0.5} 0 0" />
+    <origin xyz="0 0 0.17836" rpy="0 0 0" />
   </xacro:G_invert>
   
   <xacro:I_module name="I1" parent="G0_palm_link">
@@ -55,11 +55,11 @@
     <origin xyz="0 0 0" rpy="0 0 0" />
   </xacro:T_module>
 
-  <xacro:sleeve_link name="sleeve_link" parent="T3_Link" >
+  <xacro:sleeve_link name="sl" parent="T3_Link" >
     <origin xyz="0 0 0" rpy="0 0 0" />
   </xacro:sleeve_link>
   
-  <xacro:T_module name="T4" parent="sleeve_link_link">
+  <xacro:T_module name="T4" parent="sl_Link">
     <origin xyz="0 0 ${sleeve_link_length}" rpy="0 0 0" />
   </xacro:T_module>
 
