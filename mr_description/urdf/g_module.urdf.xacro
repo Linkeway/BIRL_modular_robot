@@ -42,6 +42,30 @@
     </inertial>
   </link>
   
+
+  
+  <joint  name="${name}_Joint"  type="prismatic">
+    <origin   xyz="0 0 0"    rpy="0 0 0" />
+    <parent   link="${name}_palm_link" />
+    <child   link="${name}_finger_link" />
+    <axis   xyz="-1 0 0" />
+    <limit    lower="0"  upper="0.06" effort="1" velocity="0.06" />
+<!--    <calibration   rising="1"   falling="1" />-->
+<!--    <dynamics    damping="1"    friction="1" />-->
+<!--    <safety_controller soft_upper="0.06" soft_lower="0" k_position="1" k_velocity="1" />-->
+  </joint>
+  
+  <joint  name="${name}_Joint1"  type="prismatic">
+    <origin   xyz="0 0 0"    rpy="0 0 0" />
+    <parent    link="${name}_palm_link" />
+    <child    link="${name}_finger_link1" />
+    <axis   xyz="1 0 0" />
+    <limit  lower="0"  upper="0.06" effort="1" velocity="0.06" />
+<!--    <calibration  rising="1" />-->
+<!--    <dynamics  damping="1"  friction="1" />-->
+<!--    <safety_controller soft_upper="0.06" soft_lower="0" k_position="1" k_velocity="1" />-->
+  </joint>
+  
   <link  name="${name}_finger_link">
     <visual>
       <origin    xyz="0 0 0"     rpy="0 0 0" />
@@ -67,29 +91,7 @@
     </inertial>
   </link>
   
-  <joint  name="${name}_Joint"  type="prismatic">
-    <origin   xyz="0 0 0"    rpy="0 0 0" />
-    <parent   link="${name}_palm_link" />
-    <child   link="${name}_finger_link" />
-    <axis   xyz="-1 0 0" />
-    <limit    lower="0"  upper="0.06" effort="1" velocity="0.06" />
-<!--    <calibration   rising="1"   falling="1" />-->
-<!--    <dynamics    damping="1"    friction="1" />-->
-<!--    <safety_controller soft_upper="0.06" soft_lower="0" k_position="1" k_velocity="1" />-->
-  </joint>
-  
   <link  name="${name}_finger_link1">
-    <inertial>
-      <origin xyz="0.0142537929479934 3.43816122645394E-05 0.123240994639808" rpy="0 0 0" />
-      <mass  value="0.0587979869361215" />
-      <inertia
-        ixx="4.06348713317454E-05"
-        ixy="4.84294028883443E-09"
-        ixz="-9.16297919179846E-06"
-        iyy="4.29642140065595E-05"
-        iyz="-7.56625401696782E-08"
-        izz="9.72744043633773E-06" />
-    </inertial>
     <visual>
       <origin  xyz="0 0 0"  rpy="0 0 0" />
       <geometry>
@@ -105,18 +107,21 @@
         <mesh   filename="package://mr_description/meshes/g_finger_link1.STL" />
       </geometry>
     </collision>
+    <inertial>
+      <origin xyz="0.0142537929479934 3.43816122645394E-05 0.123240994639808" rpy="0 0 0" />
+      <mass  value="0.0587979869361215" />
+      <inertia
+        ixx="4.06348713317454E-05"
+        ixy="4.84294028883443E-09"
+        ixz="-9.16297919179846E-06"
+
+        iyy="4.29642140065595E-05"
+        iyz="-7.56625401696782E-08"
+        izz="9.72744043633773E-06" />
+    </inertial>
   </link>
   
-  <joint  name="${name}_Joint1"  type="prismatic">
-    <origin   xyz="0 0 0"    rpy="0 0 0" />
-    <parent    link="${name}_palm_link" />
-    <child    link="${name}_finger_link1" />
-    <axis   xyz="1 0 0" />
-    <limit  lower="0"  upper="0.06" effort="1" velocity="0.06" />
-<!--    <calibration  rising="1" />-->
-<!--    <dynamics  damping="1"  friction="1" />-->
-<!--    <safety_controller soft_upper="0.06" soft_lower="0" k_position="1" k_velocity="1" />-->
-  </joint>
+
 
 
   </xacro:macro>

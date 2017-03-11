@@ -6,10 +6,10 @@ Panels:
       Expanded:
         - /module_robot1
         - /module_robot1/Links1
+        - /module_robot1/Links1/tcp1
         - /TF1
         - /TF1/Frames1
         - /TF1/Tree1
-        - /InteractiveMarkers1
       Splitter Ratio: 0.694767
     Tree Height: 463
   - Class: rviz/Selection
@@ -189,7 +189,7 @@ Visualization Manager:
         tcp:
           Alpha: 1
           Show Axes: false
-          Show Trail: false
+          Show Trail: true
       Name: module_robot
       Robot Description: robot_description
       TF Prefix: ""
@@ -293,15 +293,6 @@ Visualization Manager:
                                                           {}
       Update Interval: 0
       Value: true
-    - Class: rviz/InteractiveMarkers
-      Enable Transparency: true
-      Enabled: true
-      Name: InteractiveMarkers
-      Show Axes: false
-      Show Descriptions: false
-      Show Visual Aids: true
-      Update Topic: /basic_controls/update
-      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -326,7 +317,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 3.12176
+      Distance: 2.6686
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.06
         Stereo Focal Distance: 1
@@ -338,10 +329,10 @@ Visualization Manager:
         Z: 0.155683
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 0.089797
+      Pitch: 0.119797
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 0.0259112
+      Yaw: 5.4341
     Saved: ~
 Window Geometry:
   Displays:

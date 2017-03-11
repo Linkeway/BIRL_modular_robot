@@ -1,4 +1,6 @@
 #!/usr/bin/env python
+# This Python file uses the following encoding: utf-8
+
 import math
 from sensor_msgs.msg import JointState
 import rospy
@@ -6,8 +8,10 @@ import string
 from urdf_parser_py.urdf import URDF
 import xml.dom.minidom
 from math import pi
+import rospkg
+import sys
 
-Velosity = math.radians(30) #模块最大速度是60度每秒，一般运行速度为30度每秒
+max_vel = 0 #模块最大速度是60度每秒，一般运行速度为30度每秒
 Points = [] #存储[P1 24.636 ,61.687 ,-10.713 ,180.000 ,50.974]
 MotionPara = [] #存储[MOVJ P1, 30, Z1]
 
@@ -59,8 +63,10 @@ def get_joints():
 
     return joint_list
 
-def Readfile():
-    f = open("../mrl/智造.mrl")   # 返回一个文件对象  
+def Readfile(path):
+    #pack = rospkg.RosPack()
+    #path = pack.get_path('modular_robot_control')+'/mrl/智造.mrl'
+    f = open(path)   # 返回一个文件对象  
     line = f.readline()
     while line: 
         temp1 = line.replace(',','')    #删除逗号
@@ -70,9 +76,11 @@ def Readfile():
             s = line.split()    #字符串按照空格分开，split()默认以空格分开 
             s[1] = string.atof(s[1])    #字符串转化为浮点数
             s[1] = math.radians(s[1]) #角度转弧度
-            s[2] = string.atof(s[2])
+            s[2] = string.atof(s[2])    #字符串转浮点数
+            s[2] = s[2] - 90    #补偿，，操作臂竖直时，原系统定义此T模块为90度；而现系统定义为0度
             s[2] = math.radians(s[2])
             s[3] = string.atof(s[3])
+            s[3] = s[3] - 90
             s[3] = math.radians(s[3])
             s[4] = string.atof(s[4])
             s[4] = math.radians(s[4])
@@ -91,6 +99,7 @@ def Readfile():
 def mrl_interpretor():
     pub = rospy.Publisher('joint_command',JointState, queue_size=10) 
     nh = rospy.init_node('mrl_interpretor', anonymous=True)
+    #pathPub = rospy.Publisher()
     rate = rospy.Rate(10) # 10hz
     i = 0
 
@@ -105,12 +114,14 @@ def mrl_interpretor():
         msg.position.append(Points[i][3]) 
         msg.position.append(Points[i][4])
         msg.position.append(Points[i][5])
+        msg.position.append(0)
 
-        msg.velocity.append(Velosity*MotionPara[i][2])
-        msg.velocity.append(Velosity*MotionPara[i][2])
-        msg.velocity.append(Velosity*MotionPara[i][2])
-        msg.velocity.append(Velosity*MotionPara[i][2])
-        msg.velocity.append(Velosity*MotionPara[i][2])
+        msg.velocity.append(max_vel*MotionPara[i][2])
+        msg.velocity.append(max_vel*MotionPara[i][2])
+        msg.velocity.append(max_vel*MotionPara[i][2])
+        msg.velocity.append(max_vel*MotionPara[i][2])
+        msg.velocity.append(max_vel*MotionPara[i][2])
+        msg.velocity.append(0)
  
         msg.header.stamp = rospy.Time.now()
 
@@ -120,12 +131,14 @@ def mrl_interpretor():
         pub.publish(msg)
 
         i = i + 1
+        del msg.position[5]
         del msg.position[4] 
         del msg.position[3]
         del msg.position[2]
         del msg.position[1]
         del msg.position[0]
-
+        
+        del msg.velocity[5]
         del msg.velocity[4]
         del msg.velocity[3]
         del msg.velocity[2]
@@ -136,7 +149,14 @@ def mrl_interpretor():
     
 if __name__ == '__main__':
     try:
-        Readfile()
+        max_vel = math.radians(30)
+        if len(sys.argv) < 2 :
+            print 'Please input a mrl file path.'
+            print 'E.g.: ./mrl_interpretor.py /mrl/***.mrl [max velocity in radians]'
+        if len(sys.argv)>2:
+            max_vel = string.atof(sys.argv[2])
+            
+        Readfile(sys.argv[1])
         mrl_interpretor()
     except rospy.ROSInterruptException:
         pass
