@@ -50,6 +50,14 @@
 <!--    <origin xyz="0 0 0.17836" rpy="${-pi*0.5} 0 0" />-->
 <!--  </xacro:G_invert>-->
   
+  <joint name="tcp_fixed_joint" type="fixed" >
+    <origin xyz="0 0 0.16" rpy="0 0 0" />
+    <parent link="g6_palm_link" />
+    <child link="tcp" />
+  </joint>
+  
+  <link name="tcp"/>
+
   <xacro:I_module name="I1" parent="base_link">
     <origin xyz="0 0 0" rpy="0 0 0" />
   </xacro:I_module>
@@ -77,14 +85,6 @@
   <xacro:g_module name="g6" parent="t5_Link">
     <origin xyz="0 0 0" rpy="0 0 0" />
   </xacro:g_module>
-
-  <joint name="tcp_fixed_joint" type="fixed" >
-    <origin xyz="0 0 0.16" rpy="0 0 0" />
-    <parent link="g6_palm_link" />
-    <child link="tcp" />
-  </joint>
-  
-  <link name="tcp"/>
 
 <!--  <xacro:G_module name="G6" parent="T5_Lr_Link_3">-->
 <!--    <origin xyz="0 0 0" rpy="${pi*0.5} 0 ${pi*0.5}" />-->
