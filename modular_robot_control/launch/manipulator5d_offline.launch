@@ -1,0 +1,37 @@
+<launch>
+
+  <arg name="module_robot" />
+  <arg name="gui" default="true" />
+  <arg name="sim" default="true" />
+  <arg name="mrl_file" default="$(find modular_robot_control)/mrl/智造.mrl" />
+  
+<!--  <param name="robot_description" textfile="$(find mr_description)/robots/manipulator5d.urdf" />-->
+  <param name="robot_description" command="$(find xacro)/xacro '$(find mr_description)/robots/manipulator5d.urdf.xacro'" />
+<!--  <param name="robot_description" command="$(find xacro)/xacro '$(find mr_description)/robots/manipulator6d.urdf.xacro'" />-->
+<!--  <rosparam>-->
+<!--    dependent_joints:-->
+<!--      G6_finger_joint_r: {parent: G6_Joint, factor: 1 }-->
+<!--  </rosparam>-->
+  <rosparam>
+    dependent_joints:
+      g6_Joint1: {parent: g6_Joint, factor: 1 }
+<!--      g7_Joint1: {parent: g7_Joint, factor: 1 }-->
+  </rosparam>
+  
+  <param name="use_gui" value="$(arg gui)" />
+
+
+  <node name="offline_data_publisher" pkg="modular_robot_control" type="mrl_interpreter.py" args="$(arg mrl_file) 0.5" />
+  <group if="$(arg sim)">
+    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" >
+        <rosparam param="source_list">["/joint_command"]</rosparam>
+    </node>
+  </group> 
+  <group unless="$(arg sim)">
+    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/>
+  </group> 
+
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" />
+  <node name="rviz"  pkg="rviz"  type="rviz" args="-d $(find mr_description)/rviz/manipulator5d.rviz -f base_link" if="$(arg gui)"/>
+
+</launch>
