@@ -14,7 +14,7 @@ import sys
 max_vel = 0 #模块最大速度是60度每秒，一般运行速度为30度每秒
 Points = [] #存储[P1 24.636 ,61.687 ,-10.713 ,180.000 ,50.974]
 MotionPara = [] #存储[MOVJ P1, 30, Z1]
-
+eps = 5/180.0*math.pi   # 
 
 def get_joints():
     description = rospy.get_param("robot_description")
@@ -95,18 +95,35 @@ def Readfile(path):
             MotionPara.append(s)
         line = f.readline()  
     f.close() 
+js= JointState()
+
+def wait_for_robot(command_pos,actual_pos,num_joints):
+    reached = False
+    while not reached:
+         reached = True
+         for i in range(num_joints):
+            if math.fabs(command_pos[i]-actual_pos[i]) > eps:
+                 reached = False
+
+def callback(data):
+    js=data
 
 def mrl_interpretor():
     pub = rospy.Publisher('joint_command',JointState, queue_size=10) 
     nh = rospy.init_node('mrl_interpretor', anonymous=True)
     #pathPub = rospy.Publisher()
+    sub = rospy.Subscriber('joint_state', JointState, callback)
+
     rate = rospy.Rate(10) # 10hz
     i = 0
 
     msg = JointState()  #生成msg对象
     robot = URDF.from_parameter_server() 
     msg.header.frame_id = robot.get_root() #"base_link" 
-    msg.name = get_joints()  
+    msg.name = get_joints() 
+    Num_Joints= msg.name.count()
+    while sub.get_num_connections() < 1:
+        None 
     while not rospy.is_shutdown():
         msg.header.seq = i
         msg.position.append(Points[i][1])
@@ -128,9 +145,11 @@ def mrl_interpretor():
         rospy.loginfo(msg)
         if (Points[i][0]) != (MotionPara[i][1]):
             break
+        
         pub.publish(msg)
+        wait_for_robot(msg.position,js.position,Num_Joints)
 
-        i = i + 1
+        i = i + 1    
         del msg.position[5]
         del msg.position[4] 
         del msg.position[3]
