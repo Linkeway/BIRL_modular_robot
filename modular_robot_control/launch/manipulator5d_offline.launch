@@ -16,7 +16,6 @@
   <rosparam>
     dependent_joints:
       g6_Joint1: {parent: g6_Joint, factor: 1 }
-<!--      g7_Joint1: {parent: g7_Joint, factor: 1 }-->
   </rosparam>
   
   <param name="use_gui" value="$(arg gui)" />
