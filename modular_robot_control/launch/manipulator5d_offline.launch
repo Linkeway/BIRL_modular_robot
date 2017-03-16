@@ -5,6 +5,7 @@
   <arg name="sim" default="true" />
   <arg name="mrl_file" default="$(find modular_robot_control)/mrl/智造.mrl" />
   
+  
 <!--  <param name="robot_description" textfile="$(find mr_description)/robots/manipulator5d.urdf" />-->
   <param name="robot_description" command="$(find xacro)/xacro '$(find mr_description)/robots/manipulator5d.urdf.xacro'" />
 <!--  <param name="robot_description" command="$(find xacro)/xacro '$(find mr_description)/robots/manipulator6d.urdf.xacro'" />-->
@@ -15,21 +16,52 @@
   <rosparam>
     dependent_joints:
       g6_Joint1: {parent: g6_Joint, factor: 1 }
-<!--      g7_Joint1: {parent: g7_Joint, factor: 1 }-->
   </rosparam>
   
   <param name="use_gui" value="$(arg gui)" />
 
 
-  <node name="offline_data_publisher" pkg="modular_robot_control" type="mrl_interpreter.py" args="$(arg mrl_file) 0.5" />
-  <group if="$(arg sim)">
-    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" >
-        <rosparam param="source_list">["/joint_command"]</rosparam>
-    </node>
-  </group> 
   <group unless="$(arg sim)">
-    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/>
+  <node name="canopen_driver" pkg="canopen_motor_node" type="canopen_motor_node" output="screen" clear_params="true">
+					<!--   launch-prefix="gdb -ex run -/-args">-->
+     <rosparam command="load" file="$(find birl_module_canopen)/config/can.yaml" />
+     <rosparam command="load" file="$(find birl_module_canopen)/config/manipulator5d_motors.yaml" />
+<!--     <remap from="joint_states" to="/feedback_joint_states"/> -->
+
+  </node>
+  
+  
+<!-- controllers -->
+  <rosparam command="load" file="$(find modular_robot_control)/config/manipulator5d_controller.yaml" />
+<!--  <rosparam ns="arm" command="load" file="$(find schunk_lwa4p)/config/joint_limits.yaml"/>-->
+<!--  <rosparam ns="arm" command="load" file="$(find schunk_lwa4p)/config/arm_cartesian_controller.yaml"/>-->
+
+   <!-- start_controllers -->
+  <node name="controller_spawner" pkg="controller_manager" type="controller_manager" args="spawn joint_state_controller joint_group_position_controller" respawn="false" output="screen"/>
+<!--  <node name="controller_loader" pkg="controller_manager" type="controller_manager" args="load joint_trajectory_controller I_Joint_position_controller I_Joint_velocity_controller " respawn="false" output="screen"/>-->
+    
+<!--  transform the topic from joint_state_publisher to that of canopen_motor_node-->
+<!--  <node name="topic_transf_joint_state_pub_to_canopen_motor" pkg="topic_tools" type="transform" args="/joint_states /I_Joint_position_controller/command std_msgs/Float64 'm.position[0]'" output="screen" />-->
+  <node name="module_state_adaptor" pkg="birl_module_canopen" type="module_state_adaptor.py" args="canopen_driver">
+      <remap from="joint_states" to="/joint_command"/>
+  </node>
+
+
+  </group>
+  
+
+  <group if="$(arg sim)">
+
+  <node name="offline_data_publisher" pkg="modular_robot_control" type="mrl_interpreter.py" args="$(arg mrl_file) 0.4 $(arg sim)" >
+    <!--<remap from="joint_command" to="joint_states"/>-->
+  </node>
+
+  <!--<node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" >
+        <rosparam param="source_list">["/joint_command"]</rosparam>
+  </node>-->
   </group> 
+
+
 
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" />
   <node name="rviz"  pkg="rviz"  type="rviz" args="-d $(find mr_description)/rviz/manipulator5d.rviz -f base_link" if="$(arg gui)"/>
