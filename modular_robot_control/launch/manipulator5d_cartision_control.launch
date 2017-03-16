@@ -5,9 +5,11 @@
   <arg name="timeout" default="0.005" />
 
   <include file="$(find mr_description)/launch/manipulator5d_display.launch" >
-    <arg name="gui" value="false"/>
+    <arg name="gui" value="true"/>
   </include>
 
+  <node name="interactive_marker" pkg="modular_robot_control" type="basic_marker.py"/>
+  
   <node name="ik_node" pkg="modular_robot_control" type="ik_node" output="screen">
     <param name="chain_start" value="$(arg chain_start)"/>
     <param name="chain_end" value="$(arg chain_end)"/>

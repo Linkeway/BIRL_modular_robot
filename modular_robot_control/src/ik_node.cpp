@@ -1,4 +1,4 @@
-/********************************************************************************
+/* *******************************************************************************
 Copyright (c) 2016, TRACLabs, Inc.
 All rights reserved.
 
@@ -98,7 +98,7 @@ int main(int argc, char** argv)
   }
   //fk_solver.JntToCart(result,end_effector_pose);
 
-  ros::Subscriber sub = nh.subscribe("pose_command", 2, pose_callback);
+  ros::Subscriber sub = nh.subscribe("marker_pose", 2, pose_callback);
   
   int rc;
   while(ros::ok()){

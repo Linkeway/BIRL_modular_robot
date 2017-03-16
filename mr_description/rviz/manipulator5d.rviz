@@ -5,8 +5,6 @@ Panels:
     Property Tree Widget:
       Expanded:
         - /module_robot1
-        - /module_robot1/Links1
-        - /module_robot1/Links1/tcp1
         - /TF1
         - /TF1/Frames1
         - /TF1/Tree1
@@ -189,7 +187,7 @@ Visualization Manager:
         tcp:
           Alpha: 1
           Show Axes: false
-          Show Trail: true
+          Show Trail: false
       Name: module_robot
       Robot Description: robot_description
       TF Prefix: ""
@@ -293,6 +291,15 @@ Visualization Manager:
                                                           {}
       Update Interval: 0
       Value: true
+    - Class: rviz/InteractiveMarkers
+      Enable Transparency: true
+      Enabled: true
+      Name: InteractiveMarkers
+      Show Axes: true
+      Show Descriptions: true
+      Show Visual Aids: true
+      Update Topic: /basic_controls/update
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -317,7 +324,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 2.6686
+      Distance: 3.10578
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.06
         Stereo Focal Distance: 1
@@ -329,10 +336,10 @@ Visualization Manager:
         Z: 0.155683
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 0.119797
+      Pitch: 0.654797
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 5.4341
+      Yaw: 5.09411
     Saved: ~
 Window Geometry:
   Displays:
@@ -350,5 +357,5 @@ Window Geometry:
   Views:
     collapsed: false
   Width: 1301
-  X: 65
-  Y: 24
+  X: 438
+  Y: 78

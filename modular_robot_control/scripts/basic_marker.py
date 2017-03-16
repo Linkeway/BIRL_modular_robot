@@ -27,6 +27,7 @@ INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
 CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 POSSIBILITY OF SUCH DAMAGE.
+
 """
 
 import rospy
@@ -37,20 +38,24 @@ from interactive_markers.menu_handler import *
 from visualization_msgs.msg import *
 from geometry_msgs.msg import Point
 from tf.broadcaster import TransformBroadcaster
-
+from geometry_msgs.msg import Pose
 from random import random
 from math import sin
+import  sys
 
 server = None
 menu_handler = MenuHandler()
 br = None
 counter = 0
+pub = None 
 
 def frameCallback( msg ):
     global counter, br
     time = rospy.Time.now()
-    br.sendTransform( (0, 0, sin(counter/140.0)*2.0), (0, 0, 0, 1.0), time, "base_link", "moving_frame" )
+    br.sendTransform( (0, 0, sin(counter/140.0)*2.0), (0, 0, 0, 1.0), time, "base_link", "marker_frame" )
     counter += 1
+
+
 
 def processFeedback( feedback ):
     s = "Feedback from marker '" + feedback.marker_name
@@ -68,20 +73,20 @@ def processFeedback( feedback ):
     elif feedback.event_type == InteractiveMarkerFeedback.MENU_SELECT:
         rospy.loginfo( s + ": menu item " + str(feedback.menu_entry_id) + " clicked" + mp + "." )
     elif feedback.event_type == InteractiveMarkerFeedback.POSE_UPDATE:
-        rospy.loginfo( s + ": pose changed")
-# TODO
-#          << "\nposition = "
-#          << feedback.pose.position.x
-#          << ", " << feedback.pose.position.y
-#          << ", " << feedback.pose.position.z
-#          << "\norientation = "
-#          << feedback.pose.orientation.w
-#          << ", " << feedback.pose.orientation.x
-#          << ", " << feedback.pose.orientation.y
-#          << ", " << feedback.pose.orientation.z
-#          << "\nframe: " << feedback.header.frame_id
-#          << " time: " << feedback.header.stamp.sec << "sec, "
-#          << feedback.header.stamp.nsec << " nsec" )
+        #rospy.loginfo( s + ": pose changed"
+            #<< "\nposition = "
+            #<< feedback.pose.position.x
+            #<< ", " << feedback.pose.position.y
+            #<< ", " << feedback.pose.position.z
+            #<< "\norientation = "
+            #<< feedback.pose.orientation.w
+            #<< ", " << feedback.pose.orientation.x
+            #<< ", " << feedback.pose.orientation.y
+            #<< ", " << feedback.pose.orientation.z
+            #<< "\nframe: " << feedback.header.frame_id)
+            #<< " time: " << feedback.header.stamp.sec << "sec, "
+            #<< feedback.header.stamp.nsec << " nsec" )
+        marker_pose_update_response(feedback.pose)
     elif feedback.event_type == InteractiveMarkerFeedback.MOUSE_DOWN:
         rospy.loginfo( s + ": mouse down" + mp + "." )
     elif feedback.event_type == InteractiveMarkerFeedback.MOUSE_UP:
@@ -130,105 +135,6 @@ def saveMarker( int_marker ):
 
 #####################################################################
 # Marker Creation
-
-def make6DofMarker( fixed, interaction_mode, position, show_6dof = False):
-    int_marker = InteractiveMarker()
-    int_marker.header.frame_id = "base_link"
-    int_marker.pose.position = position
-    int_marker.scale = 0.1
-
-    int_marker.name = "simple_6dof"
-    int_marker.description = "Simple 6-DOF Control"
-
-    # insert a box
-    makeBoxControl(int_marker)
-    int_marker.controls[0].interaction_mode = interaction_mode
-
-    if fixed:
-        int_marker.name += "_fixed"
-        int_marker.description += "\n(fixed orientation)"
-
-    if interaction_mode != InteractiveMarkerControl.NONE:
-        control_modes_dict = {
-                          InteractiveMarkerControl.MOVE_3D : "MOVE_3D",
-                          InteractiveMarkerControl.ROTATE_3D : "ROTATE_3D",
-                          InteractiveMarkerControl.MOVE_ROTATE_3D : "MOVE_ROTATE_3D" }
-        int_marker.name += "_" + control_modes_dict[interaction_mode]
-        int_marker.description = "3D Control"
-        if show_6dof:
-          int_marker.description += " + 6-DOF controls"
-        int_marker.description += "\n" + control_modes_dict[interaction_mode]
-
-    if show_6dof:
-        control = InteractiveMarkerControl()
-        control.orientation.w = 1
-        control.orientation.x = 1
-        control.orientation.y = 0
-        control.orientation.z = 0
-        control.name = "rotate_x"
-        control.interaction_mode = InteractiveMarkerControl.ROTATE_AXIS
-        if fixed:
-            control.orientation_mode = InteractiveMarkerControl.FIXED
-        int_marker.controls.append(control)
-
-        control = InteractiveMarkerControl()
-        control.orientation.w = 1
-        control.orientation.x = 1
-        control.orientation.y = 0
-        control.orientation.z = 0
-        control.name = "move_x"
-        control.interaction_mode = InteractiveMarkerControl.MOVE_AXIS
-        if fixed:
-            control.orientation_mode = InteractiveMarkerControl.FIXED
-        int_marker.controls.append(control)
-
-        control = InteractiveMarkerControl()
-        control.orientation.w = 1
-        control.orientation.x = 0
-        control.orientation.y = 1
-        control.orientation.z = 0
-        control.name = "rotate_z"
-        control.interaction_mode = InteractiveMarkerControl.ROTATE_AXIS
-        if fixed:
-            control.orientation_mode = InteractiveMarkerControl.FIXED
-        int_marker.controls.append(control)
-
-        control = InteractiveMarkerControl()
-        control.orientation.w = 1
-        control.orientation.x = 0
-        control.orientation.y = 1
-        control.orientation.z = 0
-        control.name = "move_z"
-        control.interaction_mode = InteractiveMarkerControl.MOVE_AXIS
-        if fixed:
-            control.orientation_mode = InteractiveMarkerControl.FIXED
-        int_marker.controls.append(control)
-
-        control = InteractiveMarkerControl()
-        control.orientation.w = 1
-        control.orientation.x = 0
-        control.orientation.y = 0
-        control.orientation.z = 1
-        control.name = "rotate_y"
-        control.interaction_mode = InteractiveMarkerControl.ROTATE_AXIS
-        if fixed:
-            control.orientation_mode = InteractiveMarkerControl.FIXED
-        int_marker.controls.append(control)
-
-        control = InteractiveMarkerControl()
-        control.orientation.w = 1
-        control.orientation.x = 0
-        control.orientation.y = 0
-        control.orientation.z = 1
-        control.name = "move_y"
-        control.interaction_mode = InteractiveMarkerControl.MOVE_AXIS
-        if fixed:
-            control.orientation_mode = InteractiveMarkerControl.FIXED
-        int_marker.controls.append(control)
-
-    server.insert(int_marker, processFeedback)
-    menu_handler.apply( server, int_marker.name )
-
 #def makeRandomDofMarker( position ):
 #    int_marker = InteractiveMarker()
 #    int_marker.header.frame_id = "base_link"
@@ -365,7 +271,106 @@ def make6DofMarker( fixed, interaction_mode, position, show_6dof = False):
 #    int_marker.controls.append(control)
 #
 #    server.insert(int_marker, processFeedback)
-#
+
+def make6DofMarker(frame_name, fixed, interaction_mode, position, show_6dof = False):
+    int_marker = InteractiveMarker()
+    int_marker.header.frame_id = frame_name
+    int_marker.pose.position = position
+    int_marker.scale = 0.1
+
+    int_marker.name = "simple_6dof"
+    int_marker.description = "Simple 6-DOF Control"
+
+    # insert a box
+    makeBoxControl(int_marker)
+    int_marker.controls[0].interaction_mode = interaction_mode
+
+    if fixed:
+        int_marker.name += "_fixed"
+        int_marker.description += "\n(fixed orientation)"
+
+    if interaction_mode != InteractiveMarkerControl.NONE:
+        control_modes_dict = {
+                          InteractiveMarkerControl.MOVE_3D : "MOVE_3D",
+                          InteractiveMarkerControl.ROTATE_3D : "ROTATE_3D",
+                          InteractiveMarkerControl.MOVE_ROTATE_3D : "MOVE_ROTATE_3D" }
+        int_marker.name += "_" + control_modes_dict[interaction_mode]
+        int_marker.description = "3D Control"
+        if show_6dof:
+          int_marker.description += " + 6-DOF controls"
+        int_marker.description += "\n" + control_modes_dict[interaction_mode]
+
+    if show_6dof:
+        control = InteractiveMarkerControl()
+        control.orientation.w = 1
+        control.orientation.x = 1
+        control.orientation.y = 0
+        control.orientation.z = 0
+        control.name = "rotate_x"
+        control.interaction_mode = InteractiveMarkerControl.ROTATE_AXIS
+        if fixed:
+            control.orientation_mode = InteractiveMarkerControl.FIXED
+        int_marker.controls.append(control)
+
+        control = InteractiveMarkerControl()
+        control.orientation.w = 1
+        control.orientation.x = 1
+        control.orientation.y = 0
+        control.orientation.z = 0
+        control.name = "move_x"
+        control.interaction_mode = InteractiveMarkerControl.MOVE_AXIS
+        if fixed:
+            control.orientation_mode = InteractiveMarkerControl.FIXED
+        int_marker.controls.append(control)
+
+        control = InteractiveMarkerControl()
+        control.orientation.w = 1
+        control.orientation.x = 0
+        control.orientation.y = 1
+        control.orientation.z = 0
+        control.name = "rotate_z"
+        control.interaction_mode = InteractiveMarkerControl.ROTATE_AXIS
+        if fixed:
+            control.orientation_mode = InteractiveMarkerControl.FIXED
+        int_marker.controls.append(control)
+
+        control = InteractiveMarkerControl()
+        control.orientation.w = 1
+        control.orientation.x = 0
+        control.orientation.y = 1
+        control.orientation.z = 0
+        control.name = "move_z"
+        control.interaction_mode = InteractiveMarkerControl.MOVE_AXIS
+        if fixed:
+            control.orientation_mode = InteractiveMarkerControl.FIXED
+        int_marker.controls.append(control)
+
+        control = InteractiveMarkerControl()
+        control.orientation.w = 1
+        control.orientation.x = 0
+        control.orientation.y = 0
+        control.orientation.z = 1
+        control.name = "rotate_y"
+        control.interaction_mode = InteractiveMarkerControl.ROTATE_AXIS
+        if fixed:
+            control.orientation_mode = InteractiveMarkerControl.FIXED
+        int_marker.controls.append(control)
+
+        control = InteractiveMarkerControl()
+        control.orientation.w = 1
+        control.orientation.x = 0
+        control.orientation.y = 0
+        control.orientation.z = 1
+        control.name = "move_y"
+        control.interaction_mode = InteractiveMarkerControl.MOVE_AXIS
+        if fixed:
+            control.orientation_mode = InteractiveMarkerControl.FIXED
+        int_marker.controls.append(control)
+
+    server.insert(int_marker, processFeedback)
+    menu_handler.apply( server, int_marker.name )
+
+
 def makeMenuMarker(position):
     int_marker = InteractiveMarker()
     int_marker.header.frame_id = "base_link"
@@ -393,11 +398,11 @@ def makeMenuMarker(position):
 
 def makeMovingMarker(position):
     int_marker = InteractiveMarker()
-    int_marker.header.frame_id = "moving_frame"
+    int_marker.header.frame_id = "marker_frame"
     int_marker.pose.position = position
     int_marker.scale = 1
 
-    int_marker.name = "moving"
+    int_marker.name = "eef_marker"
     int_marker.description = "Marker Attached to a\nMoving Frame"
 
     control = InteractiveMarkerControl()
@@ -416,12 +421,23 @@ def makeMovingMarker(position):
     server.insert(int_marker, processFeedback)
 
 
-if __name__=="__main__":
-    rospy.init_node("basic_controls")
-    br = TransformBroadcaster()
+def marker_pose_update_response(pose):
+    pub.publish(pose)
 
+if __name__=="__main__":
+    base_frame = "base_link"
+    eef_frame = "tcp"
+    if len(sys.argv) < 3:
+        print "needs an argument : base frame and end-effector frame (default 'base_link' 'tcp')."
+    else:
+        base_frame = sys.argv[1]
+        eef_frame = sys.argv[2]
+
+    rospy.init_node("eef_interactive_marker")
+    br = TransformBroadcaster()
+    pub = rospy.Publisher("marker_pose",Pose,queue_size=1)
     # create a timer to update the published transforms
-    rospy.Timer(rospy.Duration(0.01), frameCallback)
+#    rospy.Timer(rospy.Duration(0.01), frameCallback)
 
     server = InteractiveMarkerServer("basic_controls")
 
@@ -440,8 +456,11 @@ if __name__=="__main__":
 #    makeRandomDofMarker( position )
 #    position = Point(-3, 0, 0)
 #    make6DofMarker( False, InteractiveMarkerControl.ROTATE_3D, position, False)
-    position = Point( 0, 0.3, 0)
-    make6DofMarker( False, InteractiveMarkerControl.MOVE_ROTATE_3D, position, True )
+    position = Point( 0, 0, 1.2)
+    make6DofMarker(base_frame, False, InteractiveMarkerControl.MOVE_ROTATE_3D, position, True )
+
+
+
 #    position = Point( 3, 0, 0)
 #    make6DofMarker( False, InteractiveMarkerControl.MOVE_3D, position, False)
 #    position = Point(-3, -3, 0)
@@ -453,7 +472,7 @@ if __name__=="__main__":
 #    position = Point(-3, -6, 0)
 #    makePanTiltMarker( position )
     position = Point( 0, -6, 0)
-    makeMovingMarker( position )
+#    makeMovingMarker( position )
 #    position = Point( 3, -6, 0)
 #    makeMenuMarker( position )
 
@@ -461,4 +480,7 @@ if __name__=="__main__":
     server.applyChanges()
 
     rospy.spin()
+    
+        
+    
 
