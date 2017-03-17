@@ -33,6 +33,7 @@ OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <ros/ros.h>
 #include <kdl/chainiksolverpos_nr_jl.hpp>
 #include "geometry_msgs/Pose.h"
+#include "sensor_msgs/JointState.h"
 #include <kdl_conversions/kdl_msg.h>
 
 geometry_msgs::Pose pose_command;
@@ -61,7 +62,7 @@ int main(int argc, char** argv)
 
   nh.param("timeout", timeout, 0.005);
   nh.param("urdf_param", urdf_param, std::string("/robot_description"));
-  double eps = 1e-3;
+  double eps = 1;
 
   TRAC_IK::TRAC_IK tracik_solver(chain_start, chain_end, urdf_param, timeout, eps);
 
@@ -97,9 +98,12 @@ int main(int argc, char** argv)
     result(j) = (ll(j)+ul(j))/2.0;
   }
   //fk_solver.JntToCart(result,end_effector_pose);
+  sensor_msgs::JointState msg;
 
+
+  ros::Publisher pub = nh.advertise<sensor_msgs::JointState>("/joint_states",2);
   ros::Subscriber sub = nh.subscribe("/marker_pose", 2, pose_callback);
-  ros::topic::waitForMessage<geometry_msgs::Pose>("/marker_pose",ros::Duration(10));
+  ros::topic::waitForMessage<geometry_msgs::Pose>("/marker_pose");
 
   int rc;
   while(ros::ok()){
@@ -109,7 +113,10 @@ int main(int argc, char** argv)
        ROS_INFO_STREAM("*** TRAC-IK successed. rc: "<<rc<<". Result: "); //sevice 替代
        for(uint j=0; j<result.data.size(); j++) {
           ROS_INFO_STREAM(" "<<result(j));
+          msg.points.append(result(j));
+        pub.publish(msg);
        } 
+
     }     
     ros::spinOnce();   
   }
