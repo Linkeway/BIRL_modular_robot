@@ -139,36 +139,36 @@ def mrl_interpreter(simulation):
     i = 0
     while not rospy.is_shutdown() and i < point_num:
         msg.header.seq = i
+        msg.position.append(Points[i][0])
         msg.position.append(Points[i][1])
-        msg.position.append(Points[i][2])
-        msg.position.append(Points[i][3]) 
+        msg.position.append(Points[i][2]) 
+        msg.position.append(Points[i][3])
         msg.position.append(Points[i][4])
-        msg.position.append(Points[i][5])
         msg.position.append(0)
         #msg.position.append(0)
 
+        d0=Points[i+1][0]-Points[i][0]
         d1=Points[i+1][1]-Points[i][1]
         d2=Points[i+1][2]-Points[i][2]
         d3=Points[i+1][3]-Points[i][3]
         d4=Points[i+1][4]-Points[i][4]
-        d5=Points[i+1][5]-Points[i][5]
 
         
-        max_d = max(d1,d2,d3,d4,d5)
+        max_d = max(d0,d1,d2,d3,d4)
         if max_d < eps1:
-            msg.position=[]
+            msg.position[0:5]=[]
             i += 1
             continue
-        time = max_d/(max_vel*MotionPara[i][2])
+        time = max_d/(max_vel*MotionPara[i])
         print time
 
 
 
+        msg.velocity.append(d0/time)
         msg.velocity.append(d1/time)
         msg.velocity.append(d2/time)
         msg.velocity.append(d3/time)
         msg.velocity.append(d4/time)
-        msg.velocity.append(d5/time)
         msg.velocity.append(0)
         #msg.velocity.append(0)
 
@@ -182,8 +182,8 @@ def mrl_interpreter(simulation):
                 rate.sleep()
 
         i = i + 1 
-        msg.position=[] 
-        msg.velocity=[]
+        msg.position[0:5]=[] 
+        msg.velocity[0:5]=[]
         if (simulation == 'true'):
             rate.sleep()
 
@@ -198,16 +198,16 @@ if __name__ == '__main__':
     try:
         max_vel = math.radians(2)
         #if len(sys.argv) < 2 :
-        #    print 'Please input a mrl file path.'
-        #    print 'E.g.: ./mrl_interpretor.py /mrl/***.mrl [max velocity in radians] [simulation]'
+            #print 'Please input a mrl file path.'
+            #print 'E.g.: ./mrl_interpretor.py /mrl/***.mrl [max velocity in radians] [simulation]'
         #if len(sys.argv)>2:
-        #    max_vel = string.atof(sys.argv[2])
+            #max_vel = string.atof(sys.argv[2])
             
-        #Readfile(sys.argv[1])
-        #mrl_interpreter(sys.argv[3])
+            #Readfile(sys.argv[1])
+            #mrl_interpreter(sys.argv[3])
 
         Readfile('../mrl/zhizao.mrl')
-        mrl_interpreter('false')
+        mrl_interpreter('true')
 
         #rospy.on_shutdown(shutdown)
         #shutdown()

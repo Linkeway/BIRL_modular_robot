@@ -61,7 +61,7 @@ int main(int argc, char** argv)
 
   nh.param("timeout", timeout, 0.005);
   nh.param("urdf_param", urdf_param, std::string("/robot_description"));
-  double eps = 1e-4;
+  double eps = 1e-3;
 
   TRAC_IK::TRAC_IK tracik_solver(chain_start, chain_end, urdf_param, timeout, eps);
 
@@ -98,8 +98,9 @@ int main(int argc, char** argv)
   }
   //fk_solver.JntToCart(result,end_effector_pose);
 
-  ros::Subscriber sub = nh.subscribe("marker_pose", 2, pose_callback);
-  
+  ros::Subscriber sub = nh.subscribe("/marker_pose", 2, pose_callback);
+  ros::topic::waitForMessage<geometry_msgs::Pose>("/marker_pose",ros::Duration(10));
+
   int rc;
   while(ros::ok()){
     tf::poseMsgToKDL(pose_command,end_effector_pose);
