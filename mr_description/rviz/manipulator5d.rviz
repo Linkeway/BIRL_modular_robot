@@ -235,8 +235,6 @@ Visualization Manager:
           Value: false
         g6_finger_link:
           Value: false
-        g6_finger_link1:
-          Value: false
         g6_palm_link:
           Value: false
         i4_Link:
@@ -284,8 +282,6 @@ Visualization Manager:
                                                     t5_Link:
                                                       g6_palm_link:
                                                         g6_finger_link:
-                                                          {}
-                                                        g6_finger_link1:
                                                           {}
                                                         tcp:
                                                           {}
@@ -357,7 +353,5 @@ Window Geometry:
   Views:
     collapsed: false
   Width: 1301
-
-  X: 438
-  Y: 78
-
+  X: 169
+  Y: 137

@@ -69,6 +69,7 @@ def get_joints():
 
 def Readfile(path):
     global point_num
+    global MotionPara
     f = open(path)   # 返回一个文件对象  
     line = f.readline()
     while line: 
@@ -90,6 +91,7 @@ def Readfile(path):
             s[5] = string.atof(s[5])
             s[5] = math.radians(s[5])
             s[0:1] = []
+            s.append(0) #
             Points.append(s)    #在列表末尾添加对象
             point_num +=1
         elif line.startswith('M'):  #判断字符串首字母是否为M 
@@ -139,38 +141,29 @@ def mrl_interpreter(simulation):
     i = 0
     while not rospy.is_shutdown() and i < point_num:
         msg.header.seq = i
-        msg.position.append(Points[i][1])
-        msg.position.append(Points[i][2])
-        msg.position.append(Points[i][3]) 
-        msg.position.append(Points[i][4])
-        msg.position.append(Points[i][5])
-        msg.position.append(0)
-        #msg.position.append(0)
-
-        d1=Points[i+1][1]-Points[i][1]
-        d2=Points[i+1][2]-Points[i][2]
-        d3=Points[i+1][3]-Points[i][3]
-        d4=Points[i+1][4]-Points[i][4]
-        d5=Points[i+1][5]-Points[i][5]
-
+        for j in range(num_joints):
+            msg.position.append(Points[i][j])
         
-        max_d = max(d1,d2,d3,d4,d5)
-        if max_d < eps1:
+            #msg.position.append(0)
+        angel_dif=[]
+        for k in range(num_joints):
+            if i == 0:
+                if (simulation == 'false'):
+                    angel_dif.append(Points[i][k]-js.position[k])
+                elif (simulation == 'true'):
+                    angel_dif.append(Points[i][k]-0)
+
+            elif i > 0:    
+                angel_dif.append(Points[i][k]-Points[i-1][k])
+       
+        max_angel = max(angel_dif)
+        if max_angel < eps1:
             msg.position=[]
             i += 1
             continue
-        time = max_d/(max_vel*MotionPara[i][2])
-        print time
-
-
-
-        msg.velocity.append(d1/time)
-        msg.velocity.append(d2/time)
-        msg.velocity.append(d3/time)
-        msg.velocity.append(d4/time)
-        msg.velocity.append(d5/time)
-        msg.velocity.append(0)
-        #msg.velocity.append(0)
+        run_time = max_angel/(max_vel*MotionPara[i][0])
+        for j in range(num_joints):
+            msg.velocity.append(angel_dif[j]/run_time)
 
         msg.header.stamp = rospy.Time.now()
         pub.publish(msg)
@@ -207,7 +200,7 @@ if __name__ == '__main__':
         #mrl_interpreter(sys.argv[3])
 
         Readfile('../mrl/zhizao.mrl')
-        mrl_interpreter('false')
+        mrl_interpreter('true')
 
         #rospy.on_shutdown(shutdown)
         #shutdown()
