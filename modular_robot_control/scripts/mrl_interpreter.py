@@ -16,6 +16,7 @@ Points = [] #存储[P1 24.636 ,61.687 ,-10.713 ,180.000 ,50.974]
 point_num = 0
 MotionPara = [] #存储[MOVJ P1, 30, Z1]
 eps = 3/180.0*math.pi   # 
+eps1 = 0.008
 js = JointState()
 pub = None
 
@@ -145,13 +146,37 @@ def mrl_interpreter(simulation): #模块机器人语言解释器,使用实际机
         msg.position.append(0)
         #msg.position.append(0)
 
-        msg.velocity.append(max_vel*MotionPara[i][2])
-        msg.velocity.append(max_vel*MotionPara[i][2])
-        msg.velocity.append(max_vel*MotionPara[i][2])
-        msg.velocity.append(max_vel*MotionPara[i][2])
-        msg.velocity.append(max_vel*MotionPara[i][2])
+        d1=Points[i+1][1]-Points[i][1]
+        d2=Points[i+1][2]-Points[i][2]
+        d3=Points[i+1][3]-Points[i][3]
+        d4=Points[i+1][4]-Points[i][4]
+        d5=Points[i+1][5]-Points[i][5]
+
+        
+        max_d = max(d1,d2,d3,d4,d5)
+        if max_d < eps1:
+            del msg.position[5]
+            del msg.position[4] 
+            del msg.position[3]
+            del msg.position[2]
+            del msg.position[1]
+            del msg.position[0]
+            i += 1
+            continue
+        time = max_d/(max_vel*MotionPara[i][2])
+        print time
+
+
+
+        msg.velocity.append(d1/time)
+        msg.velocity.append(d2/time)
+        msg.velocity.append(d3/time)
+        msg.velocity.append(d4/time)
+        msg.velocity.append(d5/time)
         msg.velocity.append(0)
         #msg.velocity.append(0)
+
+
 
         msg.header.stamp = rospy.Time.now()
         pub.publish(msg)
