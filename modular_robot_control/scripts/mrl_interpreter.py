@@ -69,8 +69,6 @@ def get_joints():
 
 def Readfile(path):
     global point_num
-    #pack = rospkg.RosPack()
-    #path = pack.get_path('modular_robot_control')+'/mrl/智造.mrl'
     f = open(path)   # 返回一个文件对象  
     line = f.readline()
     while line: 
@@ -91,6 +89,7 @@ def Readfile(path):
             s[4] = math.radians(s[4])
             s[5] = string.atof(s[5])
             s[5] = math.radians(s[5])
+            s[0:1] = []
             Points.append(s)    #在列表末尾添加对象
             point_num +=1
         elif line.startswith('M'):  #判断字符串首字母是否为M 
@@ -98,6 +97,8 @@ def Readfile(path):
             s[2] = s[2].replace('V','')
             s[2] = string.atof(s[2])
             s[2] = s[2]*0.01 #V30代表以设定速度的百分之三十来运行
+            s[0:2] = []
+            s[1:2] = []
             MotionPara.append(s)
         line = f.readline()  
     f.close() 
@@ -113,7 +114,7 @@ def callback(data):
     global js
     js = data
 
-def mrl_interpreter(simulation): #模块机器人语言解释器,使用实际机器人时
+def mrl_interpreter(simulation): 
     if (simulation == 'true'):
         pub = rospy.Publisher('joint_states',JointState, queue_size=10)    #生产Publisher
         nh = rospy.init_node('mrl_interpretor', anonymous=True) #初始化node
@@ -155,12 +156,7 @@ def mrl_interpreter(simulation): #模块机器人语言解释器,使用实际机
         
         max_d = max(d1,d2,d3,d4,d5)
         if max_d < eps1:
-            del msg.position[5]
-            del msg.position[4] 
-            del msg.position[3]
-            del msg.position[2]
-            del msg.position[1]
-            del msg.position[0]
+            msg.position=[]
             i += 1
             continue
         time = max_d/(max_vel*MotionPara[i][2])
@@ -176,8 +172,6 @@ def mrl_interpreter(simulation): #模块机器人语言解释器,使用实际机
         msg.velocity.append(0)
         #msg.velocity.append(0)
 
-
-
         msg.header.stamp = rospy.Time.now()
         pub.publish(msg)
         rospy.loginfo(msg)
@@ -187,24 +181,9 @@ def mrl_interpreter(simulation): #模块机器人语言解释器,使用实际机
                 pub.publish(msg)
                 rate.sleep()
 
-        i = i + 1  
-        #del msg.position[6]  
-        del msg.position[5]
-        del msg.position[4] 
-        del msg.position[3]
-        del msg.position[2]
-        del msg.position[1]
-        del msg.position[0]
-        
-        #del msg.velocity[6]
-        del msg.velocity[5]
-        del msg.velocity[4]
-        del msg.velocity[3]
-        del msg.velocity[2]
-        del msg.velocity[1]
-        del msg.velocity[0]
-
-
+        i = i + 1 
+        msg.position=[] 
+        msg.velocity=[]
         if (simulation == 'true'):
             rate.sleep()
 
