@@ -15,12 +15,18 @@ max_vel = 0 #模块最大速度是60度每秒，一般运行速度为30度每秒
 Points = [] #存储[P1 24.636 ,61.687 ,-10.713 ,180.000 ,50.974]
 point_num = 0
 MotionPara = [] #存储[MOVJ P1, 30, Z1]
-eps = 3/180.0*math.pi   # 
+eps = (0.5/180.0)*math.pi   # 
 eps1 = 0.008
 js = JointState()
 pub = None
+num_joints = 0
 
 def get_joints():
+
+    while not rospy.has_param("robot_description"):
+        rospy.sleep(1)
+        print "Can find parameter 'robot_description' for setting 'joint_names'! Waiting..."
+
     description = rospy.get_param("robot_description")
     robot = xml.dom.minidom.parseString(description).getElementsByTagName('robot')[0]
     free_joints = {}
@@ -65,6 +71,12 @@ def get_joints():
         joint_state.position.append(joint['value'])
         joint_state.velocity.append(0)
 
+    log = "Get joint_names:"
+    for joint in joint_list:
+        log += joint
+        log += ';'
+    print log
+    
     return joint_list
 
 def Readfile(path):
@@ -116,11 +128,13 @@ def callback(data):
     global js
     js = data
 
-def mrl_interpreter(simulation): 
+def mrl_interpreter(simulation):
+    global num_joints 
     if (simulation == 'true'):
         pub = rospy.Publisher('joint_states',JointState, queue_size=10)    #生产Publisher
         nh = rospy.init_node('mrl_interpretor', anonymous=True) #初始化node
         rate = rospy.Rate(10) # 10hz
+        rospy.sleep(rospy.Duration(8))
 
     elif (simulation == 'false'):
         pub = rospy.Publisher('joint_command',JointState, queue_size=10) 
@@ -137,68 +151,49 @@ def mrl_interpreter(simulation):
     msg.name = get_joints() 
     #msg.name.append('g6_Joint1')
 
+
     num_joints= len(msg.name)
     i = 0
     while not rospy.is_shutdown() and i < point_num:
         msg.header.seq = i
-<<<<<<< HEAD
-        msg.position.append(Points[i][0])
-        msg.position.append(Points[i][1])
-        msg.position.append(Points[i][2]) 
-        msg.position.append(Points[i][3])
-        msg.position.append(Points[i][4])
-        msg.position.append(0)
-        #msg.position.append(0)
 
-        d0=Points[i+1][0]-Points[i][0]
-        d1=Points[i+1][1]-Points[i][1]
-        d2=Points[i+1][2]-Points[i][2]
-        d3=Points[i+1][3]-Points[i][3]
-        d4=Points[i+1][4]-Points[i][4]
-
-        
-        max_d = max(d0,d1,d2,d3,d4)
-        if max_d < eps1:
-            msg.position[0:5]=[]
-            i += 1
-            continue
-        time = max_d/(max_vel*MotionPara[i])
-        print time
-
-
-
-        msg.velocity.append(d0/time)
-        msg.velocity.append(d1/time)
-        msg.velocity.append(d2/time)
-        msg.velocity.append(d3/time)
-        msg.velocity.append(d4/time)
-        msg.velocity.append(0)
-        #msg.velocity.append(0)
-=======
         for j in range(num_joints):
             msg.position.append(Points[i][j])
         
             #msg.position.append(0)
         angel_dif=[]
-        for k in range(num_joints):
-            if i == 0:
-                if (simulation == 'false'):
-                    angel_dif.append(Points[i][k]-js.position[k])
-                elif (simulation == 'true'):
-                    angel_dif.append(Points[i][k]-0)
-
-            elif i > 0:    
-                angel_dif.append(Points[i][k]-Points[i-1][k])
+        
+        if i == 0: 
+            if (simulation == 'false'):
+                for k in range(num_joints-1):
+                    angel_dif.append(abs(Points[i][k]-js.position[k]))
+                angel_dif.append(0)
+            elif (simulation == 'true'): 
+                for k in range(num_joints):   
+                    angel_dif.append(abs(Points[i][k]-0))
+        elif i > 0:
+            for k in range(num_joints):    
+                angel_dif.append(abs(Points[i][k]-Points[i-1][k]))
        
         max_angel = max(angel_dif)
         if max_angel < eps1:
             msg.position=[]
             i += 1
             continue
-        run_time = max_angel/(max_vel*MotionPara[i][0])
+        run_time = max_angel/max_vel
         for j in range(num_joints):
             msg.velocity.append(angel_dif[j]/run_time)
->>>>>>> 8a3cd7f3f76e514644aab0d8fdc87f9a6fe26078
+
+        if msg.velocity[0]<0.01:
+            msg.velocity[0]=0.01
+        if msg.velocity[1]<0.02:
+            msg.velocity[1]=0.02
+        if msg.velocity[2]<0.02:
+            msg.velocity[2]=0.02
+        if msg.velocity[3]<0.01:
+            msg.velocity[3]=0.01
+        if msg.velocity[4]<0.01:
+            msg.velocity[4]=0.01
 
         msg.header.stamp = rospy.Time.now()
         pub.publish(msg)
@@ -210,35 +205,34 @@ def mrl_interpreter(simulation):
                 rate.sleep()
 
         i = i + 1 
-        msg.position[0:5]=[] 
-        msg.velocity[0:5]=[]
+        msg.position=[] 
+        msg.velocity=[]
         if (simulation == 'true'):
             rate.sleep()
 
 def shutdown():
+    global js
     stop_msg = JointState()
     stop_msg.position = js.position
-    for i in range(6):
-        stop_msg.velocity[i] = 0.001
+    for i in range(num_joints):
+        stop_msg.velocity[i] = 0.01
     pub.publish(stop_msg)
 
 if __name__ == '__main__':
     try:
-        max_vel = math.radians(2)
-        #if len(sys.argv) < 2 :
-            #print 'Please input a mrl file path.'
-            #print 'E.g.: ./mrl_interpretor.py /mrl/***.mrl [max velocity in radians] [simulation]'
-        #if len(sys.argv)>2:
-            #max_vel = string.atof(sys.argv[2])
+        max_vel = math.radians(5)
+        if len(sys.argv) < 2 :
+           print 'Please input a mrl file path.'
+           print 'E.g.: ./mrl_interpretor.py /mrl/***.mrl [max velocity in radians] [simulation]'
+        if len(sys.argv)>2:
+           max_vel = string.atof(sys.argv[2])
             
-            #Readfile(sys.argv[1])
-            #mrl_interpreter(sys.argv[3])
+           Readfile(sys.argv[1])
+           mrl_interpreter(sys.argv[3])
 
-        Readfile('../mrl/zhizao.mrl')
-        mrl_interpreter('true')
-
-        #rospy.on_shutdown(shutdown)
-        #shutdown()
+        # Readfile('../mrl/zhizao.mrl')
+        rospy.on_shutdown(shutdown)
+        shutdown()
     except rospy.ROSInterruptException:
-        #shutdown()
+        shutdown()
         pass

@@ -2,7 +2,7 @@
 
   <arg name="module_robot" />
   <arg name="gui" default="true" />
-  <arg name="publisher" default="true" />
+  <arg name="sim" default="true" />
 <!--  <param name="robot_description" textfile="$(find mr_description)/robots/manipulator5d.urdf" />-->
   <param name="robot_description" command="$(find xacro)/xacro '$(find mr_description)/robots/manipulator5d.urdf.xacro'" />
 <!--  <param name="robot_description" command="$(find xacro)/xacro '$(find mr_description)/robots/manipulator6d.urdf.xacro'" />-->
@@ -18,14 +18,23 @@
   
   <param name="use_gui" value="$(arg gui)" />
 
-  <group if="$(arg publisher)">
+  <group if="$(arg sim)">
   <node name="module_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" >
     <param name="use_gui" value="$(arg gui)"/>
     <param name="publish_frequency" type="double" value="10.0" />
     <param name="gui_caption" value="BIRL"/>
   </node>
   </group> 
-<!--  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />-->
+
+  <group unless="$(arg sim)">
+  <node name="module_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" >
+    <param name="use_gui" value="$(arg gui)"/>
+    <param name="publish_frequency" type="double" value="10.0" />
+    <param name="gui_caption" value="BIRL"/>
+    <rosparam param="source_list">["/joint_command"]</rosparam>
+  </node>
+  </group> 
+
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" />
   <node name="rviz"  pkg="rviz"  type="rviz" args="-d $(find mr_description)/rviz/manipulator5d.rviz -f base_link" if="$(arg gui)"/>
 

@@ -1,31 +1,5 @@
 /* *******************************************************************************
-Copyright (c) 2016, TRACLabs, Inc.
-All rights reserved.
-
-Redistribution and use in source and binary forms, with or without modification,
- are permitted provided that the following conditions are met:
-
-    1. Redistributions of source code must retain the above copyright notice,
-       this list of conditions and the following disclaimer.
-
-    2. Redistributions in binary form must reproduce the above copyright notice,
-       this list of conditions and the following disclaimer in the documentation
-       and/or other materials provided with the distribution.
-
-    3. Neither the name of the copyright holder nor the names of its contributors
-       may be used to endorse or promote products derived from this software
-       without specific prior written permission.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
-IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
-INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
-BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
-OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
-OF THE POSSIBILITY OF SUCH DAMAGE.
+TODO: Add services to support its publishing behaviours.
 ********************************************************************************/
 
 //#include <boost/date_time.hpp>
@@ -35,6 +9,7 @@ OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "geometry_msgs/Pose.h"
 #include "sensor_msgs/JointState.h"
 #include <kdl_conversions/kdl_msg.h>
+#include <vector>
 
 geometry_msgs::Pose pose_command;
 
@@ -50,6 +25,7 @@ int main(int argc, char** argv)
   ros::NodeHandle nh("~");
 
   std::string chain_start, chain_end, urdf_param;
+  std::vector<std::string> joint_names;
   double timeout;
 
   nh.param("chain_start", chain_start, std::string(""));
@@ -62,7 +38,7 @@ int main(int argc, char** argv)
 
   nh.param("timeout", timeout, 0.005);
   nh.param("urdf_param", urdf_param, std::string("/robot_description"));
-  double eps = 1;
+  double eps = 0.02;
 
   TRAC_IK::TRAC_IK tracik_solver(chain_start, chain_end, urdf_param, timeout, eps);
 
@@ -98,27 +74,37 @@ int main(int argc, char** argv)
     result(j) = (ll(j)+ul(j))/2.0;
   }
   //fk_solver.JntToCart(result,end_effector_pose);
+  
+  while(!nh.hasParam("/joint_names")){
+    ROS_INFO("Waiting for parameter '/joint_names'");
+    sleep(1);
+  }
+  ROS_INFO("Get parameter '/joint_names'");
+  nh.getParam("/joint_names",joint_names);
+
   sensor_msgs::JointState msg;
+  msg.position.resize(joint_names.size());
+  msg.name = joint_names;
 
-
-  ros::Publisher pub = nh.advertise<sensor_msgs::JointState>("/joint_states",2);
+  ros::Publisher pub = nh.advertise<sensor_msgs::JointState>("/joint_command",2);
   ros::Subscriber sub = nh.subscribe("/marker_pose", 2, pose_callback);
   ros::topic::waitForMessage<geometry_msgs::Pose>("/marker_pose");
 
   int rc;
   while(ros::ok()){
     tf::poseMsgToKDL(pose_command,end_effector_pose);
-    rc = tracik_solver.CartToJnt(result,end_effector_pose,result);//end_effector_pose替换成transform listen获取
+    rc = tracik_solver.CartToJnt(result,end_effector_pose,result);
     if (rc>=0){//ik success
-       ROS_INFO_STREAM("*** TRAC-IK successed. rc: "<<rc<<". Result: "); //sevice 替代
+      //  ROS_INFO_STREAM("*** TRAC-IK successed. rc: "<<rc<<". Result: "); 
        for(uint j=0; j<result.data.size(); j++) {
-          ROS_INFO_STREAM(" "<<result(j));
-          msg.points.append(result(j));
-        pub.publish(msg);
+          // ROS_INFO_STREAM(" "<<result(j));
+          ROS_INFO_STREAM("ik solution found.");
+          msg.position[j] = result(j);
        } 
-
+       msg.header.stamp = ros::Time::now();
+       pub.publish(msg);
     }     
-    ros::spinOnce();   
+    ros::spinOnce();
   }
   // Useful when you make a script that loops over multiple launch files that test different robot chains
   // std::vector<char *> commandVector;
