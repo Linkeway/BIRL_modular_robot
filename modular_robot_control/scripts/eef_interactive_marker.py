@@ -25,18 +25,18 @@ br = None
 counter = 0
 pub = None 
 
+base_frame = 'base_link'
+eef_frame = 'tcp'
+
 def frameCallback( msg ):
     global counter, br
     time = rospy.Time.now()
     br.sendTransform( (0, 0, sin(counter/140.0)*2.0), (0, 0, 0, 1.0), time, "base_link", "marker_frame" )
     counter += 1
 
-
-
 def processFeedback( feedback ):
     s = "Feedback from marker '" + feedback.marker_name
     s += "' / control '" + feedback.control_name + "'"
-
     mp = ""
     if feedback.mouse_point_valid:
         mp = " at " + str(feedback.mouse_point.x)
@@ -48,8 +48,22 @@ def processFeedback( feedback ):
         # rospy.loginfo( s + ": button click" + mp + "." )
         None
     elif feedback.event_type == InteractiveMarkerFeedback.MENU_SELECT:
-        # rospy.loginfo( s + ": menu item " + str(feedback.menu_entry_id) + " clicked" + mp + "." )
-        None
+        #rospy.loginfo( s + ": menu item " + str(feedback.menu_entry_id) + " clicked" + mp + "." )
+        if feedback.menu_entry_id == 1: # menu "End-effector On/Off"
+            # TODO: once clicked, command the end-effector
+            None
+        elif feedback.menu_entry_id == 3: # menu "Continuous publishing"
+            # TODO: change joint_command pub mode to continuous publishing
+            None
+        elif feedback.menu_entry_id == 4: # menu "Publish on click"
+            # TODO: change joint_command pub mode to publish once when "Publish Joint_command once" clicked
+            None
+        elif feedback.menu_entry_id == 5: # menu "Publish Joint_command once"
+            # TODO: publish joint_command once
+            None
+        elif feedback.menu_entry_id == 6: # menu "align marker to eef"
+            server.setPose( feedback.marker_name, get_eef_pose(base_frame,eef_frame) )
+            server.applyChanges()
     elif feedback.event_type == InteractiveMarkerFeedback.POSE_UPDATE:
         pub.publish(feedback.pose)
     elif feedback.event_type == InteractiveMarkerFeedback.MOUSE_DOWN:
@@ -98,9 +112,6 @@ def makeBoxControl( msg ):
 
 def saveMarker( int_marker ):
   server.insert(int_marker, processFeedback)
-
-
-
 
 def make6DofMarker(frame_name, fixed, interaction_mode, pose, show_6dof = False):
     int_marker = InteractiveMarker()
@@ -250,11 +261,19 @@ def makeMovingMarker(position):
 
     server.insert(int_marker, processFeedback)
 
-
+def get_eef_pose(base_frame,eef_frame):
+    tf_lis = TransformListener()
+    tf_lis.waitForTransform(base_frame,eef_frame, rospy.Time(), rospy.Duration(30.0))
+    now = rospy.Time.now()
+    tf_lis.waitForTransform(base_frame,eef_frame, now, rospy.Duration(4.0))
+    (trans,rot) = tf_lis.lookupTransform(base_frame,eef_frame,now )
+    p = Pose()
+    p.position = Point(trans[0],trans[1],trans[2])
+    p.orientation = Quaternion(rot[0],rot[1],rot[2],rot[3])
+    return p
 
 if __name__=="__main__":
-    base_frame = 'base_link'
-    eef_frame = 'tcp'
+
     if len(sys.argv) < 3:
         print "needs an argument : base frame and end-effector frame (default '/base_link' '/tcp')."
     else:
@@ -269,28 +288,18 @@ if __name__=="__main__":
 
     server = InteractiveMarkerServer("InteractiveMarkerServer")
 
-    # TODO: call ik_node services to change its publishing behaviours 
-    menu_handler.insert( "End-effector On/Off", callback=processFeedback ) # TODO: once clicked, command the end-effector
-    sub_menu_handle = menu_handler.insert( "Joint_command publication mode" ) # TODO: change joint_command pub mode
-    menu_handler.insert( "Continuous publishing", parent=sub_menu_handle, callback=processFeedback ) # TODO: change to continuous publishing
-    menu_handler.insert( "Publish on click", parent=sub_menu_handle, callback=processFeedback ) # TODO: change to publish once when "Publish Joint_command once" clicked
-    menu_handler.insert( "Publish Joint_command once", callback=processFeedback ) # TODO: publish joint_command once
+    # call ik_node services to change its publishing behaviours 
+    menu_handler.insert( "End-effector On/Off", callback=processFeedback ) 
+    sub_menu_handle = menu_handler.insert( "Joint_command publication mode" ) 
+    menu_handler.insert( "Continuous publishing", parent=sub_menu_handle, callback=processFeedback ) 
+    menu_handler.insert( "Publish on click", parent=sub_menu_handle, callback=processFeedback ) 
+    menu_handler.insert( "Publish Joint_command once", callback=processFeedback ) 
 
-
-    tf_lis = TransformListener()
-    tf_lis.waitForTransform(base_frame,eef_frame, rospy.Time(), rospy.Duration(30.0))
-    now = rospy.Time.now()
-    tf_lis.waitForTransform(base_frame,eef_frame, now, rospy.Duration(4.0))
-    (trans,rot) = tf_lis.lookupTransform(base_frame,eef_frame,now )
-    p = Pose()
-    p.position = Point(trans[0],trans[1],trans[2])
-    p.orientation = Quaternion(rot[0],rot[1],rot[2],rot[3])
-    make6DofMarker(base_frame, False, InteractiveMarkerControl.MOVE_ROTATE_3D, p, True )
+    # when this menu item clicked,the interactive marker get aligned
+    menu_handler.insert( "align marker to eef", callback=processFeedback ) 
+ 
+    make6DofMarker(base_frame,False,InteractiveMarkerControl.MOVE_ROTATE_3D,get_eef_pose(base_frame,eef_frame),True )
 
     server.applyChanges()
 
     rospy.spin()
-    
-        
-    
-

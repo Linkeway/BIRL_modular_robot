@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# @brief :get joint names from URDF and set them to parameter server
 from urdf_parser_py.urdf import URDF
 import xml.dom.minidom
 import rospy

@@ -12,15 +12,23 @@ TODO: Add services to support its publishing behaviours.
 #include <vector>
 
 geometry_msgs::Pose pose_command;
+sensor_msgs::JointState robot_joint_states;
 
 void pose_callback(const geometry_msgs::Pose::ConstPtr& msg){
     pose_command=*msg;
 }
 
+void joint_state_callback(const sensor_msgs::JointState::ConstPtr& msg)
+{
+  robot_joint_states=*msg;
+}
 
 int main(int argc, char** argv)
 {
 
+  bool sim = true;
+  if (argv[1] == "false")
+    sim = false;
   ros::init(argc, argv, "ik_node");
   ros::NodeHandle nh("~");
 
@@ -83,12 +91,24 @@ int main(int argc, char** argv)
   nh.getParam("/joint_names",joint_names);
 
   sensor_msgs::JointState msg;
-  msg.position.resize(joint_names.size());
   msg.name = joint_names;
+  msg.position.resize(joint_names.size());
+  msg.velocity.resize(joint_names.size());
 
+  for(int i=0;i<joint_names.size();++i){
+    msg.velocity[i] = 0.04;
+  }
   ros::Publisher pub = nh.advertise<sensor_msgs::JointState>("/joint_command",2);
-  ros::Subscriber sub = nh.subscribe("/marker_pose", 2, pose_callback);
-  ros::topic::waitForMessage<geometry_msgs::Pose>("/marker_pose");
+  ros::Subscriber sub = nh.subscribe("/pose", 2, pose_callback);
+  ros::topic::waitForMessage<geometry_msgs::Pose>("/pose");
+  ros::Subscriber joint_state_sub = nh.subscribe("joint_states",2,joint_state_callback);
+  
+  std::vector<double> angel_diff;
+  double max_angel_diff;
+  angel_diff.resize(joint_names.size());
+  float max_vel=0.08;
+  double run_time;
+
 
   int rc;
   while(ros::ok()){
@@ -96,10 +116,26 @@ int main(int argc, char** argv)
     rc = tracik_solver.CartToJnt(result,end_effector_pose,result);
     if (rc>=0){//ik success
       //  ROS_INFO_STREAM("*** TRAC-IK successed. rc: "<<rc<<". Result: "); 
-       for(uint j=0; j<result.data.size(); j++) {
+       for(uint j=0; j<result.data.size(); j++) 
+       {
           // ROS_INFO_STREAM(" "<<result(j));
           ROS_INFO_STREAM("ik solution found.");
           msg.position[j] = result(j);
+          if (sim == false)
+          {
+            angel_diff[j] = msg.position[j]-robot_joint_states.position[j];
+          }     
+       }
+       if (sim == false)
+       {
+          max_angel_diff = *max_element(angel_diff.begin(),angel_diff.end());
+          run_time = max_angel_diff / max_vel;
+          for(uint j=0; j<result.data.size(); j++) 
+          {
+            msg.velocity[j] = angel_diff[j]/run_time;
+            if (msg.velocity[j]<0.02)
+              msg.velocity[j]=0.02; 
+          }
        } 
        msg.header.stamp = ros::Time::now();
        pub.publish(msg);

@@ -302,7 +302,7 @@ Visualization Manager:
       Value: true
   Enabled: true
   Global Options:
-    Background Color: 48; 48; 48
+    Background Color: 255; 255; 255
     Fixed Frame: base_link
     Frame Rate: 30
   Name: root
@@ -331,15 +331,15 @@ Visualization Manager:
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0.560865
-        Y: 0.153594
-        Z: 0.345506
+        X: 0.149175
+        Y: 0.00785152
+        Z: 0.336056
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 0.6098
+      Pitch: 1.5698
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 3.71411
+      Yaw: 4.71411
     Saved: ~
 Window Geometry:
   Displays:
