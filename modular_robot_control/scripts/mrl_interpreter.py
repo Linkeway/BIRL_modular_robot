@@ -177,7 +177,7 @@ def mrl_interpreter(simulation):
        
         max_angel = max(angel_dif)
         if max_angel < eps1:
-            msg.position=[]
+            del msg.position[:]
             i += 1
             continue
         run_time = max_angel/max_vel
