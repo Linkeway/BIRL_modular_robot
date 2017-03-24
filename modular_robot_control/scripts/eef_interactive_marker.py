@@ -1,8 +1,14 @@
 #!/usr/bin/env python
 
 """
-
-
+Author: Linkeway
+E-mail: linkeway@163.com
+Description: end-effector interactive marker node. Publish /marker_pose and calls ik_node services to chang its publish behaviours.
+Args:
+        base_frame: tf frame name of base
+        eef_frame:  tf frame name of end-effector
+Publish: /marker_pose
+Subscribe: tf
 """
 
 import rospy
@@ -75,6 +81,7 @@ def processFeedback( feedback ):
     server.applyChanges()
 
 def alignMarker( feedback ):
+    
     pose = feedback.pose
 
     pose.position.x = round(pose.position.x-0.5)+0.5
@@ -262,6 +269,7 @@ def makeMovingMarker(position):
     server.insert(int_marker, processFeedback)
 
 def get_eef_pose(base_frame,eef_frame):
+    '''listen to tf to get relative pose from base_frame to eef_frame'''
     tf_lis = TransformListener()
     tf_lis.waitForTransform(base_frame,eef_frame, rospy.Time(), rospy.Duration(30.0))
     now = rospy.Time.now()
