@@ -10,7 +10,7 @@
   </include>
   
   <node name="set_rosparam_joint_names" pkg="modular_robot_control" type="rosparam_set_joint_names.py"/>
-  
+
   <node name="ik_node" pkg="modular_robot_control" type="ik_node" output="screen" args="true">
     <param name="chain_start" value="$(arg chain_start)"/>
     <param name="chain_end" value="$(arg chain_end)"/>
@@ -20,7 +20,6 @@
   </node>
 
   <node name="interactive_marker" pkg="modular_robot_control" type="eef_interactive_marker.py" args="'base_link' 'tcp'"/>
-
 
   <group unless="$(arg sim)">
     <node name="canopen_driver" pkg="canopen_motor_node" type="canopen_motor_node" output="screen" clear_params="true">

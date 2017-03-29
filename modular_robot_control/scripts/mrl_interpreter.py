@@ -183,17 +183,8 @@ def mrl_interpreter(simulation):
         run_time = max_angel/max_vel
         for j in range(num_joints):
             msg.velocity.append(angel_dif[j]/run_time)
-
-        if msg.velocity[0]<0.01:
-            msg.velocity[0]=0.01
-        if msg.velocity[1]<0.02:
-            msg.velocity[1]=0.02
-        if msg.velocity[2]<0.02:
-            msg.velocity[2]=0.02
-        if msg.velocity[3]<0.01:
-            msg.velocity[3]=0.01
-        if msg.velocity[4]<0.01:
-            msg.velocity[4]=0.01
+            if msg.velocity[j] < 0.02:
+                msg.velocity[j] = 0.02
 
         msg.header.stamp = rospy.Time.now()
         pub.publish(msg)
