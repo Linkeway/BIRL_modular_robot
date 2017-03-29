@@ -9,28 +9,20 @@
     <arg name="sim" value="false"/>
   </include>
   
-  <group if="$(arg sim)">
-    <node name="interactive_marker" pkg="modular_robot_control" type="eef_interactive_marker.py" args="'base_link' 'tcp'"/>
-    <node name="set_rosparam_joint_names" pkg="modular_robot_control" type="rosparam_set_joint_names.py"/>
-    <node name="ik_node" pkg="modular_robot_control" type="ik_node" output="screen" args="true">
-      <param name="chain_start" value="$(arg chain_start)"/>
-      <param name="chain_end" value="$(arg chain_end)"/>
-      <param name="timeout" value="$(arg timeout)"/>
-      <param name="urdf_param" value="/robot_description"/>
-      <remap from="/pose" to="/marker_pose"/>
-    </node>
-  </group>
+  <node name="set_rosparam_joint_names" pkg="modular_robot_control" type="rosparam_set_joint_names.py"/>
+  
+  <node name="ik_node" pkg="modular_robot_control" type="ik_node" output="screen" args="true">
+    <param name="chain_start" value="$(arg chain_start)"/>
+    <param name="chain_end" value="$(arg chain_end)"/>
+    <param name="timeout" value="$(arg timeout)"/>
+    <param name="urdf_param" value="/robot_description"/>
+    <remap from="/pose" to="/marker_pose"/>
+  </node>
+
+  <node name="interactive_marker" pkg="modular_robot_control" type="eef_interactive_marker.py" args="'base_link' 'tcp'"/>
+
 
   <group unless="$(arg sim)">
-    <node name="interactive_marker" pkg="modular_robot_control" type="eef_interactive_marker.py" args="'base_link' 'tcp'"/>
-    <node name="set_rosparam_joint_names" pkg="modular_robot_control" type="rosparam_set_joint_names.py"/>
-    <node name="ik_node" pkg="modular_robot_control" type="ik_node" output="screen" args="false">
-      <param name="chain_start" value="$(arg chain_start)"/>
-      <param name="chain_end" value="$(arg chain_end)"/>
-      <param name="timeout" value="$(arg timeout)"/>
-      <param name="urdf_param" value="/robot_description"/>
-      <remap from="/pose" to="/marker_pose"/>
-    </node>
     <node name="canopen_driver" pkg="canopen_motor_node" type="canopen_motor_node" output="screen" clear_params="true">
 					<!--   launch-prefix="gdb -ex run -/-args">-->
       <rosparam command="load" file="$(find birl_module_canopen)/config/can.yaml" />

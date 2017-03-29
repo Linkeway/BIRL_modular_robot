@@ -10,11 +10,15 @@ TODO: Add services to support its publishing behaviours.
 #include "sensor_msgs/JointState.h"
 #include <kdl_conversions/kdl_msg.h>
 #include <vector>
+#include <math.h>
+ 
 
 geometry_msgs::Pose pose_command;
 sensor_msgs::JointState robot_joint_states;
+bool new_pose = true;
 
 void pose_callback(const geometry_msgs::Pose::ConstPtr& msg){
+    new_pose = true;
     pose_command=*msg;
 }
 
@@ -23,11 +27,18 @@ void joint_state_callback(const sensor_msgs::JointState::ConstPtr& msg)
   robot_joint_states=*msg;
 }
 
+double normalize_angel(double angel){
+  while (angel < -M_PI)
+    angel += 2*M_PI;
+  while (angel > M_PI)
+    angel -= 2*M_PI;
+  return angel;
+}
 int main(int argc, char** argv)
 {
 
   bool sim = true;
-  if (argv[1] == "false")
+  if (strcmp(argv[1], "false") == 0)
     sim = false;
   ros::init(argc, argv, "ik_node");
   ros::NodeHandle nh("~");
@@ -94,51 +105,54 @@ int main(int argc, char** argv)
   msg.name = joint_names;
   msg.position.resize(joint_names.size());
   msg.velocity.resize(joint_names.size());
-
-  for(int i=0;i<joint_names.size();++i){
-    msg.velocity[i] = 0.04;
-  }
+  robot_joint_states.position.resize(joint_names.size());
+  robot_joint_states.velocity.resize(joint_names.size());
+  // for(int i=0;i<joint_names.size();++i)
+  //   msg.velocity[i] = 0.04;
+  ros::Rate pub_rate(10);
   ros::Publisher pub = nh.advertise<sensor_msgs::JointState>("/joint_command",2);
   ros::Subscriber sub = nh.subscribe("/pose", 2, pose_callback);
   ros::topic::waitForMessage<geometry_msgs::Pose>("/pose");
-  ros::Subscriber joint_state_sub = nh.subscribe("joint_states",2,joint_state_callback);
+  ros::Subscriber joint_state_sub = nh.subscribe("/joint_states",2,joint_state_callback);
   
   std::vector<double> angel_diff;
-  double max_angel_diff;
   angel_diff.resize(joint_names.size());
-  float max_vel=0.08;
+  double max_angel_diff;
+  float max_vel=0.12;
   double run_time;
-
 
   int rc;
   while(ros::ok()){
     tf::poseMsgToKDL(pose_command,end_effector_pose);
     rc = tracik_solver.CartToJnt(result,end_effector_pose,result);
     if (rc>=0){//ik success
-      //  ROS_INFO_STREAM("*** TRAC-IK successed. rc: "<<rc<<". Result: "); 
+       ROS_INFO_STREAM("*** TRAC-IK successed. rc: "<<rc<<". Result: "); 
        for(uint j=0; j<result.data.size(); j++) 
        {
-          // ROS_INFO_STREAM(" "<<result(j));
-          ROS_INFO_STREAM("ik solution found.");
+          ROS_INFO_STREAM(" "<<result(j));
+          //ROS_INFO_STREAM("ik solution found.");
           msg.position[j] = result(j);
           if (sim == false)
           {
-            angel_diff[j] = msg.position[j]-robot_joint_states.position[j];
+            angel_diff[j] = abs(msg.position[j]-robot_joint_states.position[j]);
           }     
        }
-       if (sim == false)
-       {
+       if (sim == false){
           max_angel_diff = *max_element(angel_diff.begin(),angel_diff.end());
           run_time = max_angel_diff / max_vel;
-          for(uint j=0; j<result.data.size(); j++) 
-          {
+          for(uint j=0; j<result.data.size(); j++){
             msg.velocity[j] = angel_diff[j]/run_time;
             if (msg.velocity[j]<0.02)
               msg.velocity[j]=0.02; 
           }
-       } 
+       }
        msg.header.stamp = ros::Time::now();
-       pub.publish(msg);
+       new_pose = false;
+       while(!new_pose){ //wait for new pose
+         pub.publish(msg);
+         ros::spinOnce();
+         pub_rate.sleep();
+       }
     }     
     ros::spinOnce();
   }

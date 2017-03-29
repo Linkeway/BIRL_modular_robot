@@ -138,10 +138,9 @@ def make6DofMarker(frame_name, fixed, interaction_mode, pose, show_6dof = False)
         int_marker.description += "\n(fixed orientation)"
 
     if interaction_mode != InteractiveMarkerControl.NONE:
-        control_modes_dict = {
-                          InteractiveMarkerControl.MOVE_3D : "MOVE_3D",
-                          InteractiveMarkerControl.ROTATE_3D : "ROTATE_3D",
-                          InteractiveMarkerControl.MOVE_ROTATE_3D : "MOVE_ROTATE_3D" }
+        control_modes_dict = {  InteractiveMarkerControl.MOVE_3D : "MOVE_3D",
+                                InteractiveMarkerControl.ROTATE_3D : "ROTATE_3D",
+                                InteractiveMarkerControl.MOVE_ROTATE_3D : "MOVE_ROTATE_3D" }
         int_marker.name += "_" + control_modes_dict[interaction_mode]
         int_marker.description = "3D Control"
         if show_6dof:
