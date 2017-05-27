@@ -1,9 +1,10 @@
 Panels:
   - Class: rviz/Displays
-    Help Height: 84
+    Help Height: 78
     Name: Displays
     Property Tree Widget:
       Expanded:
+        - /Grid1
         - /MotionPlanning1
         - /MotionPlanning1/Scene Geometry1
         - /MotionPlanning1/Scene Robot1
@@ -11,7 +12,7 @@ Panels:
         - /MotionPlanning1/Planning Metrics1
         - /MotionPlanning1/Planned Path1
       Splitter Ratio: 0.74256
-    Tree Height: 332
+    Tree Height: 352
   - Class: rviz/Help
     Name: Help
   - Class: rviz/Views
@@ -23,7 +24,7 @@ Visualization Manager:
   Class: ""
   Displays:
     - Alpha: 0.5
-      Cell Size: 1
+      Cell Size: 0.1
       Class: rviz/Grid
       Color: 160; 160; 164
       Enabled: true
@@ -37,7 +38,7 @@ Visualization Manager:
         Y: 0
         Z: 0
       Plane: XY
-      Plane Cell Count: 10
+      Plane Cell Count: 20
       Reference Frame: <Fixed Frame>
       Value: true
     - Class: moveit_rviz_plugin/MotionPlanning
@@ -60,6 +61,7 @@ Visualization Manager:
           Z: 2
       Name: MotionPlanning
       Planned Path:
+        Color Enabled: false
         Interrupt Display: false
         Links:
           All Links Enabled: true
@@ -71,12 +73,12 @@ Visualization Manager:
             Show Axes: false
             Show Trail: false
             Value: true
-          I1_Lr_Link_0:
+          I1_Link:
             Alpha: 1
             Show Axes: false
             Show Trail: false
             Value: true
-          I1_Lr_Link_3:
+          I1_Lr_Link_0:
             Alpha: 1
             Show Axes: false
             Show Trail: false
@@ -92,12 +94,20 @@ Visualization Manager:
             Show Axes: false
             Show Trail: false
             Value: true
-          T2_Lr_Link_0:
+          T2_Link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          T2_Lr_Link_3:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          T2_Offset_Link:
             Alpha: 1
             Show Axes: false
             Show Trail: false
             Value: true
-          T2_Lr_Link_3:
+          T2_Offset_Lr_Link_3:
             Alpha: 1
             Show Axes: false
             Show Trail: false
@@ -112,12 +122,12 @@ Visualization Manager:
             Show Axes: false
             Show Trail: false
             Value: true
-          T3_Lr_Link_0:
+          T3_Link:
             Alpha: 1
             Show Axes: false
             Show Trail: false
             Value: true
-          T3_Lr_Link_3:
+          T3_Lr_Link_0:
             Alpha: 1
             Show Axes: false
             Show Trail: false
@@ -131,15 +141,15 @@ Visualization Manager:
             Alpha: 1
             Show Axes: false
             Show Trail: false
+          cl_100_85_connect_Link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
           cl_100_85_connect_link:
             Alpha: 1
             Show Axes: false
             Show Trail: false
             Value: true
-          cl_100_85_connect_link2:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
           g6_finger_link:
             Alpha: 1
             Show Axes: false
@@ -155,22 +165,30 @@ Visualization Manager:
             Show Axes: false
             Show Trail: false
             Value: true
+          i4_Link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          i4_Offset_Link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
           i4_link:
             Alpha: 1
             Show Axes: false
             Show Trail: false
             Value: true
-          i4_link2:
+          t5_Link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          t5_Offset_Link:
             Alpha: 1
             Show Axes: false
             Show Trail: false
             Value: true
           t5_link:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
-          t5_link2:
             Alpha: 1
             Show Axes: false
             Show Trail: false
@@ -181,6 +199,7 @@ Visualization Manager:
             Show Trail: false
         Loop Animation: false
         Robot Alpha: 0.5
+        Robot Color: 150; 50; 150
         Show Robot Collision: false
         Show Robot Visual: true
         Show Trail: false
@@ -188,7 +207,7 @@ Visualization Manager:
         Trajectory Topic: move_group/display_planned_path
       Planning Metrics:
         Payload: 1
-        Show Joint Torques: true
+        Show Joint Torques: false
         Show Manipulability: false
         Show Manipulability Index: false
         Show Weight Limit: false
@@ -226,12 +245,12 @@ Visualization Manager:
             Show Axes: false
             Show Trail: false
             Value: true
-          I1_Lr_Link_0:
+          I1_Link:
             Alpha: 1
             Show Axes: false
             Show Trail: false
             Value: true
-          I1_Lr_Link_3:
+          I1_Lr_Link_0:
             Alpha: 1
             Show Axes: false
             Show Trail: false
@@ -247,12 +266,20 @@ Visualization Manager:
             Show Axes: false
             Show Trail: false
             Value: true
-          T2_Lr_Link_0:
+          T2_Link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          T2_Lr_Link_3:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          T2_Offset_Link:
             Alpha: 1
             Show Axes: false
             Show Trail: false
             Value: true
-          T2_Lr_Link_3:
+          T2_Offset_Lr_Link_3:
             Alpha: 1
             Show Axes: false
             Show Trail: false
@@ -267,12 +294,12 @@ Visualization Manager:
             Show Axes: false
             Show Trail: false
             Value: true
-          T3_Lr_Link_0:
+          T3_Link:
             Alpha: 1
             Show Axes: false
             Show Trail: false
             Value: true
-          T3_Lr_Link_3:
+          T3_Lr_Link_0:
             Alpha: 1
             Show Axes: false
             Show Trail: false
@@ -286,15 +313,15 @@ Visualization Manager:
             Alpha: 1
             Show Axes: false
             Show Trail: false
+          cl_100_85_connect_Link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
           cl_100_85_connect_link:
             Alpha: 1
             Show Axes: false
             Show Trail: false
             Value: true
-          cl_100_85_connect_link2:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
           g6_finger_link:
             Alpha: 1
             Show Axes: false
@@ -310,22 +337,30 @@ Visualization Manager:
             Show Axes: false
             Show Trail: false
             Value: true
+          i4_Link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          i4_Offset_Link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
           i4_link:
             Alpha: 1
             Show Axes: false
             Show Trail: false
             Value: true
-          i4_link2:
+          t5_Link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          t5_Offset_Link:
             Alpha: 1
             Show Axes: false
             Show Trail: false
             Value: true
           t5_link:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
-          t5_link2:
             Alpha: 1
             Show Axes: false
             Show Trail: false
@@ -340,7 +375,7 @@ Visualization Manager:
       Value: true
   Enabled: true
   Global Options:
-    Background Color: 48; 48; 48
+    Background Color: 255; 255; 255
     Fixed Frame: base_link
     Frame Rate: 30
   Name: root
@@ -365,24 +400,24 @@ Visualization Manager:
         Z: 2.23518e-07
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 0.664793
+      Pitch: 0.609793
       Target Frame: base_link
       Value: XYOrbit (rviz)
-      Yaw: 4.45366
+      Yaw: 1.03048
     Saved: ~
 Window Geometry:
   Displays:
     collapsed: false
-  Height: 1028
+  Height: 1056
   Help:
     collapsed: false
   Hide Left Dock: false
   Hide Right Dock: false
   Motion Planning:
     collapsed: false
-  QMainWindow State: 000000ff00000000fd0000000100000000000002b1000003befc0200000005fb000000100044006900730070006c0061007900730100000028000001e1000000dd00fffffffb0000000800480065006c00700000000342000000bb0000007600fffffffb0000000a0056006900650077007300000003b0000000b0000000b000fffffffb0000000c00430061006d00650072006100000002ff000001610000000000000000fb0000001e004d006f00740069006f006e00200050006c0061006e006e0069006e0067010000020f000001d7000001cc00ffffff0000046d000003be00000001000000020000000100000002fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  QMainWindow State: 000000ff00000000fd0000000100000000000002b1000003dafc0200000005fb000000100044006900730070006c0061007900730100000028000001ef000000dd00fffffffb0000000800480065006c00700000000342000000bb0000007600fffffffb0000000a0056006900650077007300000003b0000000b0000000b000fffffffb0000000c00430061006d00650072006100000002ff000001610000000000000000fb0000001e004d006f00740069006f006e00200050006c0061006e006e0069006e0067010000021d000001e5000001cc00ffffff00000488000003da00000001000000020000000100000002fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   Views:
     collapsed: false
-  Width: 1828
-  X: 62
-  Y: 14
+  Width: 1855
+  X: 55
+  Y: -14

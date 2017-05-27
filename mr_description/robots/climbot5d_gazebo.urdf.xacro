@@ -26,7 +26,9 @@
   
   <!-- sleeve_link Module -->
   <xacro:include filename="$(find mr_description)/urdf/sleeve_link.urdf.xacro" />
-<!-- Now we can start using the macros included above to define the actual robot -->
+
+  <!-- kinect Module -->
+  <xacro:include filename="$(find mr_description)/urdf/kinect.urdf.xacro" />
 
   <!-- The first use of a macro.  This one was defined in base.urdf.xacro above.
        A macro like this will expand to a set of link and joint definitions, and to additional
@@ -36,58 +38,25 @@
        the origin block defines where the component is w.r.t its parent (in this case the parent 
        is the world frame). For more, see http://www.ros.org/wiki/xacro -->
 
+  <!-- ros_control plugin -->
+  <gazebo>
+    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+      <robotNamespace>climbot5d</robotNamespace>
+      <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
+    </plugin>
+  </gazebo>
+
+ 
+
 <!--    climbot move group 1-->
   <link name="base_gripper1" />
   
-  <joint  name="pole1_Joint"  type="fixed">
-    <origin  xyz="0 0.18 0" rpy="0 0 0" />
-    <parent link="base_gripper1" />
-    <child  link="pole1" />
-  </joint>  
-  
-  <link name="pole1" >
-      <visual>
-      <origin xyz="0 0 0.7" rpy="0 0 ${pi*0.25}" />
-      <geometry>
-	<box size="0.04 0.04 2"/>
-      </geometry>
-      <material name="Blue"/>
-    </visual>
-    
-    <collision>
-      <origin xyz="0 0 0" rpy="0 0 0" />
-      <geometry>
-	<box size="0.04 0.04 2"/>
-      </geometry>
-    </collision>
-  </link>
-  
-  
-  <joint  name="pole2_Joint"  type="fixed">
-    <origin  xyz="0 0.18 0" rpy="0 0 0" />
-    <parent link="base_gripper1" />
-    <child  link="pole2" />
-  </joint>  
-  
-  <link name="pole2" >
-      <visual>
-      <origin xyz="0.4 0.1 0.7" rpy="${pi*0.5} ${pi*0.54} ${pi*0.25}" />
-      <geometry>
-	<box size="0.04 0.04 2"/>
-      </geometry>
-      <material name="Blue"/>
-    </visual>
-    
-    <collision>
-      <origin xyz="0 0 0.7" rpy="0 0 ${pi*0.25}" />
-      <geometry>
-	<box size="0.04 0.04 2"/>
-      </geometry>
-    </collision>
-  </link>
-  
+  <xacro:kinect name="kinect1" parent="base_gripper1">
+    <origin xyz="0 -0.01 -0.1" rpy="${pi} 0 ${pi*0.5}" />
+  </xacro:kinect>
+
   <xacro:G_invert name="G0" parent="base_gripper1">
-    <origin xyz="0 0 0.17836" rpy="0 0 0" />
+    <origin xyz="0 0 0" rpy="0 0 0" />
   </xacro:G_invert>
   
   <xacro:I_module name="I1" parent="G0_palm_link">
@@ -118,38 +87,8 @@
     <origin xyz="0 0 0" rpy="0 0 0" />
   </xacro:G_module>
   
-
-
-<!--    climbot move group 2-->
-
-<!--   <link name="base_gripper2" />-->
-<!--   -->
-<!--  <xacro:G_invert name="_G6" parent="base_gripper2">-->
-<!--    <origin xyz="0.2 0 0.17836" rpy="${-pi*0.5} 0 0" />-->
-<!--  </xacro:G_invert>-->
-
-<!--  <xacro:I_module name="_I5" parent="_G6_palm_link">-->
-<!--    <origin xyz="0 0 0" rpy="${pi*0.5} 0 0" />-->
-<!--  </xacro:I_module>-->
-
-<!--  <xacro:T_invert name="_T4" parent="_I5_Lr_Link_3">-->
-<!--    <origin xyz="0 0 0.005" rpy="0 0 0" />-->
-<!--  </xacro:T_invert>-->
-<!--  -->
-<!--  <xacro:T_module name="_T3" parent="_T4_Lr_Link_0">-->
-<!--    <origin xyz="0 0 0" rpy="0 0 0" />-->
-<!--  </xacro:T_module>-->
-
-<!--  <xacro:T_invert name="_T2" parent="_T3_Lr_Link_3">-->
-<!--    <origin xyz="0 0 0.005" rpy="0 0 0" />-->
-<!--  </xacro:T_invert>-->
-
-<!--  <xacro:I_module name="_I1" parent="_T2_Lr_Link_0">-->
-<!--    <origin xyz="0 0 0" rpy="0 0 0" />-->
-<!--  </xacro:I_module>-->
-<!--  -->
-<!--  <xacro:G_module name="_G0" parent="_I1_Lr_Link_3">-->
-<!--    <origin xyz="0 0 0" rpy="${pi*0.5} 0 0" />-->
-<!--  </xacro:G_module>-->
+  <xacro:kinect name="kinect2" parent="G6_tcp">
+    <origin xyz="0 -0.2 -0.1" rpy="${pi} 0 ${pi*0.5}" />
+  </xacro:kinect>
   
 </robot>

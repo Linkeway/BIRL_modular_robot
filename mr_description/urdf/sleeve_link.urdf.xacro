@@ -31,6 +31,10 @@
     </collision>
     
   </link>
+  <!--the IModule_InLink Gazebo tag-->
+  <gazebo reference="${name}_link">
+    <material>Gazebo/Red</material>
+  </gazebo>
 
 <!-- offset joint -->
   <joint name="${name}_offset_joint" type="fixed" >

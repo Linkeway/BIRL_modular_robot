@@ -96,16 +96,18 @@
   </joint>
   
     <!--    test reduction ratio-->
-  <transmission name="simple_trans">
+  <transmission name="${name}_trans">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="${name}_Joint">
       <hardwareInterface>PositionJointInterface</hardwareInterface>
       <hardwareInterface>VelocityJointInterface</hardwareInterface>
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
     </joint>
     <actuator name="${name}_motor">
       <mechanicalReduction>226</mechanicalReduction> 
       <hardwareInterface>PositionJointInterface</hardwareInterface>
       <hardwareInterface>VelocityJointInterface</hardwareInterface>
+      <hardwareInterface>EffortJointInterface</hardwareInterface>      
     </actuator>
   </transmission>
   

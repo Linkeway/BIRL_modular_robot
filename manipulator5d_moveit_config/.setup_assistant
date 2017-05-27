@@ -5,4 +5,6 @@ moveit_setup_assistant_config:
   SRDF:
     relative_path: config/Manipulator5d.srdf
   CONFIG:
-    generated_timestamp: 1481809289
+    author_name: Linkeway
+    author_email: linkeway@163.com
+    generated_timestamp: 1490842008

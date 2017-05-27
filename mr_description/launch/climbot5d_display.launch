@@ -1,5 +1,5 @@
 <launch>
-  <arg name="module_robot" />
+  <arg name="robot_name" default="climbot5d"/>
   <arg name="gui" default="true" />
   <arg name="invert" default="false" />
 
@@ -7,7 +7,7 @@
   <param name="use_gui" value="$(arg gui)" />
   
   <group unless="$(arg invert)">  <!-- stuff that will only be evaluated if invert is false -->
-    <param name="robot_description" command="$(find xacro)/xacro '$(find mr_description)/robots/climbot5d.urdf.xacro'" />
+    <param name="robot_description" command="$(find xacro)/xacro '$(find mr_description)/robots/$(arg robot_name).urdf.xacro'" />
 <!--  <param name="robot_description" textfile="$(find mr_description)/robots/I_module.URDF" />-->
     <rosparam>
       dependent_joints:

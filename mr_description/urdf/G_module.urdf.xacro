@@ -9,13 +9,13 @@
   <joint name="${name}_joint_0" type="fixed" >
     <insert_block name="origin" />
     <parent link="${parent}" />
-    <child link="${name}_link" />
+    <child link="${name}_Link" />
   </joint>
-  <link name="${name}_link"/>
+  <link name="${name}_Link"/>
 <!-- joint between parent_link and palm _Link -->
   <joint name="${name}_offset_joint" type="fixed" >
     <origin xyz="0 0 0" rpy="${pi*0.5} 0 ${-pi*0.5}" />
-    <parent link="${name}_link" />
+    <parent link="${name}_Link" />
     <child link="${name}_palm_link" />
   </joint>
   
@@ -53,7 +53,11 @@
       </geometry>
     </collision>
   </link>
-  
+  <!--the IModule_InLink Gazebo tag-->
+  <gazebo reference="${name}_palm_link">
+    <material>Gazebo/Black</material>
+  </gazebo>
+
 <!--  joint between the palm and the left finger-->
   <joint name="${name}_Joint"  type="prismatic">
     <origin xyz="0.038 0 0"  rpy="0 0 0" />
@@ -65,16 +69,18 @@
   </joint>
 
    <!-- test reduction ratio-->
-  <transmission name="simple_trans">
+  <transmission name="${name}_trans">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="${name}_Joint">
       <hardwareInterface>PositionJointInterface</hardwareInterface>
       <hardwareInterface>VelocityJointInterface</hardwareInterface>
+      <hardwareInterface>EffortJointInterface</hardwareInterface>      
     </joint>
     <actuator name="${name}_motor">
       <mechanicalReduction>400</mechanicalReduction> 
       <hardwareInterface>PositionJointInterface</hardwareInterface>
       <hardwareInterface>VelocityJointInterface</hardwareInterface>
+      <hardwareInterface>EffortJointInterface</hardwareInterface>      
     </actuator>
   </transmission>
   
@@ -109,7 +115,10 @@
       </geometry>
     </collision>
   </link>
-  
+  <!--the IModule_InLink Gazebo tag-->
+  <gazebo reference="${name}_finger_link_l">
+    <material>Gazebo/Black</material>
+  </gazebo>
   
 <!--  joint between the right finger and the palm-->
   <joint  name="${name}_Joint1"  type="prismatic">
@@ -120,7 +129,22 @@
     <limit lower="0"  upper="0.04" effort="10" velocity="0.02" />
     <dynamics   damping="1" friction="1" />
   </joint>
- 
+   <!-- test reduction ratio-->
+  <transmission name="${name}_trans1">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="${name}_Joint1">
+      <hardwareInterface>PositionJointInterface</hardwareInterface>
+      <hardwareInterface>VelocityJointInterface</hardwareInterface>
+      <hardwareInterface>EffortJointInterface</hardwareInterface>      
+    </joint>
+    <actuator name="${name}_motor">
+      <mechanicalReduction>400</mechanicalReduction> 
+      <hardwareInterface>PositionJointInterface</hardwareInterface>
+      <hardwareInterface>VelocityJointInterface</hardwareInterface>
+      <hardwareInterface>EffortJointInterface</hardwareInterface>      
+    </actuator>
+  </transmission>
+  
 <!-- the right finger link-->
   <link name="${name}_finger_link_r">
     <inertial>
@@ -152,7 +176,10 @@
       </geometry>
     </collision>
   </link>
-  
+  <!--the IModule_InLink Gazebo tag-->
+  <gazebo reference="${name}_finger_link_r">
+    <material>Gazebo/Black</material>
+  </gazebo>
   
 <!--    joint between the palm link and the tcp-->
   <joint name="${name}_tcp_joint" type="fixed">

@@ -51,7 +51,11 @@
       </geometry>
     </collision>
   </link>
-  
+  <!--the IModule_InLink Gazebo tag-->
+  <gazebo reference="${name}_palm_link">
+    <material>Gazebo/Black</material>
+  </gazebo>
+
   <joint name="${name}_offset_joint" type="fixed" >
     <origin xyz="0 0 0" rpy="${pi*0.5} ${-pi*0.5} 0" />
     <parent link="${name}_palm_link" />
@@ -72,16 +76,18 @@
   </joint>
  
    <!-- test reduction ratio-->
-  <transmission name="simple_trans">
+  <transmission name="${name}_trans">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="${name}_Joint">
       <hardwareInterface>PositionJointInterface</hardwareInterface>
       <hardwareInterface>VelocityJointInterface</hardwareInterface>
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
     </joint>
     <actuator name="${name}_motor">
       <mechanicalReduction>400</mechanicalReduction> 
       <hardwareInterface>PositionJointInterface</hardwareInterface>
       <hardwareInterface>VelocityJointInterface</hardwareInterface>
+      <hardwareInterface>EffortJointInterface</hardwareInterface>      
     </actuator>
   </transmission>
   
@@ -115,7 +121,10 @@
       </geometry>
     </collision>
   </link>
-  
+  <!--the IModule_InLink Gazebo tag-->
+  <gazebo reference="${name}_finger_link_l">
+    <material>Gazebo/Black</material>
+  </gazebo>
   
 <!--  joint between the right finger and the palm-->
   <joint  name="${name}_Joint1" type="prismatic">
@@ -126,7 +135,20 @@
     <limit  lower="0" upper="0.04"  effort="10" velocity="0.02" />
     <dynamics  damping="1" friction="1" />
   </joint>
- 
+  <transmission name="${name}_trans1">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="${name}_Joint1">
+      <hardwareInterface>PositionJointInterface</hardwareInterface>
+      <hardwareInterface>VelocityJointInterface</hardwareInterface>
+      <hardwareInterface>EffortJointInterface</hardwareInterface>      
+    </joint>
+    <actuator name="${name}_motor">
+      <mechanicalReduction>400</mechanicalReduction> 
+      <hardwareInterface>PositionJointInterface</hardwareInterface>
+      <hardwareInterface>VelocityJointInterface</hardwareInterface>
+      <hardwareInterface>EffortJointInterface</hardwareInterface>      
+    </actuator>
+  </transmission>
 <!-- the right finger link-->
   <link name="${name}_finger_link_r">
     <inertial>
@@ -158,7 +180,10 @@
       </geometry>
     </collision>
   </link>
-  
+  <!--the IModule_InLink Gazebo tag-->
+  <gazebo reference="${name}_finger_link_r">
+    <material>Gazebo/Black</material>
+  </gazebo>
   
   </xacro:macro>
 </robot>

@@ -3,7 +3,7 @@
     This is a format for representing semantic information about the robot structure.
     A URDF file must exist for this robot as well, where the joints and the links that are referenced are defined
 -->
-<robot name="Manipulator5d">
+<robot name="manipulator5d">
     <!--GROUPS: Representation of a set of joints and links. This can be useful for specifying DOF to plan for, defining arms, end effectors, etc-->
     <!--LINKS: When a link is specified, the parent joint of that link (if it exists) is automatically included-->
     <!--JOINTS: When a joint is specified, the child link of that joint (which will always exist) is automatically included-->
@@ -37,188 +37,184 @@
     <!--VIRTUAL JOINT: Purpose: this element defines a virtual joint between a robot link and an external frame of reference (considered fixed with respect to the robot)-->
     <virtual_joint name="virtual_joint" type="fixed" parent_frame="/world" child_link="base_link" />
     <!--DISABLE COLLISIONS: By default it is assumed that any link of the robot could potentially come into collision with any other link in the robot. This tag disables collision checking between a specified pair of links. -->
+    <disable_collisions link1="I1_InLink_1" link2="I1_Link" reason="Default" />
     <disable_collisions link1="I1_InLink_1" link2="I1_Lr_Link_0" reason="Adjacent" />
-    <disable_collisions link1="I1_InLink_1" link2="I1_Lr_Link_3" reason="Default" />
     <disable_collisions link1="I1_InLink_1" link2="I1_OutLink_2" reason="Adjacent" />
     <disable_collisions link1="I1_InLink_1" link2="T2_InLink_1" reason="Never" />
-    <disable_collisions link1="I1_InLink_1" link2="T2_Lr_Link_0" reason="Never" />
-    <disable_collisions link1="I1_InLink_1" link2="T2_Lr_Link_3" reason="Default" />
-    <disable_collisions link1="I1_InLink_1" link2="T2_OutLink_2" reason="Default" />
+    <disable_collisions link1="I1_InLink_1" link2="T2_Offset_Link" reason="Never" />
+    <disable_collisions link1="I1_InLink_1" link2="T2_Offset_Lr_Link_3" reason="Never" />
+    <disable_collisions link1="I1_InLink_1" link2="T2_OutLink_2" reason="Never" />
     <disable_collisions link1="I1_InLink_1" link2="T3_InLink_1" reason="Never" />
+    <disable_collisions link1="I1_InLink_1" link2="T3_Link" reason="Never" />
     <disable_collisions link1="I1_InLink_1" link2="T3_Lr_Link_0" reason="Never" />
-    <disable_collisions link1="I1_InLink_1" link2="T3_Lr_Link_3" reason="Never" />
     <disable_collisions link1="I1_InLink_1" link2="T3_OutLink_2" reason="Never" />
     <disable_collisions link1="I1_InLink_1" link2="cl_100_85_connect_link" reason="Never" />
-    <disable_collisions link1="I1_InLink_1" link2="t5_link2" reason="Never" />
-    <disable_collisions link1="I1_Lr_Link_0" link2="I1_Lr_Link_3" reason="Never" />
+    <disable_collisions link1="I1_InLink_1" link2="t5_Offset_Link" reason="Never" />
+    <disable_collisions link1="I1_Link" link2="I1_Lr_Link_0" reason="Never" />
+    <disable_collisions link1="I1_Link" link2="I1_OutLink_2" reason="Adjacent" />
+    <disable_collisions link1="I1_Link" link2="T2_InLink_1" reason="Never" />
+    <disable_collisions link1="I1_Link" link2="T2_Offset_Link" reason="Never" />
+    <disable_collisions link1="I1_Link" link2="T2_Offset_Lr_Link_3" reason="Adjacent" />
+    <disable_collisions link1="I1_Link" link2="T2_OutLink_2" reason="Never" />
+    <disable_collisions link1="I1_Link" link2="T3_InLink_1" reason="Never" />
+    <disable_collisions link1="I1_Link" link2="T3_Link" reason="Never" />
+    <disable_collisions link1="I1_Link" link2="T3_Lr_Link_0" reason="Never" />
+    <disable_collisions link1="I1_Link" link2="T3_OutLink_2" reason="Never" />
+    <disable_collisions link1="I1_Link" link2="cl_100_85_connect_link" reason="Never" />
+    <disable_collisions link1="I1_Link" link2="g6_finger_link" reason="Never" />
+    <disable_collisions link1="I1_Link" link2="g6_finger_link1" reason="Never" />
+    <disable_collisions link1="I1_Link" link2="g6_palm_link" reason="Never" />
+    <disable_collisions link1="I1_Link" link2="i4_Offset_Link" reason="Never" />
+    <disable_collisions link1="I1_Link" link2="i4_link" reason="Never" />
+    <disable_collisions link1="I1_Link" link2="t5_Offset_Link" reason="Never" />
+    <disable_collisions link1="I1_Link" link2="t5_link" reason="Never" />
     <disable_collisions link1="I1_Lr_Link_0" link2="I1_OutLink_2" reason="Never" />
     <disable_collisions link1="I1_Lr_Link_0" link2="T2_InLink_1" reason="Never" />
-    <disable_collisions link1="I1_Lr_Link_0" link2="T2_Lr_Link_0" reason="Never" />
-    <disable_collisions link1="I1_Lr_Link_0" link2="T2_Lr_Link_3" reason="Never" />
+    <disable_collisions link1="I1_Lr_Link_0" link2="T2_Offset_Link" reason="Never" />
+    <disable_collisions link1="I1_Lr_Link_0" link2="T2_Offset_Lr_Link_3" reason="Never" />
     <disable_collisions link1="I1_Lr_Link_0" link2="T2_OutLink_2" reason="Never" />
     <disable_collisions link1="I1_Lr_Link_0" link2="T3_InLink_1" reason="Never" />
+    <disable_collisions link1="I1_Lr_Link_0" link2="T3_Link" reason="Never" />
     <disable_collisions link1="I1_Lr_Link_0" link2="T3_Lr_Link_0" reason="Never" />
-    <disable_collisions link1="I1_Lr_Link_0" link2="T3_Lr_Link_3" reason="Never" />
     <disable_collisions link1="I1_Lr_Link_0" link2="T3_OutLink_2" reason="Never" />
     <disable_collisions link1="I1_Lr_Link_0" link2="cl_100_85_connect_link" reason="Never" />
-    <disable_collisions link1="I1_Lr_Link_0" link2="g6_finger_link" reason="User" />
-    <disable_collisions link1="I1_Lr_Link_0" link2="g6_finger_link1" reason="User" />
     <disable_collisions link1="I1_Lr_Link_0" link2="g6_palm_link" reason="User" />
+    <disable_collisions link1="I1_Lr_Link_0" link2="i4_Offset_Link" reason="User" />
     <disable_collisions link1="I1_Lr_Link_0" link2="i4_link" reason="User" />
-    <disable_collisions link1="I1_Lr_Link_0" link2="i4_link2" reason="User" />
+    <disable_collisions link1="I1_Lr_Link_0" link2="t5_Offset_Link" reason="Never" />
     <disable_collisions link1="I1_Lr_Link_0" link2="t5_link" reason="User" />
-    <disable_collisions link1="I1_Lr_Link_0" link2="t5_link2" reason="Never" />
-    <disable_collisions link1="I1_Lr_Link_3" link2="I1_OutLink_2" reason="Adjacent" />
-    <disable_collisions link1="I1_Lr_Link_3" link2="T2_InLink_1" reason="Never" />
-    <disable_collisions link1="I1_Lr_Link_3" link2="T2_Lr_Link_0" reason="Never" />
-    <disable_collisions link1="I1_Lr_Link_3" link2="T2_Lr_Link_3" reason="Adjacent" />
-    <disable_collisions link1="I1_Lr_Link_3" link2="T2_OutLink_2" reason="Default" />
-    <disable_collisions link1="I1_Lr_Link_3" link2="T3_InLink_1" reason="Never" />
-    <disable_collisions link1="I1_Lr_Link_3" link2="T3_Lr_Link_0" reason="Never" />
-    <disable_collisions link1="I1_Lr_Link_3" link2="T3_Lr_Link_3" reason="Never" />
-    <disable_collisions link1="I1_Lr_Link_3" link2="T3_OutLink_2" reason="Never" />
-    <disable_collisions link1="I1_Lr_Link_3" link2="cl_100_85_connect_link" reason="Never" />
-    <disable_collisions link1="I1_Lr_Link_3" link2="g6_finger_link" reason="Never" />
-    <disable_collisions link1="I1_Lr_Link_3" link2="g6_finger_link1" reason="Never" />
-    <disable_collisions link1="I1_Lr_Link_3" link2="g6_palm_link" reason="Never" />
-    <disable_collisions link1="I1_Lr_Link_3" link2="i4_link" reason="Never" />
-    <disable_collisions link1="I1_Lr_Link_3" link2="i4_link2" reason="Never" />
-    <disable_collisions link1="I1_Lr_Link_3" link2="t5_link" reason="Never" />
-    <disable_collisions link1="I1_Lr_Link_3" link2="t5_link2" reason="Never" />
     <disable_collisions link1="I1_OutLink_2" link2="T2_InLink_1" reason="Never" />
-    <disable_collisions link1="I1_OutLink_2" link2="T2_Lr_Link_0" reason="Never" />
-    <disable_collisions link1="I1_OutLink_2" link2="T2_Lr_Link_3" reason="Default" />
-    <disable_collisions link1="I1_OutLink_2" link2="T2_OutLink_2" reason="Default" />
+    <disable_collisions link1="I1_OutLink_2" link2="T2_Offset_Link" reason="Never" />
+    <disable_collisions link1="I1_OutLink_2" link2="T2_Offset_Lr_Link_3" reason="Never" />
+    <disable_collisions link1="I1_OutLink_2" link2="T2_OutLink_2" reason="Never" />
     <disable_collisions link1="I1_OutLink_2" link2="T3_InLink_1" reason="Never" />
+    <disable_collisions link1="I1_OutLink_2" link2="T3_Link" reason="Never" />
     <disable_collisions link1="I1_OutLink_2" link2="T3_Lr_Link_0" reason="Never" />
-    <disable_collisions link1="I1_OutLink_2" link2="T3_Lr_Link_3" reason="Never" />
     <disable_collisions link1="I1_OutLink_2" link2="T3_OutLink_2" reason="Never" />
     <disable_collisions link1="I1_OutLink_2" link2="cl_100_85_connect_link" reason="Never" />
-    <disable_collisions link1="I1_OutLink_2" link2="g6_finger_link" reason="Never" />
-    <disable_collisions link1="I1_OutLink_2" link2="g6_finger_link1" reason="Never" />
     <disable_collisions link1="I1_OutLink_2" link2="g6_palm_link" reason="Never" />
+    <disable_collisions link1="I1_OutLink_2" link2="i4_Offset_Link" reason="Never" />
     <disable_collisions link1="I1_OutLink_2" link2="i4_link" reason="Never" />
-    <disable_collisions link1="I1_OutLink_2" link2="i4_link2" reason="Never" />
+    <disable_collisions link1="I1_OutLink_2" link2="t5_Offset_Link" reason="Never" />
     <disable_collisions link1="I1_OutLink_2" link2="t5_link" reason="Never" />
-    <disable_collisions link1="I1_OutLink_2" link2="t5_link2" reason="Never" />
-    <disable_collisions link1="T2_InLink_1" link2="T2_Lr_Link_0" reason="Adjacent" />
-    <disable_collisions link1="T2_InLink_1" link2="T2_Lr_Link_3" reason="Never" />
+    <disable_collisions link1="T2_InLink_1" link2="T2_Offset_Link" reason="Adjacent" />
+    <disable_collisions link1="T2_InLink_1" link2="T2_Offset_Lr_Link_3" reason="Never" />
     <disable_collisions link1="T2_InLink_1" link2="T2_OutLink_2" reason="Adjacent" />
     <disable_collisions link1="T2_InLink_1" link2="T3_InLink_1" reason="Never" />
+    <disable_collisions link1="T2_InLink_1" link2="T3_Link" reason="Never" />
     <disable_collisions link1="T2_InLink_1" link2="T3_Lr_Link_0" reason="Never" />
-    <disable_collisions link1="T2_InLink_1" link2="T3_Lr_Link_3" reason="Never" />
     <disable_collisions link1="T2_InLink_1" link2="T3_OutLink_2" reason="Never" />
     <disable_collisions link1="T2_InLink_1" link2="cl_100_85_connect_link" reason="Never" />
     <disable_collisions link1="T2_InLink_1" link2="g6_finger_link" reason="Never" />
     <disable_collisions link1="T2_InLink_1" link2="g6_finger_link1" reason="Never" />
     <disable_collisions link1="T2_InLink_1" link2="g6_palm_link" reason="Never" />
+    <disable_collisions link1="T2_InLink_1" link2="i4_Offset_Link" reason="Never" />
     <disable_collisions link1="T2_InLink_1" link2="i4_link" reason="Never" />
-    <disable_collisions link1="T2_InLink_1" link2="i4_link2" reason="Never" />
+    <disable_collisions link1="T2_InLink_1" link2="t5_Offset_Link" reason="Never" />
     <disable_collisions link1="T2_InLink_1" link2="t5_link" reason="Never" />
-    <disable_collisions link1="T2_InLink_1" link2="t5_link2" reason="Never" />
-    <disable_collisions link1="T2_Lr_Link_0" link2="T2_Lr_Link_3" reason="Never" />
-    <disable_collisions link1="T2_Lr_Link_0" link2="T2_OutLink_2" reason="Never" />
-    <disable_collisions link1="T2_Lr_Link_0" link2="T3_InLink_1" reason="Never" />
-    <disable_collisions link1="T2_Lr_Link_0" link2="T3_Lr_Link_0" reason="Adjacent" />
-    <disable_collisions link1="T2_Lr_Link_0" link2="T3_Lr_Link_3" reason="Never" />
-    <disable_collisions link1="T2_Lr_Link_0" link2="T3_OutLink_2" reason="Never" />
-    <disable_collisions link1="T2_Lr_Link_0" link2="cl_100_85_connect_link" reason="Never" />
-    <disable_collisions link1="T2_Lr_Link_0" link2="g6_finger_link" reason="Never" />
-    <disable_collisions link1="T2_Lr_Link_0" link2="g6_finger_link1" reason="Never" />
-    <disable_collisions link1="T2_Lr_Link_0" link2="g6_palm_link" reason="Never" />
-    <disable_collisions link1="T2_Lr_Link_0" link2="i4_link" reason="Never" />
-    <disable_collisions link1="T2_Lr_Link_0" link2="i4_link2" reason="Never" />
-    <disable_collisions link1="T2_Lr_Link_0" link2="t5_link" reason="Never" />
-    <disable_collisions link1="T2_Lr_Link_0" link2="t5_link2" reason="Never" />
-    <disable_collisions link1="T2_Lr_Link_3" link2="T2_OutLink_2" reason="Adjacent" />
-    <disable_collisions link1="T2_Lr_Link_3" link2="T3_InLink_1" reason="Never" />
-    <disable_collisions link1="T2_Lr_Link_3" link2="T3_Lr_Link_0" reason="Never" />
-    <disable_collisions link1="T2_Lr_Link_3" link2="T3_Lr_Link_3" reason="Never" />
-    <disable_collisions link1="T2_Lr_Link_3" link2="T3_OutLink_2" reason="Never" />
-    <disable_collisions link1="T2_Lr_Link_3" link2="cl_100_85_connect_link" reason="Never" />
-    <disable_collisions link1="T2_Lr_Link_3" link2="g6_finger_link" reason="Never" />
-    <disable_collisions link1="T2_Lr_Link_3" link2="g6_finger_link1" reason="Never" />
-    <disable_collisions link1="T2_Lr_Link_3" link2="g6_palm_link" reason="Never" />
-    <disable_collisions link1="T2_Lr_Link_3" link2="i4_link" reason="Never" />
-    <disable_collisions link1="T2_Lr_Link_3" link2="i4_link2" reason="Never" />
-    <disable_collisions link1="T2_Lr_Link_3" link2="t5_link" reason="Never" />
-    <disable_collisions link1="T2_Lr_Link_3" link2="t5_link2" reason="Never" />
+    <disable_collisions link1="T2_Offset_Link" link2="T2_Offset_Lr_Link_3" reason="Never" />
+    <disable_collisions link1="T2_Offset_Link" link2="T2_OutLink_2" reason="Never" />
+    <disable_collisions link1="T2_Offset_Link" link2="T3_InLink_1" reason="Never" />
+    <disable_collisions link1="T2_Offset_Link" link2="T3_Link" reason="Never" />
+    <disable_collisions link1="T2_Offset_Link" link2="T3_Lr_Link_0" reason="Adjacent" />
+    <disable_collisions link1="T2_Offset_Link" link2="T3_OutLink_2" reason="Never" />
+    <disable_collisions link1="T2_Offset_Link" link2="cl_100_85_connect_link" reason="Never" />
+    <disable_collisions link1="T2_Offset_Link" link2="g6_finger_link" reason="Never" />
+    <disable_collisions link1="T2_Offset_Link" link2="g6_finger_link1" reason="Never" />
+    <disable_collisions link1="T2_Offset_Link" link2="g6_palm_link" reason="Never" />
+    <disable_collisions link1="T2_Offset_Link" link2="i4_Offset_Link" reason="Never" />
+    <disable_collisions link1="T2_Offset_Link" link2="i4_link" reason="Never" />
+    <disable_collisions link1="T2_Offset_Link" link2="t5_Offset_Link" reason="Never" />
+    <disable_collisions link1="T2_Offset_Link" link2="t5_link" reason="Never" />
+    <disable_collisions link1="T2_Offset_Lr_Link_3" link2="T2_OutLink_2" reason="Adjacent" />
+    <disable_collisions link1="T2_Offset_Lr_Link_3" link2="T3_InLink_1" reason="Never" />
+    <disable_collisions link1="T2_Offset_Lr_Link_3" link2="T3_Link" reason="Never" />
+    <disable_collisions link1="T2_Offset_Lr_Link_3" link2="T3_Lr_Link_0" reason="Never" />
+    <disable_collisions link1="T2_Offset_Lr_Link_3" link2="T3_OutLink_2" reason="Never" />
+    <disable_collisions link1="T2_Offset_Lr_Link_3" link2="cl_100_85_connect_link" reason="Never" />
+    <disable_collisions link1="T2_Offset_Lr_Link_3" link2="g6_finger_link" reason="Never" />
+    <disable_collisions link1="T2_Offset_Lr_Link_3" link2="g6_finger_link1" reason="Never" />
+    <disable_collisions link1="T2_Offset_Lr_Link_3" link2="g6_palm_link" reason="Never" />
+    <disable_collisions link1="T2_Offset_Lr_Link_3" link2="i4_Offset_Link" reason="Never" />
+    <disable_collisions link1="T2_Offset_Lr_Link_3" link2="i4_link" reason="Never" />
+    <disable_collisions link1="T2_Offset_Lr_Link_3" link2="t5_Offset_Link" reason="Never" />
+    <disable_collisions link1="T2_Offset_Lr_Link_3" link2="t5_link" reason="Never" />
     <disable_collisions link1="T2_OutLink_2" link2="T3_InLink_1" reason="Never" />
+    <disable_collisions link1="T2_OutLink_2" link2="T3_Link" reason="Never" />
     <disable_collisions link1="T2_OutLink_2" link2="T3_Lr_Link_0" reason="Never" />
-    <disable_collisions link1="T2_OutLink_2" link2="T3_Lr_Link_3" reason="Never" />
     <disable_collisions link1="T2_OutLink_2" link2="T3_OutLink_2" reason="Never" />
     <disable_collisions link1="T2_OutLink_2" link2="cl_100_85_connect_link" reason="Never" />
     <disable_collisions link1="T2_OutLink_2" link2="g6_finger_link" reason="Never" />
     <disable_collisions link1="T2_OutLink_2" link2="g6_finger_link1" reason="Never" />
     <disable_collisions link1="T2_OutLink_2" link2="g6_palm_link" reason="Never" />
+    <disable_collisions link1="T2_OutLink_2" link2="i4_Offset_Link" reason="Never" />
     <disable_collisions link1="T2_OutLink_2" link2="i4_link" reason="Never" />
-    <disable_collisions link1="T2_OutLink_2" link2="i4_link2" reason="Never" />
+    <disable_collisions link1="T2_OutLink_2" link2="t5_Offset_Link" reason="Never" />
     <disable_collisions link1="T2_OutLink_2" link2="t5_link" reason="Never" />
-    <disable_collisions link1="T2_OutLink_2" link2="t5_link2" reason="Never" />
+    <disable_collisions link1="T3_InLink_1" link2="T3_Link" reason="Never" />
     <disable_collisions link1="T3_InLink_1" link2="T3_Lr_Link_0" reason="Adjacent" />
-    <disable_collisions link1="T3_InLink_1" link2="T3_Lr_Link_3" reason="Never" />
     <disable_collisions link1="T3_InLink_1" link2="T3_OutLink_2" reason="Adjacent" />
     <disable_collisions link1="T3_InLink_1" link2="cl_100_85_connect_link" reason="Never" />
     <disable_collisions link1="T3_InLink_1" link2="g6_finger_link" reason="Never" />
     <disable_collisions link1="T3_InLink_1" link2="g6_finger_link1" reason="Never" />
     <disable_collisions link1="T3_InLink_1" link2="g6_palm_link" reason="Never" />
+    <disable_collisions link1="T3_InLink_1" link2="i4_Offset_Link" reason="Never" />
     <disable_collisions link1="T3_InLink_1" link2="i4_link" reason="Never" />
-    <disable_collisions link1="T3_InLink_1" link2="i4_link2" reason="Never" />
+    <disable_collisions link1="T3_InLink_1" link2="t5_Offset_Link" reason="Never" />
     <disable_collisions link1="T3_InLink_1" link2="t5_link" reason="Never" />
-    <disable_collisions link1="T3_InLink_1" link2="t5_link2" reason="Never" />
-    <disable_collisions link1="T3_Lr_Link_0" link2="T3_Lr_Link_3" reason="Never" />
+    <disable_collisions link1="T3_Link" link2="T3_Lr_Link_0" reason="Never" />
+    <disable_collisions link1="T3_Link" link2="T3_OutLink_2" reason="Adjacent" />
+    <disable_collisions link1="T3_Link" link2="cl_100_85_connect_link" reason="Adjacent" />
+    <disable_collisions link1="T3_Link" link2="g6_finger_link" reason="Never" />
+    <disable_collisions link1="T3_Link" link2="g6_finger_link1" reason="Never" />
+    <disable_collisions link1="T3_Link" link2="g6_palm_link" reason="Never" />
+    <disable_collisions link1="T3_Link" link2="i4_Offset_Link" reason="Never" />
+    <disable_collisions link1="T3_Link" link2="i4_link" reason="Never" />
+    <disable_collisions link1="T3_Link" link2="t5_Offset_Link" reason="Never" />
+    <disable_collisions link1="T3_Link" link2="t5_link" reason="Never" />
     <disable_collisions link1="T3_Lr_Link_0" link2="T3_OutLink_2" reason="Never" />
     <disable_collisions link1="T3_Lr_Link_0" link2="cl_100_85_connect_link" reason="Never" />
     <disable_collisions link1="T3_Lr_Link_0" link2="g6_finger_link" reason="Never" />
     <disable_collisions link1="T3_Lr_Link_0" link2="g6_finger_link1" reason="Never" />
     <disable_collisions link1="T3_Lr_Link_0" link2="g6_palm_link" reason="Never" />
+    <disable_collisions link1="T3_Lr_Link_0" link2="i4_Offset_Link" reason="Never" />
     <disable_collisions link1="T3_Lr_Link_0" link2="i4_link" reason="Never" />
-    <disable_collisions link1="T3_Lr_Link_0" link2="i4_link2" reason="Never" />
+    <disable_collisions link1="T3_Lr_Link_0" link2="t5_Offset_Link" reason="Never" />
     <disable_collisions link1="T3_Lr_Link_0" link2="t5_link" reason="Never" />
-    <disable_collisions link1="T3_Lr_Link_0" link2="t5_link2" reason="Never" />
-    <disable_collisions link1="T3_Lr_Link_3" link2="T3_OutLink_2" reason="Adjacent" />
-    <disable_collisions link1="T3_Lr_Link_3" link2="cl_100_85_connect_link" reason="Adjacent" />
-    <disable_collisions link1="T3_Lr_Link_3" link2="g6_finger_link" reason="Never" />
-    <disable_collisions link1="T3_Lr_Link_3" link2="g6_finger_link1" reason="Never" />
-    <disable_collisions link1="T3_Lr_Link_3" link2="g6_palm_link" reason="Never" />
-    <disable_collisions link1="T3_Lr_Link_3" link2="i4_link" reason="Never" />
-    <disable_collisions link1="T3_Lr_Link_3" link2="i4_link2" reason="Never" />
-    <disable_collisions link1="T3_Lr_Link_3" link2="t5_link" reason="Never" />
-    <disable_collisions link1="T3_Lr_Link_3" link2="t5_link2" reason="Never" />
     <disable_collisions link1="T3_OutLink_2" link2="cl_100_85_connect_link" reason="Never" />
     <disable_collisions link1="T3_OutLink_2" link2="g6_finger_link" reason="Never" />
     <disable_collisions link1="T3_OutLink_2" link2="g6_finger_link1" reason="Never" />
     <disable_collisions link1="T3_OutLink_2" link2="g6_palm_link" reason="Never" />
+    <disable_collisions link1="T3_OutLink_2" link2="i4_Offset_Link" reason="Never" />
     <disable_collisions link1="T3_OutLink_2" link2="i4_link" reason="Never" />
-    <disable_collisions link1="T3_OutLink_2" link2="i4_link2" reason="Never" />
+    <disable_collisions link1="T3_OutLink_2" link2="t5_Offset_Link" reason="Never" />
     <disable_collisions link1="T3_OutLink_2" link2="t5_link" reason="Never" />
-    <disable_collisions link1="T3_OutLink_2" link2="t5_link2" reason="Never" />
     <disable_collisions link1="cl_100_85_connect_link" link2="g6_finger_link" reason="Never" />
     <disable_collisions link1="cl_100_85_connect_link" link2="g6_finger_link1" reason="Never" />
     <disable_collisions link1="cl_100_85_connect_link" link2="g6_palm_link" reason="Never" />
+    <disable_collisions link1="cl_100_85_connect_link" link2="i4_Offset_Link" reason="Never" />
     <disable_collisions link1="cl_100_85_connect_link" link2="i4_link" reason="Adjacent" />
-    <disable_collisions link1="cl_100_85_connect_link" link2="i4_link2" reason="Never" />
+    <disable_collisions link1="cl_100_85_connect_link" link2="t5_Offset_Link" reason="Never" />
     <disable_collisions link1="cl_100_85_connect_link" link2="t5_link" reason="Never" />
-    <disable_collisions link1="cl_100_85_connect_link" link2="t5_link2" reason="Never" />
     <disable_collisions link1="g6_finger_link" link2="g6_finger_link1" reason="Never" />
     <disable_collisions link1="g6_finger_link" link2="g6_palm_link" reason="Adjacent" />
+    <disable_collisions link1="g6_finger_link" link2="i4_Offset_Link" reason="Never" />
     <disable_collisions link1="g6_finger_link" link2="i4_link" reason="Never" />
-    <disable_collisions link1="g6_finger_link" link2="i4_link2" reason="Never" />
+    <disable_collisions link1="g6_finger_link" link2="t5_Offset_Link" reason="Never" />
     <disable_collisions link1="g6_finger_link" link2="t5_link" reason="Never" />
-    <disable_collisions link1="g6_finger_link" link2="t5_link2" reason="Never" />
     <disable_collisions link1="g6_finger_link1" link2="g6_palm_link" reason="Adjacent" />
+    <disable_collisions link1="g6_finger_link1" link2="i4_Offset_Link" reason="Never" />
     <disable_collisions link1="g6_finger_link1" link2="i4_link" reason="Never" />
-    <disable_collisions link1="g6_finger_link1" link2="i4_link2" reason="Never" />
+    <disable_collisions link1="g6_finger_link1" link2="t5_Offset_Link" reason="Never" />
     <disable_collisions link1="g6_finger_link1" link2="t5_link" reason="Never" />
-    <disable_collisions link1="g6_finger_link1" link2="t5_link2" reason="Never" />
+    <disable_collisions link1="g6_palm_link" link2="i4_Offset_Link" reason="Never" />
     <disable_collisions link1="g6_palm_link" link2="i4_link" reason="Never" />
-    <disable_collisions link1="g6_palm_link" link2="i4_link2" reason="Never" />
+    <disable_collisions link1="g6_palm_link" link2="t5_Offset_Link" reason="Adjacent" />
     <disable_collisions link1="g6_palm_link" link2="t5_link" reason="Never" />
-    <disable_collisions link1="g6_palm_link" link2="t5_link2" reason="Adjacent" />
-    <disable_collisions link1="i4_link" link2="i4_link2" reason="Adjacent" />
+    <disable_collisions link1="i4_Offset_Link" link2="i4_link" reason="Adjacent" />
+    <disable_collisions link1="i4_Offset_Link" link2="t5_Offset_Link" reason="Never" />
+    <disable_collisions link1="i4_Offset_Link" link2="t5_link" reason="Adjacent" />
+    <disable_collisions link1="i4_link" link2="t5_Offset_Link" reason="Never" />
     <disable_collisions link1="i4_link" link2="t5_link" reason="Never" />
-    <disable_collisions link1="i4_link" link2="t5_link2" reason="Never" />
-    <disable_collisions link1="i4_link2" link2="t5_link" reason="Adjacent" />
-    <disable_collisions link1="i4_link2" link2="t5_link2" reason="Never" />
-    <disable_collisions link1="t5_link" link2="t5_link2" reason="Adjacent" />
+    <disable_collisions link1="t5_Offset_Link" link2="t5_link" reason="Adjacent" />
 </robot>

@@ -111,14 +111,14 @@ int main(int argc, char** argv)
   //   msg.velocity[i] = 0.04;
   ros::Rate pub_rate(10);
   ros::Publisher pub = nh.advertise<sensor_msgs::JointState>("/joint_command",2);
-  ros::Subscriber sub = nh.subscribe("/pose", 2, pose_callback);
-  ros::topic::waitForMessage<geometry_msgs::Pose>("/pose");
+  ros::Subscriber sub = nh.subscribe("/marker_pose", 2, pose_callback);
+  ros::topic::waitForMessage<geometry_msgs::Pose>("/marker_pose");
   ros::Subscriber joint_state_sub = nh.subscribe("/joint_states",2,joint_state_callback);
   
   std::vector<double> angel_diff;
   angel_diff.resize(joint_names.size());
   double max_angel_diff;
-  float max_vel=0.12;
+  double max_vel=0.08;
   double run_time;
 
   int rc;
@@ -140,6 +140,8 @@ int main(int argc, char** argv)
        if (sim == false){
           max_angel_diff = *max_element(angel_diff.begin(),angel_diff.end());
           run_time = max_angel_diff / max_vel;
+          if (run_time < 0.01)
+            run_time = 0.01;
           for(uint j=0; j<result.data.size(); j++){
             msg.velocity[j] = angel_diff[j]/run_time;
             if (msg.velocity[j]<0.02)
